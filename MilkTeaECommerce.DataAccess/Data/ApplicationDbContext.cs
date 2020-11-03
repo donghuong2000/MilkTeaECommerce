@@ -12,6 +12,6 @@ namespace MilkTeaECommerce.Data
             : base(options)
         {
         }
-        public int MyProperty { get; set; }
+        
     }
 }
