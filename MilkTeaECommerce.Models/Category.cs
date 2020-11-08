@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace MilkTeaECommerce.Models
 {
-    public class Category
+    public partial class Category
     {
-        [Key]
-        public int Id { get; set; }
+        public Category()
+        {
+            CategoryDiscount = new HashSet<CategoryDiscount>();
+            Products = new HashSet<Product>();
+        }
 
+        public string Id { get; set; }
         public string Name { get; set; }
+
+        public virtual ICollection<CategoryDiscount> CategoryDiscount { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

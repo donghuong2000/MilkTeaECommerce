@@ -13,4 +13,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MilkTeaECommerce.Models\MilkTeaECommerce.Models.csproj" />
+  </ItemGroup>
+
 </Project>

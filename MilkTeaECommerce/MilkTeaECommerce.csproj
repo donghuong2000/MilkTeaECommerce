@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MilkTeaECommerce.DataAccess\MilkTeaECommerce.DataAccess.csproj" />
+    <ProjectReference Include="..\MilkTeaECommerce.Models\MilkTeaECommerce.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,22 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace MilkTeaECommerce.Models
 {
-    public class Product
+    public partial class Product
     {
-        [Key]
-        public int Id { get; set; }
+        public Product()
+        {
+            OrderDetails = new HashSet<OrderDetail>();
+            ProductDiscount = new HashSet<ProductDiscount>();
+            Ratings = new HashSet<Rating>();
+            ShoppingCarts = new HashSet<ShoppingCart>();
+        }
+
+        public string Id { get; set; }
         public string Name { get; set; }
-        public long Price { get; set; }
-        public string Describe { get; set; }
+        public string Description { get; set; }
+        public string ImageUrl { get; set; }
+        public float? Price { get; set; }
+        public string Status { get; set; }
+        public int? Quantity { get; set; }
+        public string CategoryId { get; set; }
+        public string ShopId { get; set; }
 
-        public int CategoryId { get; set; }
-
-        [ForeignKey("CategoryId")]
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual Shop Shop { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<ProductDiscount> ProductDiscount { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; }
     }
 }
