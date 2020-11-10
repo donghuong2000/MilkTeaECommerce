@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MilkTeaECommerce.Models;
+using MilkTeaECommerce.DataAccess.Repository.IRepository;
+using MilkTeaECommerce.DataAccess.Repository;
 
 namespace MilkTeaECommerce
 {
@@ -36,7 +38,8 @@ namespace MilkTeaECommerce
                 .AddSignInManager<SignInManager<ApplicationUser>>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-                
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
