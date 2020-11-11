@@ -8,7 +8,6 @@ namespace MilkTeaECommerce.Models
     {
         public Discount()
         {
-            // sửa Category
             CategoryDiscount = new HashSet<CategoryDiscount>();
             DeliveryDiscount = new HashSet<DeliveryDiscount>();
             ProductDiscount = new HashSet<ProductDiscount>();
@@ -24,6 +23,7 @@ namespace MilkTeaECommerce.Models
         public int? PercentDiscount { get; set; }
         public float? MaxDiscount { get; set; }
         public string Code { get; set; }
+
 
         public virtual ICollection<CategoryDiscount> CategoryDiscount { get; set; }
         public virtual ICollection<DeliveryDiscount> DeliveryDiscount { get; set; }

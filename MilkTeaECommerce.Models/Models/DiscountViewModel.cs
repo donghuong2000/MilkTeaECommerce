@@ -83,10 +83,10 @@ namespace MilkTeaECommerce.Models.Models
         [Required(ErrorMessage = "Phải nhập Code cho Khuyến mãi")]
         public string Code { get; set; }
 
-        public virtual ICollection<CategoryDiscount> CategoryDiscount { get; set; }
+
+        public virtual ICollection<SelectListItem> CategoryDiscount { get; set; }
         public virtual ICollection<SelectListItem> DeliveryDiscount { get; set; }
         public virtual ICollection<SelectListItem> ProductDiscount { get; set; }
-        public virtual ICollection<Category> ShowCategoryDiscount { get; set; }
 
     }
 }

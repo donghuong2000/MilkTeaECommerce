@@ -66,15 +66,19 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DiscountViewModel discount)
+        public async Task<IActionResult> Create(string categoryId, DiscountViewModel discount)
         {
             // chưa check được số lượng khuyến mãi
             // chưa compare được ngày hợp lệ
             // chưa compare được ngày kết thúc hợp lệ
+
             if (ModelState.IsValid)
             {
+                
                 var d = new Discount()
                 {
+                    // phân tách id category
+
                     Id = Guid.NewGuid().ToString(),
                     Name = discount.Name,
                     Description = discount.Description,
@@ -88,6 +92,15 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                     MaxDiscount = discount.MaxDiscount,
                     Code = discount.Code
                 };
+
+                foreach (var item in categoryId.Split(" "))
+                {
+                    if(item!=" " && item!="")
+                    {
+                        d.CategoryDiscount.Add(new CategoryDiscount() { CategoryId = item, DiscountId = d.Id });
+                    }    
+
+                }
                 _context.Discounts.Add(d);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
