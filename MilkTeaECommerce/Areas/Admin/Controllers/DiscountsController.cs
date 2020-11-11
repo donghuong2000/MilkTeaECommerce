@@ -52,6 +52,12 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             var category = _context.Categories.ToList();
             ViewBag.Categories = category;
 
+            var delivery = _context.Deliveries.ToList();
+            ViewBag.Deliveries = delivery;
+
+            var product = _context.Products.ToList();
+            ViewBag.Products = product;
+
             return View("CreateViewModel");
         }
 

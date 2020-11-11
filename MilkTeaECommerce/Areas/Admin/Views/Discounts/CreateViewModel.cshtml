@@ -6,32 +6,71 @@
 @section Header{
     <link href="~/Admin/css/styles.css" rel="stylesheet" />
 }
-<h1>CreateViewModel</h1>
 
-
-<h4>Discount</h4>
+<h1 class="row justify-content-center">Thêm khuyến mãi</h1>
 <hr />
 <div class="row justify-content-center">
+    
     <div class="col-lg-6">
         <form asp-action="Create">
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" />
-                    Category
-                </label>
-            </div>
-            @if (ViewBag.Categories.Count != 0)
-            {
-                <select style="width:100%" class="js-example-basic-multiple disabled" name="states[]" multiple="multiple">
-                    @foreach (var item in ViewBag.Categories)
+            <div class="category-discount">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input name="checkbox" id="check_category" class="form-check-input" type="checkbox" />
+                        Danh mục sản phẩm
+                    </label>
+                </div>
+                <select id="select-category" disabled="" style="width:100%" class="js-example-basic-multiple" name="states[]" multiple="multiple">
+                    @if (ViewBag.Categories.Count != 0)
                     {
-                        <option value="@item.Id">@item.Name</option>
+
+                        @foreach (var item in ViewBag.Categories)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+
                     }
                 </select>
-            }
 
+            </div>
+            <div class="delivery-discount">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input id="check-delivery" class="form-check-input" type="checkbox" />
+                        Vận chuyển
+                    </label>
+                </div>
+                <select id="select-delivery" disabled="" style="width:100%" class="js-example-basic-multiple disabled" name="states[]" multiple="multiple">
+                    @if (ViewBag.Deliveries.Count != 0)
+                    {
 
+                        @foreach (var item in ViewBag.Deliveries)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
 
+                    }
+                </select>
+            </div>
+            <div class="product-discount">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input id="check-product" class="form-check-input" type="checkbox" />
+                        Sản phẩm
+                    </label>
+                </div>
+                <select id="select-product" disabled="" style="width:100%" class="js-example-basic-multiple disabled" name="states[]" multiple="multiple">
+                    @if (ViewBag.Products.Count != 0)
+                    {
+
+                        @foreach (var item in ViewBag.Products)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+
+                    }
+                </select>
+            </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -56,7 +95,6 @@
                 <label asp-for="TimesUseLimit" class="control-label"></label>
                 <input asp-for="TimesUseLimit" class="form-control" />
                 <span asp-validation-for="TimesUseLimit" class="text-danger"></span>
-                @Html.ValidationMessageFor(model => model.TimesUseLimit, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label asp-for="PercentDiscount" class="control-label"></label>
@@ -77,13 +115,13 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
-
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 
 
@@ -93,9 +131,45 @@
     <!-- Select 2-->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
+        // enable select category
+        $(document).ready(function () {
+            $('input').on('click', function () {
+                if ($("#check_category").is(':checked')) {
+                    console.log('checked');
+                    document.getElementById("select-category").disabled = false;
+                }
+                else {
+                    document.getElementById("select-category").disabled = true;
+                }
+            });
+
+            $('input').on('click', function () {
+                if ($("#check-delivery").is(':checked')) {
+                    console.log('checked');
+                    document.getElementById("select-delivery").disabled = false;
+                }
+                else {
+                    document.getElementById("select-delivery").disabled = true;
+                }
+            });
+            $('input').on('click', function () {
+                if ($("#check-product").is(':checked')) {
+                    console.log('checked');
+                    document.getElementById("select-product").disabled = false;
+                }
+                else {
+                    document.getElementById("select-product").disabled = true;
+                }
+            });
+        });
+        
+    </script>
+    <script>
         $(document).ready(function () {
             $('.js-example-basic-multiple').select2();
         });
+
+        
     </script>
 }
 

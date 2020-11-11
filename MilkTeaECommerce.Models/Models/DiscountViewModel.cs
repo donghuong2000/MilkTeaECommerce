@@ -57,6 +57,7 @@ namespace MilkTeaECommerce.Models.Models
         }
 
         [DisplayName("Số lượng khuyến mãi")]
+        [Required(ErrorMessage = "Phải nhập số lượng khuyến mãi")]
         [Compare("validateTimesUseLimit",ErrorMessage ="Dữ liệu không hợp lệ")]
         public int TimesUseLimit { get; set; }
         public int validateTimesUseLimit
@@ -72,9 +73,11 @@ namespace MilkTeaECommerce.Models.Models
             }
         }
         [DisplayName("Phần trăm giảm")]
+        [Required(ErrorMessage = "Phải nhập số phần trăm khuyến mãi")]
         [Range(minimum: 0, maximum: 100, ErrorMessage = "Dữ liệu không hợp lệ")]
         public int PercentDiscount { get; set; }
-        [DisplayName("Giảm tối đa")]
+        [DisplayName("Giảm tối đa (VND)")]
+        [Required(ErrorMessage = "Phải nhập giá giảm tối đa")]
         [Range(minimum: 0, maximum: 100, ErrorMessage = "Dữ liệu không hợp lệ")]
         public float MaxDiscount { get; set; }
         [Required(ErrorMessage = "Phải nhập Code cho Khuyến mãi")]
