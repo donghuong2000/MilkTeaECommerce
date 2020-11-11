@@ -67,7 +67,7 @@ namespace MilkTeaECommerce
             {
                 endpoints.MapControllerRoute(
                     name: "Admin",
-                    pattern: "{area=Admin}/{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{area=Admin}/{controller=Discounts}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

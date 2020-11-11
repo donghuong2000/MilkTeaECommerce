@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MilkTeaECommerce.Models
 {
@@ -7,11 +8,12 @@ namespace MilkTeaECommerce.Models
     {
         public Discount()
         {
+            // sửa Category
             CategoryDiscount = new HashSet<CategoryDiscount>();
             DeliveryDiscount = new HashSet<DeliveryDiscount>();
             ProductDiscount = new HashSet<ProductDiscount>();
         }
-
+        
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

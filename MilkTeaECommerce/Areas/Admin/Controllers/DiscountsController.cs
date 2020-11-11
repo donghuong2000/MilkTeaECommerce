@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MilkTeaECommerce.Data;
 using MilkTeaECommerce.Models;
+using MilkTeaECommerce.Models.Models;
 
 namespace MilkTeaECommerce.Areas.Admin.Controllers
 {
@@ -14,7 +15,6 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
     public class DiscountsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
         public DiscountsController(ApplicationDbContext context)
         {
             _context = context;
@@ -23,6 +23,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         // GET: Admin/Discounts
         public async Task<IActionResult> Index()
         {
+           
             return View(await _context.Discounts.ToListAsync());
         }
 
@@ -47,7 +48,11 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         // GET: Admin/Discounts/Create
         public IActionResult Create()
         {
-            return View();
+            // gán giá trị cho combobox cho ViewModel
+            var category = _context.Categories.ToList();
+            ViewBag.Categories = category;
+
+            return View("CreateViewModel");
         }
 
         // POST: Admin/Discounts/Create
@@ -55,14 +60,33 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,DateStart,DateExpired,TimesUsed,TimesUseLimit,PercentDiscount,MaxDiscount,Code")] Discount discount)
+        public async Task<IActionResult> Create(DiscountViewModel discount)
         {
+            // chưa check được số lượng khuyến mãi
+            // chưa compare được ngày hợp lệ
+            // chưa compare được ngày kết thúc hợp lệ
             if (ModelState.IsValid)
             {
-                _context.Add(discount);
+                var d = new Discount()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = discount.Name,
+                    Description = discount.Description,
+                    DateStart = discount.DateStart,
+                    DateExpired = discount.DateExpired,
+                    
+                    //mặc định timeused khi tạo =0
+                    TimesUsed=0,
+                    TimesUseLimit = discount.TimesUseLimit,
+                    PercentDiscount = discount.PercentDiscount,
+                    MaxDiscount = discount.MaxDiscount,
+                    Code = discount.Code
+                };
+                _context.Discounts.Add(d);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(discount);
         }
 
