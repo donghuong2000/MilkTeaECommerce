@@ -15,9 +15,11 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
     public class DiscountsController : Controller
     {
         private readonly ApplicationDbContext _context;
+
         public DiscountsController(ApplicationDbContext context)
         {
             _context = context;
+
         }
 
         // GET: Admin/Discounts
@@ -58,23 +60,73 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             var product = _context.Products.ToList();
             ViewBag.Products = product;
 
-            return View("CreateViewModel");
+            return View();
         }
+       
 
         // POST: Admin/Discounts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string categoryId, DiscountViewModel discount)
+        public async Task<IActionResult> Create(DiscountViewModel discount, List<string> selCategory,
+                                                List<string> selDelivery, List<string> selProduct)
         {
             // chưa check được số lượng khuyến mãi
             // chưa compare được ngày hợp lệ
             // chưa compare được ngày kết thúc hợp lệ
+            // chưa check code is UNIQUE
 
             if (ModelState.IsValid)
             {
+                discount.Id = Guid.NewGuid().ToString();
                 
+                foreach (var item in selCategory)
+                {
+                    discount.CategoryDiscounts.Add(new CategoryDiscount() { CategoryId = item, DiscountId = discount.Id });
+                }
+                foreach (var item in selDelivery)
+                {
+                    discount.DeliveryDiscounts.Add(new DeliveryDiscount() { DeliveryId = item, DiscountId = discount.Id });
+                }
+                foreach (var item in selProduct)
+                {
+                    discount.ProductDiscounts.Add(new ProductDiscount() { ProductId = item, DiscountId = discount.Id });
+                }
+
+                // check code is UNIQUE
+                var code = (from c in _context.Discounts
+                            where discount.Code == c.Code
+                            select c).ToList();
+                if (code.Count > 0)
+                {
+                    //ModelState.AddModelError("Code", Resources.EmailInUse);
+                    ModelState.AddModelError("Code", "Code đã tồn tại");
+                    // cần có viewbag
+                    var category = _context.Categories.ToList();
+                    //ViewBag.Categories = category;
+                    foreach (var item in category)
+                    {
+                        discount.CategoryList.Add(new SelectListItem() { Value = item.Id, Text = item.Name });
+                    }
+
+                    var delivery = _context.Deliveries.ToList();
+                    //ViewBag.Deliveries = delivery;
+                    foreach (var item in delivery)
+                    {
+                        discount.DeliveryList.Add(new SelectListItem() { Value = item.Id, Text = item.Name });
+                    }
+
+                    var product = _context.Products.ToList();
+                    //ViewBag.Products = product;
+                    foreach (var item in product)
+                    {
+                        discount.ProductList.Add(new SelectListItem() { Value = item.Id, Text = item.Name });
+                    }
+
+                    return View("CreateAgain",discount);
+                }
+
                 var d = new Discount()
                 {
                     // phân tách id category
@@ -84,23 +136,14 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                     Description = discount.Description,
                     DateStart = discount.DateStart,
                     DateExpired = discount.DateExpired,
-                    
                     //mặc định timeused khi tạo =0
-                    TimesUsed=0,
+                    TimesUsed = 0,
                     TimesUseLimit = discount.TimesUseLimit,
                     PercentDiscount = discount.PercentDiscount,
                     MaxDiscount = discount.MaxDiscount,
                     Code = discount.Code
                 };
 
-                foreach (var item in categoryId.Split(" "))
-                {
-                    if(item!=" " && item!="")
-                    {
-                        d.CategoryDiscount.Add(new CategoryDiscount() { CategoryId = item, DiscountId = d.Id });
-                    }    
-
-                }
                 _context.Discounts.Add(d);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

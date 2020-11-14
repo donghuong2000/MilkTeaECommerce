@@ -9,6 +9,7 @@ namespace MilkTeaECommerce.Models.Models
 {
     public class DiscountViewModel
     {
+        public string Id { get; set; }
         [DisplayName("Tên")]
         [Required(ErrorMessage = "Phải nhập tên cho Khuyến mãi")]
         public string Name { get; set; }
@@ -84,9 +85,23 @@ namespace MilkTeaECommerce.Models.Models
         public string Code { get; set; }
 
 
-        public virtual ICollection<SelectListItem> CategoryDiscount { get; set; }
-        public virtual ICollection<SelectListItem> DeliveryDiscount { get; set; }
-        public virtual ICollection<SelectListItem> ProductDiscount { get; set; }
+        public  List<SelectListItem> CategoryList { get; set; }
+        public List<SelectListItem> DeliveryList { get; set; }
+        public List<SelectListItem> ProductList { get; set; }
 
+        public List<CategoryDiscount> CategoryDiscounts { get; set; }
+        public List<DeliveryDiscount> DeliveryDiscounts { get; set; }
+        public List<ProductDiscount> ProductDiscounts { get; set; }
+
+        public DiscountViewModel()
+        {
+            CategoryDiscounts = new List<CategoryDiscount>();
+            DeliveryDiscounts = new List<DeliveryDiscount>();
+            ProductDiscounts = new List<ProductDiscount>();
+            CategoryList = new List<SelectListItem>();
+            DeliveryList = new List<SelectListItem>();
+            ProductList = new List<SelectListItem>();
+
+        }
     }
 }
