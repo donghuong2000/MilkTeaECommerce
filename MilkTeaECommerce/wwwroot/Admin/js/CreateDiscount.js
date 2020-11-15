@@ -4,7 +4,6 @@
 
     $('input').on('click', function () {
         if ($("#check_category").is(':checked')) {
-            console.log('checked');
             document.getElementById("select-category").disabled = false;
         }
         else {
@@ -32,3 +31,4 @@
 
    
 });
+
