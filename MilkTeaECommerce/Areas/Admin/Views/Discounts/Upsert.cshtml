@@ -6,18 +6,22 @@
 @section Header{
     <link href="~/Admin/css/styles.css" rel="stylesheet" />
 }
-<h1 class="row justify-content-center">Thêm khuyến mãi</h1>
+
 @if (ViewBag.Id != "")
 {
     // Chỉnh sửa
     <h1 class="row justify-content-center">Chỉnh sửa khuyến mãi</h1>
+}
+else
+{
+    <h1 class="row justify-content-center">Thêm khuyến mãi</h1>
 }
 
 <hr />
 <div class="row justify-content-center">
 
     <div class="col-lg-6">
-        <form asp-action="Create" method="post">
+        <form asp-action="Upsert" method="post">
 
             <div id="check-categorydiv">
                 @if (ViewBag.Id != "" && ViewBag.CategoryId.Count > 0)
@@ -226,7 +230,14 @@
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Upsert" class="btn btn-primary" />
+                @if (ViewBag.Id != "")
+                {
+                    <input type="submit" value="Cập nhật" class="btn btn-primary" />
+                }
+                else
+                {
+                    <input type="submit" value="Thêm" class="btn btn-primary" />
+                }
             </div>
         </form>
         <div>
@@ -242,6 +253,6 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="~/Admin/js/CreateDiscount.js"></script>
     <script>
-        
+
     </script>
 }
