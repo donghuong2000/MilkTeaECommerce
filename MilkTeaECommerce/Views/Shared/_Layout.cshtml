@@ -24,14 +24,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         }
     </script>
     <!--//tags -->
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/font-awesome.css" rel="stylesheet">
     <!--pop-up-box-->
-    <link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
     <!--//pop-up-box-->
     <!-- price range -->
-    <link rel="stylesheet" type="text/css" href="css/jquery-ui1.css">
+    <link rel="stylesheet" type="text/css" href="~/css/jquery-ui1.css">
     <!-- fonts -->
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800" rel="stylesheet">
     @RenderSection("Header", false)
@@ -544,6 +544,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             Come join the Grocery Shoppy! Let's set up your Account.
                         </p>
                         <form onsubmit="return false" method="post">
+                            <div hidden id="alert-message" class="alert alert-danger" role="alert">
+
+                            </div>
                             <div class="styled-input agile-styled-input-top">
                                 <input type="text" placeholder="Name" id="name" required="">
                             </div>
@@ -558,10 +561,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <input type="text" placeholder="Username" id="username" required="">
                             </div>
                             <div class="styled-input">
-                                <input type="password" placeholder="Password" name="password" id="password1" required="">
+                                <input type="password" placeholder="Password" id="password1" required="">
                             </div>
                             <div class="styled-input">
-                                <input type="password" placeholder="Confirm Password" name="Confirm Password" id="password2" required="">
+                                <input type="password" placeholder="Confirm Password" id="password2" required="">
                             </div>
                             <input id="SignUpbtn" type="submit" value="Sign Up">
                         </form>
@@ -1178,7 +1181,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script> -->
     <!-- //popup modal (for signin & signup)-->
     <!-- cart-js -->
-    <script src="js/minicart.js"></script>
+    <script src="~/js/minicart.js"></script>
     <script>
         paypalm.minicartk.render(); //use only unique class names other than paypalm.minicartk.Also Replace same class name in css and minicart.min.js
 
@@ -1201,7 +1204,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
     <!-- //cart-js -->
     <!-- price range (top products) -->
-    <script src="js/jquery-ui.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
     <script>
         //<![CDATA[
         $(window).load(function () {
@@ -1220,7 +1223,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
     <!-- //price range (top products) -->
     <!-- flexisel (for special offers) -->
-    <script src="js/jquery.flexisel.js"></script>
+    <script src="~/js/jquery.flexisel.js"></script>
     <script>
         $(window).load(function () {
             $("#flexiselDemo1").flexisel({
@@ -1268,11 +1271,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
     <!-- //password-script -->
     <!-- smoothscroll -->
-    <script src="js/SmoothScroll.min.js"></script>
+    <script src="~/js/SmoothScroll.min.js"></script>
     <!-- //smoothscroll -->
     <!-- start-smooth-scrolling -->
-    <script src="js/move-top.js"></script>
-    <script src="js/easing.js"></script>
+    <script src="~/js/move-top.js"></script>
+    <script src="~/js/easing.js"></script>
     <script>
         jQuery(document).ready(function ($) {
             $(".scroll").click(function (event) {
@@ -1304,7 +1307,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
     <!-- //smooth-scrolling-of-move-up -->
     <!-- for bootstrap working -->
-    <script src="js/bootstrap.js"></script>
+    <script src="~/js/bootstrap.js"></script>
     <!-- //for bootstrap working -->
     <!-- //js-files -->
     <script src="~/js/site.js"></script>

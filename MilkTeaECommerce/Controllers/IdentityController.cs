@@ -35,16 +35,17 @@ namespace MilkTeaECommerce.Controllers
 
         }
 
-
-        public async Task<IActionResult> SignUp(string name,string mail,string sdt,string username,string password)
+        [HttpPost]
+        public async Task<IActionResult> SignUp(string name,string email,string sdt,string username,string password)
         {
 
-            var user = new ApplicationUser() { Name = name, Email = mail, PhoneNumber = sdt, UserName = username };
-            var result = await _userManager.CreateAsync(user);
+            var user = new ApplicationUser() { Name = name, Email = email, PhoneNumber = sdt, UserName = username };
+            var result = await _userManager.CreateAsync(user,password);
 
             if(result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "Customer");
+                await _signInManager.SignInAsync(user, false);
                 return Json(new { success = true, message = "SignUp Success" });
             }
             string er = "";
@@ -52,7 +53,7 @@ namespace MilkTeaECommerce.Controllers
             {
                 er += item.Description + "\n";
             }
-            return Json(new { success = true, message = er });
+            return Json(new { success = false, message = er });
 
 
         }
