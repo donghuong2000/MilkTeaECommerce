@@ -25,6 +25,12 @@ namespace MilkTeaECommerce.Controllers
             var obj = await _signInManager.PasswordSignInAsync(username, password,false, lockoutOnFailure: false);
             if(obj.Succeeded)
             {
+                var user = await _userManager.FindByNameAsync(userName: username);
+                var role = await _userManager.GetRolesAsync(user);
+                if (role.Contains("Admin")) 
+                {
+                    return Json(new { success = true, message = "Admin", url ="/Admin/Home" });
+                }    
                 return Json(new { success = true, message = "Đăng nhập thành công" });
             } 
             if(obj.IsLockedOut)

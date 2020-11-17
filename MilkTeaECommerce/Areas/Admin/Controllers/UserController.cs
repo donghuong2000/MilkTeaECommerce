@@ -73,7 +73,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 if(result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, vm.Role);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("index","home",new {area ="admin" });
                 }   
                 else
                 {

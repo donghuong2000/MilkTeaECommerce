@@ -2,10 +2,6 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-
-
-
-
 $('#SignInbtn').click(function () {
     var u = $('#usn').val();
     var p = $('#pwd').val();
@@ -17,15 +13,22 @@ $('#SignInbtn').click(function () {
             $('#alert-message').html(data.message);
            
             console.log(data);
+            $('#alert-message').removeAttr('hidden');
             if (data.success) {
+
                 $('#alert-message').removeClass("alert-danger");
-                $('#alert-message').addClass("alert-success");            }
+                $('#alert-message').addClass("alert-success");
+                if (data.message == "Admin") {
+                    window.location.href = data.url;
+                }
+                else
+                    setInterval(window.location.reload(), 500);}
             else {
                 $('#alert-message').removeClass("alert-success");
                 $('#alert-message').addClass("alert-danger");
             }
-            $('#alert-message').removeAttr('hidden');
-            setInterval(window.location.reload(),500);
+            
+            
         }
 
     })
@@ -73,10 +76,9 @@ $('#SignUpbtn').click(function () {
         })
     }
 
-
-
-
-
+})
+$('.myModal').on('shown.bs.modal', function () {
+    $('#alert-message').attr('hidden', 'true');
 })
 
 
