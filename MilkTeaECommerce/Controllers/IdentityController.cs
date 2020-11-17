@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MilkTeaECommerce.Models;
+using MilkTeaECommerce.Models.Models;
 
 namespace MilkTeaECommerce.Controllers
 {
     
     public class IdentityController : Controller
     {
+        private static string _returnUrl;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         public IdentityController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
@@ -73,5 +75,61 @@ namespace MilkTeaECommerce.Controllers
 
 
         }
+
+
+        [HttpGet]
+        public IActionResult Login(string returnUrl = null)
+        {
+            _returnUrl = returnUrl;
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            _returnUrl = _returnUrl ?? Url.Content("~/");
+
+            if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    
+                    return LocalRedirect(_returnUrl);
+                }
+                if (result.RequiresTwoFactor)
+                {
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = _returnUrl, RememberMe = model.RememberMe });
+                }
+                if (result.IsLockedOut)
+                {
+                   
+                    return RedirectToPage("./Lockout");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View(model);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        public IActionResult AccessDenied()
+        {
+            
+            return View();
+        }
+
+        public IActionResult LockOut()
+        {
+
+            return View();
+        }
+
+
     }
 }

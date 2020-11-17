@@ -40,7 +40,12 @@ namespace MilkTeaECommerce
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddControllersWithViews();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Login";
+                options.LogoutPath = $"/Identity/Logout";
+                options.AccessDeniedPath = $"/Identity/AccessDenied";
+            });
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
@@ -68,15 +73,13 @@ namespace MilkTeaECommerce
 
             app.UseEndpoints(endpoints =>
             {
-
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                    name: "Admin",
-                    pattern: "{area=Admin}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapAreaControllerRoute(
+                   name: "Admin",
+                   areaName: "Admin",
+                   pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
                 
-                endpoints.MapRazorPages();
+                
             });
         }
     }
