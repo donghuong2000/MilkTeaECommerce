@@ -1,0 +1,129 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Tables</h1>
+<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex align-items-center">
+
+        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <a href="#" data-toggle="modal" data-target="#CreateModal" class="btn btn-primary ml-auto">Khởi tạo danh mục</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Mã Nhà Vận Chuyển</th>
+                        <th>Tên Nhà Vận Chuyển</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Mã Nhà Vận Chuyển</th>
+                        <th>Tên Nhà Vận Chuyển</th>
+                        <th>Hành động</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- đây là cho edit modal-->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditModalLabel">Chỉnh Sửa Danh mục</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false">
+                    <div hidden class="form-group">
+                        <label>Mã Danh Mục</label>
+                        <input class=" form-control" type="text" id="update_categoryid_old" />
+                    </div>
+                    <div class="form-group">
+                        <label>Mã Danh Mục</label>
+                        <input class=" form-control" type="text" id="update_categoryid_new" />
+                    </div>
+                    <div class="form-group">
+                        <label>Tên Danh Mục</label>
+                        <input class=" form-control " type="text" id="update_categoryname" />
+                    </div>
+                    <div class="form-group">
+                        <label>Danh mục cha</label>
+                        <select style="width:100%" class=" form-control selectlist" asp-items="@ViewBag.CategoryList" id="update_parent">
+                        </select>
+                    </div>
+                    <input data-dismiss="modal" class=" form-control btn btn-primary " type="submit" id="editSubmit" value="Update" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- đây là cho create modal-->
+<div class="modal fade" id="CreateModal" tabindex="-1" role="dialog" aria-labelledby="CreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateModalLabel">Tạo Danh mục mới</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false">
+                    <div class="form-group">
+                        <label>Mã Danh Mục</label>
+                        <input class=" form-control" type="text" id="Create_categoryid" />
+                    </div>
+                    <div class="form-group">
+                        <label>Tên Danh Mục</label>
+                        <input class=" form-control" type="text" id="Create_categoryname" />
+                    </div>
+                    <div class="form-group">
+                        <label>Danh mục cha</label>
+                        <select style="width:100%" class=" selectlist  form-control" asp-items="@ViewBag.CategoryList" id="create_parent">
+                        </select>
+                    </div>
+                    <input data-dismiss="modal" class=" form-control btn btn-primary" type="submit" id="CreateSubmit" value="Create" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+    <!-- Page level plugins -->
+    <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Admin/js/build/toastr.min.js"></script>
+    <!--cái này của thông báo-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!--cái này của selectlist search-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="~/Admin/js/category.js"></script>
+
+
+}
+@section Header{
+    <!--cái này của thông báo-->
+    <link href="~/Admin/js/build/toastr.css" rel="stylesheet" />
+    <!--cái này của selectlist search-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+}
