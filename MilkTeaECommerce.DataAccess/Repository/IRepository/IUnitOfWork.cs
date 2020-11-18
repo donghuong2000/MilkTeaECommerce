@@ -6,10 +6,8 @@ namespace MilkTeaECommerce.DataAccess.Repository.IRepository
 {
     public interface IUnitOfWork : IDisposable
     {
-
-       
-
-
+        
         void Save();
+        IDeliveryRepository Delivery { get; }
     }
 }
