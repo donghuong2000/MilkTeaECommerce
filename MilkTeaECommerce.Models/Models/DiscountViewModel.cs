@@ -41,16 +41,16 @@ namespace MilkTeaECommerce.Models.Models
         [Required(ErrorMessage = "Phải nhập Code cho Khuyến mãi")]
         public string Code { get; set; }
 
-        public virtual List<CategoryDiscount> CategoryDiscounts { get; set; }
-        public virtual List<DeliveryDiscount> DeliveryDiscounts { get; set; }
-        public virtual List<ProductDiscount> ProductDiscounts { get; set; }
+        public  List<string> CategoryDiscounts { get; set; }
+        public  List<string> DeliveryDiscounts { get; set; }
+        public  List<string> ProductDiscounts { get; set; }
 
         public DiscountViewModel()
         {
-            CategoryDiscounts = new List<CategoryDiscount>();
-            DeliveryDiscounts = new List<DeliveryDiscount>();
-            ProductDiscounts = new List<ProductDiscount>();
-
+            CategoryDiscounts = new List<string>();
+            DeliveryDiscounts = new List<string>();
+            ProductDiscounts = new List<string>();
         }
+
     }
 }

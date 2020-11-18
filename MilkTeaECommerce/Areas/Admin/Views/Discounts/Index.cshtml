@@ -13,7 +13,6 @@
 <p>
     <a asp-action="Upsert">Tạo khuyến mãi</a>
 </p>
-
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         Khuyến mãi
@@ -86,8 +85,9 @@
                             </td>
                             <td>
                                 <a asp-action="Upsert" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                                <a onClick=Delete("/Admin/Discounts/Delete/@item.Id") class="btn btn-danger text-white" style="cursor:pointer">
+                                    Delete
+                                </a>|
                             </td>
                         </tr>
                     }
@@ -97,13 +97,12 @@
     </div>
 
 </div>
+<table id="tbLoad" >
+
+</table>
 @section Scripts {
     <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#dataTable').DataTable();
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="~/Admin/js/DiscountIndex.js"></script>
 }

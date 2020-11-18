@@ -1,9 +1,9 @@
 ﻿$(document).ready(function () {
 
     $('.js-example-basic-multiple').select2();
-
+    
     $('input').on('click', function () {
-        if ($("#check_category").is(':checked')) {
+        if ($("#check-category").is(':checked')) {
             document.getElementById("select-category").disabled = false;
         }
         else {
@@ -28,7 +28,10 @@
             document.getElementById("select-product").disabled = true;
         }
     });
-
    
 });
+function CheckSelect() {
+    $("#check-category").is(':checked') = true;
+    document.getElementById("select-category").disabled = false;
+}
 

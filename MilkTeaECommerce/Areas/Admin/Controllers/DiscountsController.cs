@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MilkTeaECommerce.Data;
+using MilkTeaECommerce.DataAccess.Extension;
 using MilkTeaECommerce.Models;
 using MilkTeaECommerce.Models.Models;
 using SQLitePCL;
@@ -29,28 +30,47 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
            
             return View(await _context.Discounts.ToListAsync());
         }
+
+        public IActionResult GetAll()
+        {
+            var obj = _context.Discounts.Select(x => new
+            {
+                id = x.Id,
+                name = x.Name,
+                des = x.Description,
+                dateStart = x.DateStart.GetValueOrDefault().ToShortDateString(),
+                dateEnd=x.DateExpired.GetValueOrDefault().ToShortDateString(),
+                timeuselimit=x.TimesUseLimit,
+                per=x.PercentDiscount,
+                max=x.MaxDiscount,
+                code=x.Code
+            });
+
+            return Json(new { data = obj });
+        }
         public async Task<IActionResult> Upsert(string? id)
         {
                
             // lấy giá trị cho các select 
             var category = _context.Categories.ToList();
-            ViewBag.Categories = category;
+            ViewBag.Categories = new SelectList(category, "Id", "Name");
 
             var delivery = _context.Deliveries.ToList();
-            ViewBag.Deliveries = delivery;
+            ViewBag.Deliveries = new SelectList(delivery, "Id", "Name");
 
             var product = _context.Products.ToList();
-            ViewBag.Products = product;
+            ViewBag.Products = new SelectList(product, "Id", "Name");
 
-            if(id!=null)
+            if (id!=null)
             {
                 // Edit
                 // Chuyển qua discountviewmodel để hiển thị
-                
-                var discount = (from d in _context.Discounts
-                                where d.Id == id
-                                select d).SingleOrDefault();
-                if(discount.Id==null)
+
+                var discount = await _context.Discounts.Include(x => x.CategoryDiscount).Include(x => x.DeliveryDiscount)
+                       .Include(x => x.ProductDiscount).FirstOrDefaultAsync(x => x.Id == id);
+
+
+                if (discount.Id==null)
                 {
                     return NotFound();
                 }    
@@ -64,43 +84,45 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                     TimesUseLimit = discount.TimesUseLimit,
                     PercentDiscount = discount.PercentDiscount,
                     MaxDiscount = discount.MaxDiscount,
-                    Code = discount.Code
+                    Code = discount.Code,
+                    CategoryDiscounts = discount.CategoryDiscount.Select(x => x.CategoryId).ToList(),
+                    DeliveryDiscounts = discount.DeliveryDiscount.Select(x => x.DeliveryId).ToList(),
+                    ProductDiscounts = discount.ProductDiscount.Select(x => x.ProductId).ToList()
                 };
                 ViewBag.Id = id;
 
-                // select CategoryDiscount
-                var cd = (from c in _context.CategoryDiscount
-                          where c.DiscountId == dv.Id
-                          select c.CategoryId).ToList();
-                ViewBag.CategoryId = cd;
-                var dd=(from d in _context.DeliveryDiscount
-                       where d.DiscountId==dv.Id
-                       select d.DeliveryId).ToList();
-                ViewBag.DeliveryId = dd;
-                var pd = (from p in _context.ProductDiscount
-                          where p.DiscountId == dv.Id
-                          select p.ProductId).ToList();
-                ViewBag.ProductId = pd;
+
                 return View(dv);
             }
             ViewBag.Id = "";
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Upsert(DiscountViewModel discount, List<string> selCategory,
-                                    List<string> selDelivery, List<string> selProduct)
+        public async Task<IActionResult> Upsert(DiscountViewModel discount)
         {
             if (ModelState.IsValid)
             {
-
+                
                 // check code is UNIQUE
                 var code = (from c in _context.Discounts
                             where c.Id!= discount.Id && c.Code==discount.Code
                             select c).ToList();
                 if (code.Count > 0)
                 {
-                    return View("Upsert", discount);
+                    ModelState.AddModelError("Code", "Code đã tồn tại");
+                    ViewBag.Id = "";
+                    var category = _context.Categories.ToList();
+                    ViewBag.Categories = new SelectList(category, "Id", "Name");
+
+                    var delivery = _context.Deliveries.ToList();
+                    ViewBag.Deliveries = new SelectList(delivery, "Id", "Name");
+
+                    var product = _context.Products.ToList();
+                    ViewBag.Products = new SelectList(product, "Id", "Name");
+
+                    return View(discount);
                 }
 
                 // Thêm khuyến mãi
@@ -118,24 +140,23 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                         TimesUseLimit = discount.TimesUseLimit,
                         PercentDiscount = discount.PercentDiscount,
                         MaxDiscount = discount.MaxDiscount,
-                        Code = discount.Code,
-                        CategoryDiscount=discount.CategoryDiscounts,
-                        DeliveryDiscount=discount.DeliveryDiscounts,
-                        ProductDiscount=discount.ProductDiscounts
+                        Code = discount.Code
                     };
-                    
+
                     // gán các CategoryDiscount, Delivery....
-                    foreach (var item in selCategory)
+                    // dungf sel
+                    foreach (var item in discount.CategoryDiscounts)
                     {
-                        d.CategoryDiscount.Add(new CategoryDiscount() { CategoryId = item, DiscountId = d.Id });
+                        _context.CategoryDiscount.Add(new CategoryDiscount() { CategoryId=item,DiscountId=d.Id });
+
                     }
-                    foreach (var item in selDelivery)
+                    foreach (var item in discount.DeliveryDiscounts)
                     {
-                        d.DeliveryDiscount.Add(new DeliveryDiscount() { DeliveryId = item, DiscountId = d.Id });
+                        _context.DeliveryDiscount.Add(new DeliveryDiscount() { DeliveryId = item, DiscountId = d.Id });
                     }
-                    foreach (var item in selProduct)
+                    foreach (var item in discount.ProductDiscounts)
                     {
-                        d.ProductDiscount.Add(new ProductDiscount() { ProductId = item, DiscountId = d.Id });
+                        _context.ProductDiscount.Add(new ProductDiscount() { ProductId = item, DiscountId = d.Id });
                     }
 
                     _context.Discounts.Add(d);
@@ -144,65 +165,30 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 }
                 else
                 {
+                    var dis = await _context.Discounts.Include(x => x.CategoryDiscount).Include(x => x.DeliveryDiscount)
+                        .Include(x => x.ProductDiscount).FirstOrDefaultAsync(x=>x.Id == discount.Id);
 
-                    // Chỉnh sửa
-                    var d = new Discount()
-                    {
-                        // phân tách id category
-                        Id=discount.Id,
-                        Name = discount.Name,
-                        Description = discount.Description,
-                        DateStart = discount.DateStart,
-                        DateExpired = discount.DateExpired,
-                        //không update TimeUsed
 
-                        TimesUseLimit = discount.TimesUseLimit,
-                        PercentDiscount = discount.PercentDiscount,
-                        MaxDiscount = discount.MaxDiscount,
-                        Code = discount.Code
-                    };
+                    //// Chỉnh sửa
+                    _context.TryUpdateManyToMany(dis.CategoryDiscount, discount.CategoryDiscounts.Select(x => new CategoryDiscount
+                    {
+                        CategoryId = x,
+                        DiscountId = dis.Id
+                    }), x => x.CategoryId);
 
-                    // remove các  CategoryDiscount, Delivery.... và gán lại
-                    var cdel = (from c in _context.CategoryDiscount
-                              where c.DiscountId == d.Id
-                              select c).ToList();
-                    var ddel=(from de in _context.DeliveryDiscount
-                             where de.DiscountId==d.Id
-                             select de).ToList();
-                    var pdel = (from p in _context.ProductDiscount
-                                where p.DiscountId == d.Id
-                                select p).ToList();
-                    foreach (var item in cdel)
+                    _context.TryUpdateManyToMany(dis.ProductDiscount, discount.ProductDiscounts.Select(x => new ProductDiscount
                     {
-                        _context.CategoryDiscount.Remove(item);
-                    }
-                    foreach (var item in ddel)
-                    {
-                        _context.DeliveryDiscount.Remove(item);
-                    }
-                    foreach (var item in pdel)
-                    {
-                        _context.ProductDiscount.Remove(item);
-                    }
-                    foreach (var item in selCategory)
-                    {
-                        d.CategoryDiscount.Add(new CategoryDiscount() { CategoryId = item, DiscountId = d.Id });
+                        ProductId = x,
+                        DiscountId = dis.Id
+                    }), x => x.ProductId);
 
-                    }
-                    foreach (var item in selDelivery)
+                    _context.TryUpdateManyToMany(dis.DeliveryDiscount, discount.DeliveryDiscounts.Select(x => new DeliveryDiscount
                     {
-                        d.DeliveryDiscount.Add(new DeliveryDiscount() { DeliveryId = item, DiscountId = d.Id });
-                    }
-                    foreach (var item in selProduct)
-                    {
-                        d.ProductDiscount.Add(new ProductDiscount() { ProductId = item, DiscountId = d.Id });
-                    }
+                        DeliveryId = x,
+                        DiscountId = dis.Id
+                    }), x => x.DiscountId);
 
-                    var disc = (from dc in _context.Discounts
-                                where dc.Id == discount.Id
-                                select dc).SingleOrDefault();
-                    _context.Discounts.Remove(disc);
-                    _context.Discounts.Add(d);
+                    _context.Discounts.Update(dis);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -213,76 +199,9 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             }
 
         }
-        // GET: Admin/Discounts/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var discount = await _context.Discounts
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (discount == null)
-            {
-                return NotFound();
-            }
-
-            return View(discount);
-        }
-
-        // GET: Admin/Discounts/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var discount = await _context.Discounts.FindAsync(id);
-            if (discount == null)
-            {
-                return NotFound();
-            }
-            return View(discount);
-        }
-
-        // POST: Admin/Discounts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Description,DateStart,DateExpired,TimesUsed,TimesUseLimit,PercentDiscount,MaxDiscount,Code")] Discount discount)
-        {
-            if (id != discount.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(discount);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DiscountExists(discount.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(discount);
-        }
-
+      
         // GET: Admin/Discounts/Delete/5
+        [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -292,24 +211,24 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
 
             var discount = await _context.Discounts
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (discount == null)
             {
                 return NotFound();
             }
+            var d = await _context.Discounts.Include(x => x.CategoryDiscount).Include(x => x.DeliveryDiscount)
+                .Include(x => x.ProductDiscount).FirstOrDefaultAsync(x => x.Id==id);
 
-            return View(discount);
-        }
+            
 
-        // POST: Admin/Discounts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var discount = await _context.Discounts.FindAsync(id);
-            _context.Discounts.Remove(discount);
+            _context.CategoryDiscount.RemoveRange(d.CategoryDiscount);
+            _context.DeliveryDiscount.RemoveRange(d.DeliveryDiscount);
+            _context.ProductDiscount.RemoveRange(d.ProductDiscount);
+            _context.Discounts.Remove(d);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Json(new { success=true});
         }
+
 
         private bool DiscountExists(string id)
         {
