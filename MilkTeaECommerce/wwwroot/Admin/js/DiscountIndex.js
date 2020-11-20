@@ -21,11 +21,12 @@
                                 <a href="/Admin/Discounts/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a  class="btn btn-success text-white" style="cursor:pointer">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+
                                 <a onClick=Delete("/Admin/Discounts/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                     <i class="fas fa-trash-alt"></i>
+
+                                <a href="#" data-target="#Detail" data-toggle="modal" data-id="@item.Id" class="btn btn-success" style="font-size:small">Details</a> |
+
                                 </a>
                             </div>                           
                             
@@ -39,6 +40,31 @@
     });
 }); 
 
+$('#Detail').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var idDiscount = button.data('id') // Extract info from data-* attributes
+    var modal = $(this)
+    $.ajax({
+        method: 'GET',
+        url: '/Discount/Detail/' + idDiscount,
+        success: function (data) {
+            console.log(data);
+            modal.find('#Id').val(data.idDiscount);
+            modal.find('#Name').val(data.name);
+            modal.find('#Description').val(data.description);
+            modal.find('#DateStart').val(data.dateStart);
+            modal.find('#DateExpired').val(data.dateExpired);
+            modal.find('#TimesUsed').val(data.timesUsed);
+            modal.find('#TimesUseLimit').val(data.timesUseLimit);
+            modal.find('#PercentDiscount').val(data.percentDiscount);
+            modal.find('#MaxDiscount').val(data.maxDiscount);
+            modal.find('#Code').val(data.code);
+            modal.find('#CategoryDiscount').val(data.categoryDiscount);
+            modal.find('#DeliveryDiscount').val(data.deliveryDiscount);
+            modal.find('#ProductDiscount').val(data.productDiscount);
+        }
+    })
+})
 const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
         confirmButton: 'btn btn-success',

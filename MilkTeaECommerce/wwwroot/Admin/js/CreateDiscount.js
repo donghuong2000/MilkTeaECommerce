@@ -1,7 +1,17 @@
 ﻿$(document).ready(function () {
 
     $('.js-example-basic-multiple').select2();
-    
+
+    if ($("#check-category").is(':checked')) {
+        document.getElementById("select-category").disabled = false;
+    }
+    if ($("#check-product").is(':checked')) {
+        document.getElementById("select-product").disabled = false;
+    }
+    if ($("#check-delivery").is(':checked')) {
+        document.getElementById("select-delivery").disabled = false;
+    }
+
     $('input').on('click', function () {
         if ($("#check-category").is(':checked')) {
             document.getElementById("select-category").disabled = false;
@@ -10,10 +20,10 @@
             document.getElementById("select-category").disabled = true;
         }
     });
+    
 
     $('input').on('click', function () {
         if ($("#check-delivery").is(':checked')) {
-            console.log('checked');
             document.getElementById("select-delivery").disabled = false;
         }
         else {

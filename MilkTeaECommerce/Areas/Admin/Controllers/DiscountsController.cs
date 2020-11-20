@@ -50,7 +50,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Upsert(string? id)
         {
-               
+            
             // lấy giá trị cho các select 
             var category = _context.Categories.ToList();
             ViewBag.Categories = new SelectList(category, "Id", "Name");
@@ -70,7 +70,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                        .Include(x => x.ProductDiscount).FirstOrDefaultAsync(x => x.Id == id);
 
 
-                if (discount.Id==null)
+                if (discount ==null)
                 {
                     return NotFound();
                 }    
@@ -228,7 +228,14 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return Json(new { success=true});
         }
-
+        [HttpGet]
+        public IActionResult Detail(string id)
+        {
+            var obj = (from u in _context.Discounts
+                       where u.Id == id
+                       select u).SingleOrDefault();
+            return Json(obj);
+        }
 
         private bool DiscountExists(string id)
         {
