@@ -43,34 +43,44 @@ $('#SignUpbtn').click(function () {
     var u = $('#username').val();
     var p = $('#password1').val();
     var cp = $('#password2').val();
-    console.log('aaaaaaaaa');
-    if (false) {
-        console.log('aaasssaaaaaa');
+    console.log(p+" "+cp)
+    if (p!=cp || p =="") {
+        
         $('#alert-message').removeClass("alert-success");
         $('#alert-message').addClass("alert-danger");
         $('#alert-message').removeAttr('hidden');
         $('#alert-message').html('Comfirm password not success')
     }
     else {
-        console.log('aaaa111aaaaa');
+        Swal.fire({
+           
+            allowOutsideClick: false,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+            },
+        });
         $.ajax({
             method: 'POST',
             url: '/Identity/SignUp',
             data: { name: n, email: e, sdt: s, username: u, password: p },
             success: function (data) {
-                $('#alert-message').html(data.message);
-
-                console.log(data);
+                Swal.close();
                 if (data.success) {
-                    $('#alert-message').removeClass("alert-danger");
-                    $('#alert-message').addClass("alert-success");
+                    Swal.fire(
+                        'Create Account Success',
+                        'Please confirm your email to get more feature',
+                        'success'
+                    ).then((result) => {
+                        setInterval(window.location.reload(), 500);
+                    })
                 }
                 else {
-                    $('#alert-message').removeClass("alert-success");
-                    $('#alert-message').addClass("alert-danger");
+                    Swal.fire(
+                        'Create Account False',
+                        data.message,
+                        'error'
+                    )
                 }
-                $('#alert-message').removeAttr('hidden');
-                setInterval(window.location.reload(), 500);
             }
 
         })
