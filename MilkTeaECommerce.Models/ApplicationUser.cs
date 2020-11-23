@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MilkTeaECommerce.Models
 {
-    public partial class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         public ApplicationUser()
         {

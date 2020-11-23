@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using MilkTeaECommerce.Models;
 using MilkTeaECommerce.DataAccess.Repository.IRepository;
 using MilkTeaECommerce.DataAccess.Repository;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using MilkTeaECommerce.Utility;
 
 namespace MilkTeaECommerce
 {
@@ -38,6 +40,9 @@ namespace MilkTeaECommerce
                 .AddSignInManager<SignInManager<ApplicationUser>>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
+            services.AddSingleton<IEmailSender, EmailSender>();
+            
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.ConfigureApplicationCookie(options =>
