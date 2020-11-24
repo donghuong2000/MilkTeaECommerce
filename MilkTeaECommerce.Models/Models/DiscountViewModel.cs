@@ -19,16 +19,16 @@ namespace MilkTeaECommerce.Models.Models
         public string Description { get; set; }
 
         [DisplayName("Ngày bắt đầu")]
-        [Required(ErrorMessage = "Phải chọn ngày bắt đầu")]
         public DateTime? DateStart { get; set; }
 
         [DisplayName("Ngày kết thúc")]
-        [Required(ErrorMessage = "Phải chọn ngày kết thúc")]
         public DateTime? DateExpired { get; set; }
 
+        public int? TimeUsed { get; set; }
         [DisplayName("Số lượng khuyến mãi")]
         [Required(ErrorMessage = "Phải nhập số lượng khuyến mãi")]
         public int? TimesUseLimit { get; set; }
+       
 
         [DisplayName("Phần trăm giảm")]
         [Required(ErrorMessage = "Phải nhập số phần trăm khuyến mãi")]
@@ -44,13 +44,13 @@ namespace MilkTeaECommerce.Models.Models
         public  List<string> CategoryDiscounts { get; set; }
         public  List<string> DeliveryDiscounts { get; set; }
         public  List<string> ProductDiscounts { get; set; }
-
         public DiscountViewModel()
         {
             CategoryDiscounts = new List<string>();
             DeliveryDiscounts = new List<string>();
             ProductDiscounts = new List<string>();
         }
+
 
     }
 }

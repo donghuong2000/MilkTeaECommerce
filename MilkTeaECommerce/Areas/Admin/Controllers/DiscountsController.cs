@@ -48,9 +48,9 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
 
             return Json(new { data = obj });
         }
-        public async Task<IActionResult> Upsert(string? id)
+        [HttpGet]
+        public async Task<IActionResult> Upsert(string id)
         {
-               
             // lấy giá trị cho các select 
             var category = _context.Categories.ToList();
             ViewBag.Categories = new SelectList(category, "Id", "Name");
@@ -69,8 +69,8 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 var discount = await _context.Discounts.Include(x => x.CategoryDiscount).Include(x => x.DeliveryDiscount)
                        .Include(x => x.ProductDiscount).FirstOrDefaultAsync(x => x.Id == id);
 
-
-                if (discount.Id==null)
+                
+                if (discount==null)
                 {
                     return NotFound();
                 }    
@@ -109,10 +109,20 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 var code = (from c in _context.Discounts
                             where c.Id!= discount.Id && c.Code==discount.Code
                             select c).ToList();
+
                 if (code.Count > 0)
                 {
                     ModelState.AddModelError("Code", "Code đã tồn tại");
                     ViewBag.Id = "";
+                    
+                }
+                // check ngay hop le 
+                if (discount.DateExpired < discount.DateStart)
+                {
+                    ModelState.AddModelError("DateExpired", "Ngày không hợp lệ");
+                }
+                if (ModelState.ErrorCount>0)
+                {
                     var category = _context.Categories.ToList();
                     ViewBag.Categories = new SelectList(category, "Id", "Name");
 
@@ -123,8 +133,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                     ViewBag.Products = new SelectList(product, "Id", "Name");
 
                     return View(discount);
-                }
-
+                }    
                 // Thêm khuyến mãi
                 if (discount.Id == null)
                 {
@@ -188,6 +197,17 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                         DiscountId = dis.Id
                     }), x => x.DiscountId);
 
+                    // gán giá trị từ discountviewmodel cho discout va update
+                    dis.Id = discount.Id;
+                    dis.Name = discount.Name;
+                    dis.Description = discount.Description;
+                    dis.DateStart = discount.DateStart;
+                    dis.DateExpired = discount.DateExpired;
+                    dis.TimesUseLimit = discount.TimesUseLimit;
+                    dis.PercentDiscount = discount.PercentDiscount;
+                    dis.MaxDiscount = discount.MaxDiscount;
+                    dis.Code = discount.Code;
+
                     _context.Discounts.Update(dis);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -219,8 +239,6 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             var d = await _context.Discounts.Include(x => x.CategoryDiscount).Include(x => x.DeliveryDiscount)
                 .Include(x => x.ProductDiscount).FirstOrDefaultAsync(x => x.Id==id);
 
-            
-
             _context.CategoryDiscount.RemoveRange(d.CategoryDiscount);
             _context.DeliveryDiscount.RemoveRange(d.DeliveryDiscount);
             _context.ProductDiscount.RemoveRange(d.ProductDiscount);
@@ -228,7 +246,38 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return Json(new { success=true});
         }
+        [HttpGet]
+        public IActionResult Details(string id)
+        {
+            var dis = _context.Discounts.Include(x => x.CategoryDiscount)
+                .Include(x => x.DeliveryDiscount)
+                .Include(x => x.ProductDiscount)
+                .Where(x => x.Id == id).SingleOrDefault();
 
+            //string c = "";
+            //foreach (var item in dis.CategoryDiscount)
+            //{
+            //    c += item.Category.Name;
+            //}
+            var obj = new
+            {
+                id = dis.Id,
+                name = dis.Name.ToString(),
+                des = dis.Description,
+                dateStart = dis.DateStart.GetValueOrDefault().ToShortDateString(),
+                dateEnd = dis.DateExpired.GetValueOrDefault().ToShortDateString(),
+                timeUsed = dis.TimesUsed,
+                timeuselimit = dis.TimesUseLimit,
+                per = dis.PercentDiscount,
+                max = dis.MaxDiscount,
+                code = dis.Code,
+                cate = dis.CategoryDiscount.Select(x => x.CategoryId).ToList(),
+                deli = dis.DeliveryDiscount.Select(x => x.DeliveryId).ToList(),
+                prod = dis.ProductDiscount.Select(x => x.ProductId).ToList()
+            };
+
+            return Json( obj );
+        }
 
         private bool DiscountExists(string id)
         {

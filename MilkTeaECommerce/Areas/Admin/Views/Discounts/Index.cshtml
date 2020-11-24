@@ -13,6 +13,8 @@
 <p>
     <a asp-action="Upsert">Tạo khuyến mãi</a>
 </p>
+<partial name="_ModalDetailDiscount" model="new Discount()"/>
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         Khuyến mãi
@@ -34,9 +36,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.DateExpired)
                         </th>
-                        <th>
+                        @*<th>
                             @Html.DisplayNameFor(model => model.TimesUsed)
-                        </th>
+                        </th>*@
                         <th>
                             @Html.DisplayNameFor(model => model.TimesUseLimit)
                         </th>
@@ -53,7 +55,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @*@foreach (var item in Model)
                     {
                         <tr>
                             <td>
@@ -63,10 +65,10 @@
                                 @Html.DisplayFor(modelItem => item.Description)
                             </td>
                             <td>
-                                <label>@item.DateStart.Value.ToShortDateString()</label>
+                                <label>@item.DateStart.GetValueOrDefault().ToShortDateString()</label>
                             </td>
                             <td>
-                                <label>@item.DateExpired.Value.ToShortDateString()</label>
+                                <label>@item.DateExpired.GetValueOrDefault().ToShortDateString()</label>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.TimesUsed)
@@ -85,24 +87,23 @@
                             </td>
                             <td>
                                 <a asp-action="Upsert" asp-route-id="@item.Id">Edit</a> |
+                                <a href="#" data-target="#Detail" data-toggle="modal" data-id="@item.Id" class="btn btn-success" style="font-size:small">Details</a> |
                                 <a onClick=Delete("/Admin/Discounts/Delete/@item.Id") class="btn btn-danger text-white" style="cursor:pointer">
                                     Delete
                                 </a>|
                             </td>
                         </tr>
-                    }
+                    }*@
                 </tbody>
             </table>
         </div>
     </div>
-
 </div>
-<table id="tbLoad" >
 
-</table>
 @section Scripts {
     <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="~/Admin/js/DiscountIndex.js"></script>
 }
+

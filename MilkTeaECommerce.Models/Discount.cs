@@ -24,7 +24,6 @@ namespace MilkTeaECommerce.Models
         public float? MaxDiscount { get; set; }
         public string Code { get; set; }
 
-
         public virtual ICollection<CategoryDiscount> CategoryDiscount { get; set; }
         public virtual ICollection<DeliveryDiscount> DeliveryDiscount { get; set; }
         public virtual ICollection<ProductDiscount> ProductDiscount { get; set; }

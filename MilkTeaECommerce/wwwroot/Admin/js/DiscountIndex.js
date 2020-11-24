@@ -5,14 +5,14 @@
         },
         "columns": [
             { "data": "name" },
-            { "data": "des" },
+            { "data": "des"},
             { "data": "dateStart" },
-            { "data": "dateEnd" },
+            { "data": "dateEnd"},
+            //{ "data": "timeused" },
             { "data": "timeuselimit" },
-            { "data": "dateStart" },
             { "data": "per" },
-            { "data": "max" },
-            { "data": "code" },
+            { "data": "max"},
+            { "data": "code"},
             {
                 "data": "id",
                 "render": function (data) {
@@ -21,13 +21,16 @@
                                 <a href="/Admin/Discounts/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a  class="btn btn-success text-white" style="cursor:pointer">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+
                                 <a onClick=Delete("/Admin/Discounts/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                     <i class="fas fa-trash-alt"></i>
+
+                                <a href="#" data-target="#Detail" data-toggle="modal" data-id="${data}" 
+                                class="btn btn-success" style="font-size:small">Details</a>
+
                                 </a>
-                            </div>                           
+                            </div>  
+
                             
                            `
                 }
@@ -39,6 +42,31 @@
     });
 }); 
 
+$('#Detail').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var idDiscount = button.data('id') // Extract info from data-* attributes
+    var modal = $(this)
+    $.ajax({
+        method: 'GET',
+        url: '/Admin/Discounts/Details/' + idDiscount,
+        success: function (data) {
+            console.log(data.idDiscount);
+            modal.find('#Id').val(data.id);
+            modal.find('#Name').val(data.name);
+            modal.find('#Description').val(data.des);
+            modal.find('#DateStart').val(data.dateStart);
+            modal.find('#DateExpired').val(data.dateEnd);
+            modal.find('#TimesUsed').val(data.timeUsed);
+            modal.find('#TimesUseLimit').val(data.timeuselimit);
+            modal.find('#PercentDiscount').val(data.per);
+            modal.find('#MaxDiscount').val(data.max);
+            modal.find('#Code').val(data.code);
+            modal.find('#CategoryDiscount').val(data.cate);
+            modal.find('#DeliveryDiscount').val(data.deli);
+            modal.find('#ProductDiscount').val(data.prod);
+        }
+    })
+})
 const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
         confirmButton: 'btn btn-success',
