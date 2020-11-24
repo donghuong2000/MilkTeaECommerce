@@ -11,7 +11,7 @@ using MilkTeaECommerce.Models.Models;
 
 namespace MilkTeaECommerce.Areas.Admin.Controllers
 {
-
+    [Area("admin")]
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
