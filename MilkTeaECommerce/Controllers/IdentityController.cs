@@ -179,6 +179,43 @@ namespace MilkTeaECommerce.Controllers
             
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            {
+                // Don't reveal that the user does not exist or is not confirmed
+                return Json(new { message = "Please check your email to reset your password." });
+            }
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            
+            await _emailSender.SendEmailAsync(
+                    email,
+                    "Reset Password",
+                    $"Please reset your password by use this token: "+code);
+            return Json(new { message = "Please check your email to reset your password." });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(string email,string password,string code )
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return Json(new { success = false, message = "something has been wrong" });
+            }
+            var result = await _userManager.ResetPasswordAsync(user, code, password);
+            if (result.Succeeded)
+            {
+                return Json(new { success = true, message = "Your password has been reset" });
+            }
+            return Json(new { success = false, message = "something has been wrong" });
+
+        }
+
 
         public IActionResult LockOut()
         {
