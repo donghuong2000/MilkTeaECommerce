@@ -30,7 +30,8 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         public IActionResult GetAll()
         {
             var list = _context.Deliveries.ToList();
-            return Json(new { data = list });
+           
+            return Json(new { data = list }); 
         }
         public IActionResult GetforSelect(string q)
         {
@@ -74,11 +75,10 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         {
             var delivery = _context.Deliveries.FirstOrDefault(x => x.Id == id);
 
-            var obj = new
+            var obj = new // obj tao ra cho json  thi se mac dinh viet thuong chu cai dau cua thuoc tinh , con cac chu cai sau se giu nguyen
             {
                 id = delivery.Id,
                 name = delivery.Name,
-                
             };
             return Json(new { data = obj });
         }

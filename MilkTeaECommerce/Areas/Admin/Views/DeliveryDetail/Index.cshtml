@@ -1,0 +1,167 @@
+﻿@model IEnumerable<MilkTeaECommerce.Models.DeliveryDetail>
+﻿
+@{ ViewData["Title"] = "Index"; }
+
+
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Tables</h1>
+<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex align-items-center">
+
+        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <a href="#" data-toggle="modal" data-target="#CreateModal" class="btn btn-primary ml-auto">Khởi tạo chi tiết nhà vận chuyển</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Mã Đơn Hàng</th>
+                        <th>Mã Nhà Vận Chuyển</th>
+                        <th>Địa Chỉ</th>
+                        <th>Ghi Chú</th>
+                        <th>Giá Vận Chuyển</th>
+                        <th>Ngày Bắt Đầu Vận Chuyển</th>
+                        <th>Ngày Vận Chuyển Đến</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Mã Đơn Hàng</th>
+                        <th>Mã Nhà Vận Chuyển</th>
+                        <th>Địa Chỉ</th>
+                        <th>Ghi Chú</th>
+                        <th>Giá Vận Chuyển</th>
+                        <th>Ngày Bắt Đầu Vận Chuyển</th>
+                        <th>Ngày Vận Chuyển Đến</th>
+                        <th>Hành động</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- đây là cho edit modal-->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditModalLabel">Chỉnh Sửa nhà vận chuyển</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false">
+                    <div class="form-group">
+                        <label>Mã Đơn Hàng </label>
+                        <input readonly class=" form-control" type="text" id="update_orderdetailid" />
+                    </div>
+                    <div class="form-group">
+                        <label>Mã Nhà Vận Chuyển </label>
+                        <input class=" form-control" type="text" id="update_deliveryid" />
+                    </div>
+                    <div class="form-group">
+                        <label>Địa Chỉ Đơn Hàng</label>
+                        <input class=" form-control" type="text" id="update_address" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi Chú</label>
+                        <input class=" form-control" type="text" id="update_note" />
+                    </div>
+                    <div class="form-group">
+                        <label>Giá Vận Chuyển</label>
+                        <input class=" form-control" type="text" id="update_price" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày Bắt Đầu Vận Chuyển</label>
+                        <input class=" form-control" type="text" id="update_datestart" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày Vận Chuyển Đến</label>
+                        <input class=" form-control" type="text" id="update_dateend" />
+                    </div>
+
+                    <input data-dismiss="modal" class=" form-control btn btn-primary " type="submit" id="editSubmit" value="Update" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- đây là cho create modal-->
+<div class="modal fade" id="CreateModal" tabindex="-1" role="dialog" aria-labelledby="CreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateModalLabel">Tạo Chi Tiết Vận Chuyển Mới</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false">
+                    <div class="form-group">
+                        <label>Mã Đơn Hàng </label>
+                        <input class=" form-control" type="text" id="Create_orderdetailid" />
+                    </div>
+                    <div class="form-group">
+                        <label>Mã Nhà Vận Chuyển </label>
+                        <input class=" form-control" type="text" id="Create_deliveryid" />
+                    </div>
+                    <div class="form-group">
+                        <label>Địa Chỉ Đơn Hàng</label>
+                        <input class=" form-control" type="text" id="Create_address" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi Chú</label>
+                        <input class=" form-control" type="text" id="Create_note" />
+                    </div>
+                    <div class="form-group">
+                        <label>Giá Vận Chuyển</label>
+                        <input class=" form-control" type="text" id="Create_price" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày Bắt Đầu Vận Chuyển</label>
+                        <input class=" form-control" type="text" id="Create_datestart" />
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày Vận Chuyển Đến</label>
+                        <input class=" form-control" type="text" id="Create_dateend" />
+                    </div>
+                    <input data-dismiss="modal" class=" form-control btn btn-primary" type="submit" id="CreateSubmit" value="Create" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+    <!-- Page level plugins -->
+    <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Admin/js/build/toastr.min.js"></script>
+    <!--cái này của thông báo-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!--cái này của selectlist search-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="~/Admin/js/DeliveryDetail.js"></script>
+
+
+}
+@section Header{
+    <!--cái này của thông báo-->
+    <link href="~/Admin/js/build/toastr.css" rel="stylesheet" />
+    <!--cái này của selectlist search-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+}
+
