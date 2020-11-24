@@ -6,9 +6,18 @@
     @if (SignInManager.IsSignedIn(User))
     { 
         
-        <li class="nav-item">
-            <a class="nav-link text-dark" >Hello @User.Identity.Name</a>
-        </li>
+<li class="nav-item dropdown">
+    <a class="nav-link text-dark" href="#" id="dropdownMenuLink" data-toggle="dropdown">Hello @User.Identity.Name</a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <a class="dropdown-item" href="#">Info</a>
+        <br />
+        <a class="dropdown-item" href="#">cái gì ở đây ta?</a>
+        <br />
+        <a class="dropdown-item" href="#">Seller Channel</a>
+
+    </div>
+</li>
+
         <li class="nav-item">
             <a class="nav-link text-dark" asp-action="Logout" asp-controller="Identity">Logout</a>
         </li>

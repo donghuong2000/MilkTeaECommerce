@@ -482,7 +482,46 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
     </div>
     <!-- //shop locator (popup) -->
-    <!-- signin Model -->
+    <!-- forget Model -->
+    <div class="modal fade myModal" id="ForgotModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body modal-body-sub_agile">
+                <div class="main-mailposi">
+                    <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                </div>
+                <div class="modal_body_left modal_body_left1">
+                    <h3 class="agileinfo_sign">Forget Password </h3>
+                    <form onsubmit="return false">
+                        <div class="styled-input agile-styled-input-top">
+                            <input type="email" placeholder="email" id="emailforget" required="">
+                        </div>
+                        <div hidden id="pre-confirm">
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="password" placeholder="newPassword" id="np" required="">
+                            </div>
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="password" placeholder="comfirm new Password" id="cnp" required="">
+                            </div>
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="text" placeholder="code" id="code" required="">
+                            </div>
+                        </div>
+                        <input id="Forgotbtn" type="submit" value="Forgot Password">
+                        <input hidden id="resetbtn" type="submit" value="Reset Password">
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- //Modal content-->
+    </div>
+</div>
     <!-- Modal1 -->
     <div class="modal fade myModal" id="SignInModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
@@ -505,7 +544,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </p>
                         <form method="post" onsubmit="return false">
                             <div hidden id="alert-message" class="alert alert-danger" role="alert">
-                                
+
                             </div>
                             <div class="styled-input agile-styled-input-top">
                                 <input type="text" placeholder="User Name" id="usn" required="">
@@ -514,6 +553,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <input type="password" placeholder="Password" id="pwd" required="">
                             </div>
                             <input id="SignInbtn" type="submit" value="Sign In">
+                            <a class="close" data-dismiss="modal" href="#" data-toggle="modal" data-target="#ForgotModal">ForgotPassword</a>
                         </form>
                         <div class="clearfix"></div>
                     </div>
@@ -1271,7 +1311,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
     <!-- //password-script -->
     <!-- smoothscroll -->
-    <script src="~/js/SmoothScroll.min.js"></script>
     <!-- //smoothscroll -->
     <!-- start-smooth-scrolling -->
     <script src="~/js/move-top.js"></script>
@@ -1305,14 +1344,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
     </script>
-    
+
     <!-- //smooth-scrolling-of-move-up -->
     <!-- for bootstrap working -->
     <script src="~/js/bootstrap.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- //for bootstrap working -->
     <!-- //js-files -->
     <script src="~/js/site.js"></script>
-    @RenderSection("Scripts",false)
+    @RenderSection("Scripts", false)
 
 
 </body>
