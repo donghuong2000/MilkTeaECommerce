@@ -51,6 +51,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Upsert(string id)
         {
+               
             // lấy giá trị cho các select 
             var category = _context.Categories.ToList();
             ViewBag.Categories = new SelectList(category, "Id", "Name");
@@ -69,8 +70,8 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 var discount = await _context.Discounts.Include(x => x.CategoryDiscount).Include(x => x.DeliveryDiscount)
                        .Include(x => x.ProductDiscount).FirstOrDefaultAsync(x => x.Id == id);
 
-                
-                if (discount==null)
+
+                if (discount.Id==null)
                 {
                     return NotFound();
                 }    
@@ -246,38 +247,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return Json(new { success=true});
         }
-        [HttpGet]
-        public IActionResult Details(string id)
-        {
-            var dis = _context.Discounts.Include(x => x.CategoryDiscount)
-                .Include(x => x.DeliveryDiscount)
-                .Include(x => x.ProductDiscount)
-                .Where(x => x.Id == id).SingleOrDefault();
 
-            //string c = "";
-            //foreach (var item in dis.CategoryDiscount)
-            //{
-            //    c += item.Category.Name;
-            //}
-            var obj = new
-            {
-                id = dis.Id,
-                name = dis.Name.ToString(),
-                des = dis.Description,
-                dateStart = dis.DateStart.GetValueOrDefault().ToShortDateString(),
-                dateEnd = dis.DateExpired.GetValueOrDefault().ToShortDateString(),
-                timeUsed = dis.TimesUsed,
-                timeuselimit = dis.TimesUseLimit,
-                per = dis.PercentDiscount,
-                max = dis.MaxDiscount,
-                code = dis.Code,
-                cate = dis.CategoryDiscount.Select(x => x.CategoryId).ToList(),
-                deli = dis.DeliveryDiscount.Select(x => x.DeliveryId).ToList(),
-                prod = dis.ProductDiscount.Select(x => x.ProductId).ToList()
-            };
-
-            return Json( obj );
-        }
 
         private bool DiscountExists(string id)
         {

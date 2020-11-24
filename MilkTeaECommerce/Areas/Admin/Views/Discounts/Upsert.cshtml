@@ -24,17 +24,21 @@ else
         <form asp-action="Upsert" method="post">
             <input asp-for="Id" hidden/>
             <div id="check-categorydiv">
-                @if (ViewBag.Id != "" && Model.CategoryDiscounts.Count > 0)
-                {
-                    <input id="check-category" type="checkbox" checked />
-                }
-                else
-                {
-                    <input id="check-category" type="checkbox" />
-                }
-                <label> Danh mục sản phẩm</label>
-                <select id="select-category" disabled style="width:100%" class="js-example-basic-multiple" 
-                        asp-for="CategoryDiscounts" asp-items="ViewBag.Categories" multiple></select>
+                    @if (ViewBag.Id!="" && Model.CategoryDiscounts.Count>0)
+                    {
+                        <input id="check-category" type="checkbox" checked />
+                        <label> Danh mục sản phẩm</label>
+                        <select id="select-category" style="width:100%" class="js-example-basic-multiple"
+                                asp-for="CategoryDiscounts" asp-items="ViewBag.Categories" multiple></select>
+                    }
+                    else
+                    {
+                        <input id="check-category" type="checkbox" />
+                        <label> Danh mục sản phẩm</label>
+                        <select id="select-category" disabled style="width:100%" class="js-example-basic-multiple"
+                                asp-for="CategoryDiscounts" asp-items="ViewBag.Categories" multiple></select>
+
+                    }
             </div>
 
             <div class="delivery-discount">
