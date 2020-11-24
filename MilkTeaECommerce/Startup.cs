@@ -35,11 +35,14 @@ namespace MilkTeaECommerce
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<ApplicationUser>()
-                .AddUserManager<UserManager<ApplicationUser>>()
-                .AddSignInManager<SignInManager<ApplicationUser>>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>(options => {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequiredUniqueChars = 0;
+            })
+            .AddUserManager<UserManager<ApplicationUser>>()
+            .AddSignInManager<SignInManager<ApplicationUser>>()
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
             services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
             services.AddSingleton<IEmailSender, EmailSender>();
             
