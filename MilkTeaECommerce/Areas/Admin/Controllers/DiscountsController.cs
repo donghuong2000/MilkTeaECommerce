@@ -27,8 +27,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         // GET: Admin/Discounts
         public async Task<IActionResult> Index()
         {
-
-            return View(await _context.Discounts.ToListAsync());
+            return View();
         }
 
         public IActionResult GetAll()
@@ -41,6 +40,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 dateStart = x.DateStart.GetValueOrDefault().ToShortDateString(),
                 dateEnd = x.DateExpired.GetValueOrDefault().ToShortDateString(),
                 timeuselimit = x.TimesUseLimit,
+                timeused =x.TimesUsed,
                 per = x.PercentDiscount,
                 max = x.MaxDiscount,
                 code = x.Code
@@ -113,7 +113,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 if (code.Count > 0)
                 {
                     ModelState.AddModelError("Code", "Code đã tồn tại");
-                    ViewBag.Id = "";
+                   
 
                 }
                 // check ngay hop le 
@@ -131,7 +131,10 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
 
                     var product = _context.Products.ToList();
                     ViewBag.Products = new SelectList(product, "Id", "Name");
-
+                    if(discount.Id==null)
+                    {
+                        ViewBag.Id = "";
+                    }    
                     return View(discount);
                 }
                 // Thêm khuyến mãi
@@ -249,16 +252,11 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Details(string id)
         {
-            var dis = _context.Discounts.Include(x => x.CategoryDiscount)
-                .Include(x => x.DeliveryDiscount)
-                .Include(x => x.ProductDiscount)
+            var dis = _context.Discounts.Include(x => x.CategoryDiscount).ThenInclude(x=>x.Category)
+                .Include(x => x.DeliveryDiscount).ThenInclude(x=>x.Delivery)
+                .Include(x => x.ProductDiscount).ThenInclude(x=>x.Product)
                 .Where(x => x.Id == id).SingleOrDefault();
 
-            //string c = "";
-            //foreach (var item in dis.CategoryDiscount)
-            //{
-            //    c += item.Category.Name;
-            //}
             var obj = new
             {
                 id = dis.Id,
@@ -271,9 +269,9 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 per = dis.PercentDiscount,
                 max = dis.MaxDiscount,
                 code = dis.Code,
-                cate = dis.CategoryDiscount.Select(x => x.CategoryId).ToList(),
-                deli = dis.DeliveryDiscount.Select(x => x.DeliveryId).ToList(),
-                prod = dis.ProductDiscount.Select(x => x.ProductId).ToList()
+                cate = dis.CategoryDiscount.Select(x => x.Category.Name).ToList(),
+                deli = dis.DeliveryDiscount.Select(x => x.Delivery.Name).ToList(),
+                prod = dis.ProductDiscount.Select(x => x.Product.Name).ToList(),
             };
 
             return Json(obj);

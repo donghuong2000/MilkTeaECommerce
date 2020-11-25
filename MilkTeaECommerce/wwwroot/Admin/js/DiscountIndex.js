@@ -5,11 +5,10 @@
         },
         "columns": [
             { "data": "name" },
-            { "data": "des" },
             { "data": "dateStart" },
             { "data": "dateEnd" },
-            //{ "data": "timeused" },
             { "data": "timeuselimit" },
+            { "data": "timeused"},
             { "data": "per" },
             { "data": "max" },
             { "data": "code" },
