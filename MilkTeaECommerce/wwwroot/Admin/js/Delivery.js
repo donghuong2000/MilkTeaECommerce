@@ -106,9 +106,6 @@ $('#EditModal').on('show.bs.modal', function (event) {
             //modal.find().val(data.data[0].id)
         }
     })
-
-
-
 })
 
 

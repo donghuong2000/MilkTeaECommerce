@@ -43,7 +43,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                     Status = x.Status,
                     Quantity = x.Quantity,
                     CategoryId = x.CategoryId,
-                    ShopID = x.ShopId,
+                    ShopId = x.ShopId,
 
                 });
             if (!(string.IsNullOrEmpty(q) || string.IsNullOrWhiteSpace(q)))
@@ -52,76 +52,115 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             }
             return Json(new { items = obj });
         }
-        // GET: Admin/Products/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: Admin/Products/Details/5
+        //public async Task<IActionResult> Details(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Shop)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+        //    var product = await _context.Products
+        //        .Include(p => p.Category)
+        //        .Include(p => p.Shop)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(product);
-        }
-
-        // GET: Admin/Products/Create
-        public IActionResult Create()
-        {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
-            ViewData["ShopId"] = new SelectList(_context.Shops, "ApplicationUserId", "ApplicationUserId");
-            return View();
-        }
+        //    return View(product);
+        //}
 
         // POST: Admin/Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,ImageUrl,Price,Status,Quantity,CategoryId,ShopId")] Product product)
+        //[ValidateAntiForgeryToken]
+        public IActionResult Create(string id, string name, string description, string imageurl, float price,string status, int quantity, string categoryid, string shopid)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                Product product = new Product() { Id = id, Name = name, Description = description, ImageUrl = imageurl, Price = price, Status = status,Quantity = quantity, CategoryId = categoryid, ShopId = shopid };
+                _context.Products.Add(product);
+                _context.SaveChanges();
+                return Json(new { success = true, message = "khởi tạo thành công danh mục" });
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-            ViewData["ShopId"] = new SelectList(_context.Shops, "ApplicationUserId", "ApplicationUserId", product.ShopId);
-            return View(product);
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
 
+        public IActionResult Get(string id)
+        {
+            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+
+            var obj = new
+            {
+                id = product.Id,
+                name = product.Name,
+                description = product.Description,
+                imageurl = product.ImageUrl,
+                price = product.Price,
+                status = product.Status,
+                quantity = product.Quantity,
+                categoryId = product.CategoryId,
+                shopId = product.ShopId,
+                
+
+            };
+            return Json(new { data = obj });
+        }
         // GET: Admin/Products/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = _context.Products.Find(id);
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-            ViewData["ShopId"] = new SelectList(_context.Shops, "ApplicationUserId", "ApplicationUserId", product.ShopId);
-            return View(product);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "name");
+            ViewData["ShopId"] = new SelectList(_context.Shops, "ApplicationUserId", "ApplicationUserId");
+            return Json(new { data = product });
         }
 
         // POST: Admin/Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Description,ImageUrl,Price,Status,Quantity,CategoryId,ShopId")] Product product)
+        //[ValidateAntiForgeryToken]
+        public IActionResult Update(string oldid, string name, string description, string imageurl, float price, string status, int quantity, string categoryid, string shopid)
+        {
+            var obj = _context.Products.Find(oldid);
+            obj.Name = name;
+            obj.Description = description;
+            obj.ImageUrl = imageurl;
+            obj.Price = price;
+            obj.Status = status;
+            obj.Quantity = quantity;
+            obj.CategoryId = categoryid;
+            obj.ShopId = shopid;
+            try
+            {
+
+                _context.Products.Update(obj);
+                _context.SaveChanges();
+                return Json(new { success = true, message = "cập nhập mục thành công" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+
+            }
+        }
+        [HttpPost]
+        public IActionResult Edit(string id, [Bind("Id,Name,Description,ImageUrl,Price,Status,Quantity,CategoryId,ShopId")] Product product)
         {
             if (id != product.Id)
             {
@@ -133,7 +172,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 try
                 {
                     _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -153,35 +192,23 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             return View(product);
         }
 
-        // GET: Admin/Products/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Shop)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
         // POST: Admin/Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        [HttpDelete]
+        //[ValidateAntiForgeryToken]
+        public IActionResult Delete(string id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var obj = _context.Products.Find(id);
+                _context.Products.Remove(obj);
+                _context.SaveChanges();
+                return Json(new { success = true, message = "xóa mục thành công" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+
+            }
         }
 
         private bool ProductExists(string id)

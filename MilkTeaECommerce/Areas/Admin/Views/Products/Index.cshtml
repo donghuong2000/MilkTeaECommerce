@@ -26,6 +26,7 @@
                         <th>Số lượng</th>
                         <th>Loại</th>
                         <th>Cửa hàng</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -39,6 +40,7 @@
                         <th>Số lượng</th>
                         <th>Loại</th>
                         <th>Cửa hàng</th>
+                        <th></th>
                     </tr>
                 </tfoot>
             </table>
@@ -47,27 +49,27 @@
 </div>
 
 <!-- đây là cho edit modal-->
-<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="EditModalProduct" tabindex="-1" aria-labelledby="EditModalLabelProduct" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Chỉnh Sửa sản phẩm</h5>
+                <h5 class="modal-title" id="EditModalLabelProduct">Chỉnh Sửa sản phẩm</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form onsubmit="return false">
-                    <div hidden class="form-group">
-                        <input class=" form-control" type="text" id="update_productid_old" />
-                    </div>
+                    @*<div class="form-group">
+                            <input class=" form-control" type="text" id="update_productid_old" />
+                        </div>*@
                     <div class="form-group">
                         <label>Mã sản phẩm</label>
-                        <input readonly class=" form-control " type="text" id="update_productid_new" />
+                        <input class=" form-control " type="text" id="update_productid_old" readonly />
                     </div>
                     <div class="form-group">
                         <label>Tên sản phẩm</label>
-                        <input readonly class=" form-control " type="text" id="update_productname" />
+                        <input class=" form-control " type="text" id="update_productname" />
                     </div>
                     <div class="form-group">
                         <label>Mô tả</label>
@@ -103,12 +105,69 @@
         </div>
     </div>
 </div>
-<!-- đây là cho create modal-->
-<div class="modal fade" id="CreateModalProduct" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- đây là cho Detail modal-->
+<div class="modal fade" id="DetailModalProduct" tabindex="-1" aria-labelledby="DetailModalLabelProduct" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tạo Nhà Vận Chuyển Mới</h5>
+                <h5 class="modal-title" id="DetailModalLabelProduct">Chỉnh Sửa sản phẩm</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false">
+                    @*<div class="form-group">
+                            <input class=" form-control" type="text" id="update_productid_old" />
+                        </div>*@
+                    <div class="form-group">
+                        <label>Mã sản phẩm</label>
+                        <input class=" form-control " type="text" id="update_productid_old" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Tên sản phẩm</label>
+                        <input class=" form-control " type="text" id="update_productname" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <input class=" form-control " type="text" id="update_productdescription" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label>Hình ảnh</label>
+                        <input class=" form-control " type="text" id="update_productimage" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label>Giá</label>
+                        <input class=" form-control " type="text" id="update_productprice" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label>Trạng thái</label>
+                        <input class=" form-control " type="text" id="update_productstatus" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label>Số lượng</label>
+                        <input class=" form-control " type="text" id="update_productquantity" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label>Loại</label>
+                        <input class=" form-control " type="text" id="update_productcategory" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label>Cửa hàng</label>
+                        <input class=" form-control " type="text" id="update_productshopid" readonly/>
+                    </div>
+                    <a href="/Admin/Products/Index" class="btn btn-dark">Quay lại</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- đây là cho create modal-->
+<div class="modal fade" id="CreateModalProduct" tabindex="-1" role="dialog" aria-labelledby="CreateModalLabelProduct" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateModalLabelProduct">Tạo sản phẩm</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -167,13 +226,14 @@
     <!--cái này của selectlist search-->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <!-- Page level custom scripts -->
-
+    <script src="~/Admin/js/Products.js"></script>
 
 
 }
 @section Header{
-    <!--cái này của thông báo-->
-    <link href="~/Admin/js/build/toastr.css" rel="stylesheet" />
+
     <!--cái này của selectlist search-->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <!--cái này của thông báo-->
+    <link href="~/Admin/js/build/toastr.css" rel="stylesheet" />
 }

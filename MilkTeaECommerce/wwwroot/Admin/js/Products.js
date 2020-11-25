@@ -6,22 +6,26 @@
         "columns": [
             { "data": "id" },
             { "data": "name" },
-            { "data": "decription" },
-            { "data": "image" },
+            { "data": "description" },
+            { "data": "imageUrl" },
+            { "data": "price" },
             { "data": "status" },
             { "data": "quantity" },
             { "data": "category" },
-            { "data": "shopid" },
+            { "data": "shopId" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                              <div class="text-center">
                                 <a href="#" data-toggle="modal" data-target="#EditModalProduct" data-whatever="${data}" class="btn btn-success text-white" style="cursor:pointer">
-                                    <i class="fas fa-edit"></i>
+                                    Sửa
+                                </a>
+                                <a href="#" data-toggle="modal" data-target="#DetailModalProduct" data-whatever="${data}" class="btn btn-dark text-white" style="cursor:pointer"">
+                                    Detail
                                 </a>
                                 <a onClick=Delete("/Admin/Products/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
-                                    <i class="fas fa-trash-alt"></i>
+                                    Xóa
                                 </a>
                             </div>                           
                             
@@ -58,7 +62,7 @@
 });
 
 $('#CreateSubmitProduct').click(function () {
-    var Id = $('#Create_productid').val();
+    var Id = $('#create_productid').val();
     var Name = $('#create_productname').val();
     var Description = $('#create_productdescription').val();
     var ImageUrl = $('#create_productimage').val();
@@ -84,9 +88,9 @@ $('#CreateSubmitProduct').click(function () {
     })
 })
 $('#editSubmitProduct').click(function () {
-    var oldId = $('#update_deliveriesid_old').val();
-    var newId = $('#update_deliveriesid_new').val();
-    var Name = $('#update_deliveriesname').val();
+    var oldId = $('#update_productid_old').val();
+    var newId = $('#update_productid_new').val();
+    var Name = $('#update_productname').val();
     var Description = $('#update_productdescription').val();
     var ImageUrl = $('#update_productimage').val();
     var Price = $('#update_productprice').val();
@@ -97,7 +101,7 @@ $('#editSubmitProduct').click(function () {
     $.ajax({
         method: 'POST',
         url: "/Admin/Products/Update",
-        data: { newid: newId, newname: Name, description: Description, imageUrl: ImageUrl, price: Price, status: Status, quantity: Quantity, category: Category, shopId: ShopId },
+        data: { oldid: oldId, name: Name, description: Description, imageUrl: ImageUrl, price: Price, status: Status, quantity: Quantity, category: Category, shopId: ShopId },
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         success: function (data) {
             if (data.success) {
@@ -110,7 +114,7 @@ $('#editSubmitProduct').click(function () {
         }
     })
 })
-$('#EditModal').on('show.bs.modal', function (event) {
+$('#EditModalProduct').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var ad = button.data('whatever') // Extract info from data-* attributes
     var modal = $(this)
@@ -136,7 +140,32 @@ $('#EditModal').on('show.bs.modal', function (event) {
 
 
 })
+$('#DetailModalProduct').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var ad = button.data('whatever') // Extract info from data-* attributes
+    var modal = $(this)
+    $.ajax({
+        method: "GET",
+        url: '/Admin/Products/Edit/' + ad,
+        success: function (data) {
+            console.log(data)
+            modal.find('#update_productid_old').val(data.data.id)
+            modal.find('#update_deliveriesid_new').val(data.data.id)
+            modal.find('#update_productname').val(data.data.name)
+            modal.find('#update_productdescription').val(data.data.description)
+            modal.find('#update_productimage').val(data.data.imageUrl)
+            modal.find('#update_productprice').val(data.data.price)
+            modal.find('#update_productstatus').val(data.data.status)
+            modal.find('#update_productquantity').val(data.data.quantity)
+            modal.find('#update_productcategory').val(data.data.category)
+            modal.find('#update_productshopid').val(data.data.shopId)
+            //modal.find().val(data.data[0].id)
+        }
+    })
 
+
+
+})
 
 
 const swalWithBootstrapButtons = Swal.mixin({
