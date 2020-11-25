@@ -27,7 +27,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         // GET: Admin/Discounts
         public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.Discounts.ToListAsync());
         }
 
         public IActionResult GetAll()
