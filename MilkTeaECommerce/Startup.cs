@@ -81,6 +81,7 @@ namespace MilkTeaECommerce
 
             app.UseEndpoints(endpoints =>
             {
+
                 endpoints.MapAreaControllerRoute(
                    name: "Admin",
                    areaName: "Admin",
@@ -88,6 +89,7 @@ namespace MilkTeaECommerce
                 endpoints.MapDefaultControllerRoute();
                 
                 
+
             });
         }
     }

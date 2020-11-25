@@ -17,7 +17,9 @@
           rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="~/Admin/css/sb-admin-2.min.css" rel="stylesheet">
-    @RenderSection("Header",required:false)
+    <!-- Select 2-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    @RenderSection("Header", required: false)
 
 </head>
 
@@ -340,7 +342,7 @@
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 @RenderBody()
-                
+
                 <!-- /.container-fluid -->
 
             </div>
@@ -394,9 +396,12 @@
 
     <!-- Custom scripts for all pages-->
     <script src="~/Admin/js/sb-admin-2.min.js"></script>
+    
     @RenderSection("Scripts", required: false)
     <!-- Page level plugins -->
-    
+
+
+
 
 </body>
 
