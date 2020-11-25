@@ -28,6 +28,7 @@
                         <th>Ngày Bắt Đầu Vận Chuyển</th>
                         <th>Ngày Vận Chuyển Đến</th>
                         <th>Hành động</th>
+                        
                     </tr>
                 </thead>
                 <tfoot>
@@ -65,7 +66,7 @@
                     </div>
                     <div class="form-group">
                         <label>Mã Nhà Vận Chuyển </label>
-                        <input class=" form-control" type="text" id="update_deliveryid" />
+                        <select class="form-control" id="update_deliveryid" asp-items="ViewBag.deliveryid_list"></select>
                     </div>
                     <div class="form-group">
                         <label>Địa Chỉ Đơn Hàng</label>
@@ -77,15 +78,15 @@
                     </div>
                     <div class="form-group">
                         <label>Giá Vận Chuyển</label>
-                        <input class=" form-control" type="text" id="update_price" />
+                        <input class=" form-control" type="text" id="update_price" placeholder="Nhập giá vận chuyển đơn vị VND" />
                     </div>
                     <div class="form-group">
                         <label>Ngày Bắt Đầu Vận Chuyển</label>
-                        <input class=" form-control" type="text" id="update_datestart" />
+                        <input class=" form-control"  type="date" id="update_datestart" />
                     </div>
                     <div class="form-group">
                         <label>Ngày Vận Chuyển Đến</label>
-                        <input class=" form-control" type="text" id="update_dateend" />
+                        <input class=" form-control"  type="date" id="update_dateend" />
                     </div>
 
                     <input data-dismiss="modal" class=" form-control btn btn-primary " type="submit" id="editSubmit" value="Update" />
@@ -108,11 +109,12 @@
                 <form onsubmit="return false">
                     <div class="form-group">
                         <label>Mã Đơn Hàng </label>
-                        <input class=" form-control" type="text" id="Create_orderdetailid" />
+                        <select class="form-control" id="Create_orderdetailid" asp-items="ViewBag.orderdetailid_list"></select>
                     </div>
                     <div class="form-group">
                         <label>Mã Nhà Vận Chuyển </label>
-                        <input class=" form-control" type="text" id="Create_deliveryid" />
+                        <select class="form-control" id="Create_deliveryid" asp-items="ViewBag.deliveryid_list">
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Địa Chỉ Đơn Hàng</label>
@@ -124,15 +126,15 @@
                     </div>
                     <div class="form-group">
                         <label>Giá Vận Chuyển</label>
-                        <input class=" form-control" type="text" id="Create_price" />
+                        <input class=" form-control" type="text" id="Create_price" placeholder="Nhập giá vận chuyển đơn vị VND"/>
                     </div>
                     <div class="form-group">
                         <label>Ngày Bắt Đầu Vận Chuyển</label>
-                        <input class=" form-control" type="text" id="Create_datestart" />
+                        <input class=" form-control" type="date" id="Create_datestart" />
                     </div>
                     <div class="form-group">
                         <label>Ngày Vận Chuyển Đến</label>
-                        <input class=" form-control" type="text" id="Create_dateend" />
+                        <input class=" form-control"  type="date"  id="Create_dateend" />
                     </div>
                     <input data-dismiss="modal" class=" form-control btn btn-primary" type="submit" id="CreateSubmit" value="Create" />
                 </form>

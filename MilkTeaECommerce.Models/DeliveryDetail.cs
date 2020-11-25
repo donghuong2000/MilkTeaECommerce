@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MilkTeaECommerce.Models
 {
     public partial class DeliveryDetail
     {
+        
         public string OrderDetailId { get; set; }
         public string DeliveryId { get; set; }
         public string Address { get; set; }

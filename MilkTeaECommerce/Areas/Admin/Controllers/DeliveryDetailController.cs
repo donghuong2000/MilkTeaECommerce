@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MilkTeaECommerce.Data;
 using MilkTeaECommerce.Models;
 
@@ -11,6 +13,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
     [Area("Admin")]
     public class DeliveryDetailController : Controller
     {
+        
         private readonly ApplicationDbContext _context;
 
         public DeliveryDetailController(ApplicationDbContext context)
@@ -21,13 +24,26 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         // GET: Admin/DeliveryDetail
         public IActionResult Index()
         {
+            
+            ViewBag.orderdetailid_list = new SelectList(_context.OrderDetails.ToList(),"Id","Id");
+            ViewBag.deliveryid_list = new SelectList(_context.Deliveries.ToList(), "Id", "Name");
             return View();
         }
 
 
         public IActionResult GetAll()
         {
-            var list = _context.DeliveryDetails.ToList();
+            var list = _context.DeliveryDetails.ToList()
+                .Select(x => new
+                {
+                    orderdetailid = x.OrderDetailId,
+                    deliveryid = x.DeliveryId,
+                    address = x.Address,
+                    note = x.Note,
+                    price = x.Price,
+                    datestart = x.DateStart.GetValueOrDefault().ToShortDateString(),
+                    dateend = x.DateEnd.GetValueOrDefault().ToShortDateString(),
+                });
             return Json(new { data = list });
         }
         public IActionResult GetforSelect(string q)
@@ -40,7 +56,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                     address = x.Address,
                     note = x.Note,
                     price = x.Price,
-                    datestart = x.DateStart,
+                    datestart = x.DateStart.GetValueOrDefault().ToShortDateString(),
                     dateend = x.DateEnd
 
                 });
@@ -59,11 +75,12 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
 
-        public IActionResult Create(string orderdetailid, string deliveryid, string address, string note,float price, DateTime datestart,DateTime dateend)
+        public IActionResult Create(string orderdetailid, string deliveryid, string address, string note,string price, string datestart,string dateend)
         {
             try
             {
-                DeliveryDetail deliverydetail = new DeliveryDetail() { OrderDetailId = orderdetailid, DeliveryId = deliveryid, Address = address, Note = note, Price = price, DateStart = datestart, DateEnd = dateend};
+                DeliveryDetail deliverydetail = new DeliveryDetail() 
+                { OrderDetailId = orderdetailid, DeliveryId = deliveryid, Address = address, Note = note, Price = float.Parse(price), DateStart = DateTime.Parse(datestart), DateEnd = DateTime.Parse(dateend)};
                 _context.DeliveryDetails.Add(deliverydetail);
                 _context.SaveChanges();
                 return Json(new { success = true, message = "khởi tạo thành công chi tiết vận chuyển" });
@@ -79,28 +96,28 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
 
             var obj = new
             {
-                orderdetailid = DeliveryDetails.OrderDetailId,
+                orderDetailid = DeliveryDetails.OrderDetailId,
                 deliveryId = DeliveryDetails.DeliveryId,
                 address = DeliveryDetails.Address,
                 note = DeliveryDetails.Note,
                 price = DeliveryDetails.Price,
-                dateStart = DeliveryDetails.DateStart,
-                dateEnd = DeliveryDetails.DateEnd
+                dateStart = DeliveryDetails.DateStart.GetValueOrDefault().ToString("yyyy-MM-dd"),
+                dateEnd = DeliveryDetails.DateEnd.GetValueOrDefault().ToString("yyyy-MM-dd")
 
             };
             return Json(new { data = obj });
         }
 
         [HttpPost]
-        public IActionResult Update(string orderdetailid, string deliveryid,string address, string note,float price, DateTime datestart, DateTime dateend)
-        {
+        public IActionResult Update(string orderdetailid, string deliveryid,string address, string note,string price, string datestart, string dateend)
+            {
             var obj = _context.DeliveryDetails.Find(orderdetailid);
             obj.DeliveryId = deliveryid;
             obj.Address = address;
             obj.Note = note;
-            obj.Price = price;
-            obj.DateStart = datestart;
-            obj.DateEnd = dateend;
+            obj.Price = float.Parse(price);
+            obj.DateStart = DateTime.Parse(datestart);
+            obj.DateEnd = DateTime.Parse(dateend);
             try
             {
 

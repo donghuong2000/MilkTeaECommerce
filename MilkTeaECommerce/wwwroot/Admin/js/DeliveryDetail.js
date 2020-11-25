@@ -4,15 +4,15 @@ $(document).ready(function () {
             "url": "/Admin/DeliveryDetail/GetAll"
         },
         "columns": [
-            { "data": "orderDetailId" },
-            { "data": "deliveryId" },
+            { "data": "orderdetailid" },
+            { "data": "deliveryid" },
             { "data": "address" },
             { "data": "note" },
             { "data": "price" },
-            { "data": "dateStart" },
-            { "data": "dateEnd" },
+            { "data": "datestart" },
+            { "data": "dateend" },
             {
-                "data": "orderDetailId",
+                "data": "orderdetailid",
                 "render": function (data) {
                     return `
                              <div class="text-center">
@@ -25,7 +25,7 @@ $(document).ready(function () {
                             </div>                           
                             
                            `;
-                }, "width": "40%"
+                }
             }
         ]
 
@@ -113,7 +113,8 @@ $('#EditModal').on('show.bs.modal', function (event) {
         url: '/Admin/DeliveryDetail/Get/' + ad,
         success: function (data) {
             console.log(data)
-            modal.find('#update_orderdetailid').val(data.data.orderdetailid)
+            console.log(modal.find('#update_dateend'))
+            modal.find('#update_orderdetailid').val(data.data.orderDetailid)
             modal.find('#update_deliveryid').val(data.data.deliveryId)
             modal.find('#update_address').val(data.data.address)
             modal.find('#update_note').val(data.data.note)
