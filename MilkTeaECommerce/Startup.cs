@@ -13,6 +13,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MilkTeaECommerce.Models;
+using MilkTeaECommerce.DataAccess.Repository.IRepository;
+using MilkTeaECommerce.DataAccess.Repository;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using MilkTeaECommerce.Utility;
 
 namespace MilkTeaECommerce
 {
@@ -31,13 +35,25 @@ namespace MilkTeaECommerce
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddUserManager<UserManager<ApplicationUser>>()
-                .AddSignInManager<SignInManager<ApplicationUser>>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-                
-            services.AddControllersWithViews();
+            services.AddDefaultIdentity<ApplicationUser>(options => {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+            .AddUserManager<UserManager<ApplicationUser>>()
+            .AddSignInManager<SignInManager<ApplicationUser>>()
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
+            services.AddSingleton<IEmailSender, EmailSender>();
+            
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Login";
+                options.LogoutPath = $"/Identity/Logout";
+                options.AccessDeniedPath = $"/Identity/AccessDenied";
+            });
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
@@ -65,13 +81,15 @@ namespace MilkTeaECommerce
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "Admin",
-                    pattern: "{area=Admin}/{controller=Discounts}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+
+                endpoints.MapAreaControllerRoute(
+                   name: "Admin",
+                   areaName: "Admin",
+                   pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
+                
+                
+
             });
         }
     }
