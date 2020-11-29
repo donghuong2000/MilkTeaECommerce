@@ -82,6 +82,10 @@ namespace MilkTeaECommerce
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapAreaControllerRoute(
+                   name: "Seller",
+                   areaName: "Seller",
+                   pattern: "Seller/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapAreaControllerRoute(
                    name: "Admin",
                    areaName: "Admin",
                    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
