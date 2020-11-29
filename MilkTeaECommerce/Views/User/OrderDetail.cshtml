@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewData["Title"] = "OrderDetail";
+}
+
+<h1 class="text-center">Order Detail</h1>
+<hr />
+<div class="row">
+    <div class="col-md-3 ">
+        <div class="list-group">
+            <a asp-action="Index" asp-controller="User" class="list-group-item list-group-item-action ">
+                List Product
+            </a>
+            <a class="list-group-item list-group-item-action">Home</a>
+            <a asp-action="Profile" asp-controller="User" class="list-group-item list-group-item-action ">Info</a>
+            <a asp-action="OrderDetail" asp-controller="User" class="list-group-item list-group-item-action active">Bill Info</a>
+            <a href="#" class="list-group-item list-group-item-action">Some thing else</a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <ul class="nav nav-pills mb-3 row" id="pills-tab" role="tablist">
+            <li class="nav-item col-md-2 text-center" role="presentation">
+                <a class="nav-link active" id="pills-wait-tab" data-toggle="pill" href="#pills-wait" role="tab" aria-controls="pills-wait" aria-selected="true">Chờ xác nhận</a>
+            </li>
+            <li class="nav-item col-md-2 text-center" role="presentation">
+                <a class="nav-link" id="pills-comfirm-tab" data-toggle="pill" href="#pills-comfirm" role="tab" aria-controls="pills-comfirm" aria-selected="false">Đã xác nhận</a>
+            </li>
+            <li class="nav-item col-md-2 text-center" role="presentation">
+                <a class="nav-link" id="pills-delivery-tab" data-toggle="pill" href="#pills-delivery" role="tab" aria-controls="pills-delivery" aria-selected="false">Vận chuyển</a>
+            </li>
+            <li class="nav-item col-md-2 text-center" role="presentation">
+                <a class="nav-link" id="pills-recived-tab" data-toggle="pill" href="#pills-recived" role="tab" aria-controls="pills-recived" aria-selected="false">Đã nhận</a>
+            </li>
+            <li class="nav-item col-md-2 text-center" role="presentation">
+                <a class="nav-link" id="pills-evaluate-tab" data-toggle="pill" href="#pills-evaluate" role="tab" aria-controls="pills-evaluate" aria-selected="false">Đánh giá</a>
+            </li>
+        </ul>
+        <div style="margin-top:30px" class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade" id="pills-wait" role="tabpanel" aria-labelledby="pills-wait-tab">
+                <div class="wait-confirm-list">
+                    <partial name="_OrderDetailUserPartial" />
+                    <partial name="_OrderDetailUserPartial" />
+                    <partial name="_OrderDetailUserPartial" />
+                    <partial name="_OrderDetailUserPartial" />
+                </div>
+
+
+            </div>
+            <div class="tab-pane fade" id="pills-comfirm" role="tabpanel" aria-labelledby="pills-comfirm-tab">
+                <div class="wait-confirm-list">
+                    <partial name="_OrderDetailUserPartial" />
+                    <partial name="_OrderDetailUserPartial" />
+                    <partial name="_OrderDetailUserPartial" />
+                    <partial name="_OrderDetailUserPartial" />
+                </div>
+
+            </div>
+            <div class="tab-pane fade" id="pills-delivery" role="tabpanel" aria-labelledby="pills-delivery-tab">
+
+                đang vận chuyển
+
+            </div>
+            <div class="tab-pane fade" id="pills-recived" role="tabpanel" aria-labelledby="pills-recived-tab">
+
+                đã nhận
+
+            </div>
+            <div class="tab-pane fade" id="pills-evaluate" role="tabpanel" aria-labelledby="pills-evaluate-tab">
+
+                đánh giá
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+@section header {
+    <link href="~/css/orderdetail.css" rel="stylesheet" />
+}
+

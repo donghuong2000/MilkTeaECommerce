@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MilkTeaECommerce.Data;
 
 namespace MilkTeaECommerce.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201124070346_addcol")]
+    partial class addcol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -379,9 +381,6 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasMaxLength(450);
 
-                    b.Property<string>("ShipperId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -390,8 +389,6 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                     b.HasIndex("OrderHeaderId");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("ShipperId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -685,10 +682,6 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .HasForeignKey("ProductId")
                         .HasConstraintName("FK_OrderDetail_Product")
                         .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("MilkTeaECommerce.Models.ApplicationUser", "Shipper")
-                        .WithMany()
-                        .HasForeignKey("ShipperId");
                 });
 
             modelBuilder.Entity("MilkTeaECommerce.Models.OrderHeader", b =>
