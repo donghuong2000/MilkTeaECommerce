@@ -23,6 +23,8 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         // GET: Admin/Products
         public IActionResult Index()
         {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+            ViewData["ShopId"] = new SelectList(_context.Shops, "Id", "Id");
             return View();
         }
         public IActionResult GetAll()
@@ -52,38 +54,17 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             }
             return Json(new { items = obj });
         }
-        //// GET: Admin/Products/Details/5
-        //public async Task<IActionResult> Details(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var product = await _context.Products
-        //        .Include(p => p.Category)
-        //        .Include(p => p.Shop)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(product);
-        //}
-
-        // POST: Admin/Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public IActionResult Create(string id, string name, string description, string imageurl, float price,string status, int quantity, string categoryid, string shopid)
+        public IActionResult Create(string id, string name, string description, string imageUrl, float price,string status, int quantity, string categoryId, string shopId)
         {
             try
             {
-                Product product = new Product() { Id = id, Name = name, Description = description, ImageUrl = imageurl, Price = price, Status = status,Quantity = quantity, CategoryId = categoryid, ShopId = shopid };
+                Product product = new Product() { Id = id, Name = name, Description = description, ImageUrl = imageUrl, Price = price, Status = status,Quantity = quantity, CategoryId = categoryId, ShopId = shopId };
                 _context.Products.Add(product);
                 _context.SaveChanges();
+                
                 return Json(new { success = true, message = "khởi tạo thành công danh mục" });
             }
             catch (Exception ex)
@@ -112,7 +93,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             };
             return Json(new { data = obj });
         }
-        // GET: Admin/Products/Edit/5
+        //GET: Admin/Products/Edit/5
         public IActionResult Edit(string id)
         {
             if (id == null)
@@ -125,8 +106,6 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "name");
-            ViewData["ShopId"] = new SelectList(_context.Shops, "ApplicationUserId", "ApplicationUserId");
             return Json(new { data = product });
         }
 

@@ -1,0 +1,147 @@
+﻿@model IEnumerable<MilkTeaECommerce.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Tables</h1>
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex align-items-center">
+
+        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <a href="#" data-toggle="modal" data-target="#CreateModalCategory" class="btn btn-primary ml-auto">Tạo sản phẩm</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="categoryTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            Mã loại
+                        </th>
+                        <th>
+                            Tên loại
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>
+                            Mã loại
+                        </th>
+                        <th>
+                            Tên loại
+                        </th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- đây là cho create modal-->
+<div class="modal fade" id="CreateModalCategory" tabindex="-1" role="dialog" aria-labelledby="CreateModalLabelCategory" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateModalLabelCategory">Tạo loại sản phẩm</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false">
+                    <div class="form-group">
+                        <label>Mã loại</label>
+                        <input class=" form-control " type="text" id="create_categoryid" />
+
+                    </div>
+                    <div class="form-group">
+                        <label>Tên loại</label>
+                        <input class=" form-control " type="text" id="create_categoryname" />
+                    </div>
+                    <input data-dismiss="modal" class=" form-control btn btn-primary" type="submit" id="CreateSubmitCategory" value="Tạo" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- đây là cho edit modal-->
+<div class="modal fade" id="EditModalCategory" tabindex="-1" role="dialog" aria-labelledby="EditModalLabelCategory" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditModalLabelCategory">Tạo loại sản phẩm</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false">
+                    <div class="form-group">
+                        <label>Mã loại</label>
+                        <input class=" form-control " type="text" id="update_categoryid" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Tên loại</label>
+                        <input class=" form-control " type="text" id="update_categoryname" />
+                    </div>
+                    <input data-dismiss="modal" class=" form-control btn btn-primary" type="submit" id="EditSubmitCategory" value="Lưu" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- đây là cho edit modal-->
+<div class="modal fade" id="DetailModalCategory" tabindex="-1" role="dialog" aria-labelledby="DetailModalLabelCategory" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DetailModalLabelCategory">Tạo loại sản phẩm</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false">
+                    
+                    <div class="form-group">
+                        <label>Mã loại</label>
+                        <input class=" form-control " type="text" id="detail_categoryid" readonly />
+
+                    </div>
+                    <div class="form-group">
+                        <label>Tên loại</label>
+                        <input class=" form-control " type="text" id="detail_categoryname" />
+                    </div>
+                    <a href="/Admin/Categories/Index" class="btn btn-dark">Quay lại</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <!-- Page level plugins -->
+    <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Admin/js/build/toastr.min.js"></script>
+    <!--cái này của thông báo-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!--cái này của selectlist search-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="~/Admin/js/Category.js"></script>
+
+}
+@section Header{
+
+    <!--cái này của selectlist search-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <!--cái này của thông báo-->
+    <link href="~/Admin/js/build/toastr.css" rel="stylesheet" />
+}

@@ -11,7 +11,7 @@
             { "data": "price" },
             { "data": "status" },
             { "data": "quantity" },
-            { "data": "category" },
+            { "data": "categoryId" },
             { "data": "shopId" },
             {
                 "data": "id",
@@ -69,12 +69,12 @@ $('#CreateSubmitProduct').click(function () {
     var Price = $('#create_productprice').val();
     var Status = $('#create_productstatus').val();
     var Quantity = $('#create_productquantity').val();
-    var Category = $('#create_productcategory').val();
-    var ShopId = $('#create_productshopid').val();
+    var Category = $("#create_productcategory").find(":selected").val();
+    var ShopId = $('#create_productshopid').find(":selected").val();
     $.ajax({
         method: 'POST',
         url: "/Admin/Products/Create",
-        data: { id: Id, name: Name, description: Description, imageUrl: ImageUrl, price: Price, status: Status, quantity: Quantity, category: Category, shopId: ShopId },
+        data: { id: Id, name: Name, description: Description, imageUrl: ImageUrl, price: Price, status: Status, quantity: Quantity, categoryid: Category, shopId: ShopId },
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         success: function (data) {
             if (data.success) {
@@ -124,14 +124,14 @@ $('#EditModalProduct').on('show.bs.modal', function (event) {
         success: function (data) {
             console.log(data)
             modal.find('#update_productid_old').val(data.data.id)
-            modal.find('#update_deliveriesid_new').val(data.data.id)
+            //modal.find('#update_deliveriesid_new').val(data.data.id)
             modal.find('#update_productname').val(data.data.name)
             modal.find('#update_productdescription').val(data.data.description)
             modal.find('#update_productimage').val(data.data.imageUrl)
             modal.find('#update_productprice').val(data.data.price)
             modal.find('#update_productstatus').val(data.data.status)
             modal.find('#update_productquantity').val(data.data.quantity)
-            modal.find('#update_productcategory').val(data.data.category)
+            modal.find('#update_productcategory').val(data.data.categoryId)
             modal.find('#update_productshopid').val(data.data.shopId)
             //modal.find().val(data.data[0].id)
         }
@@ -157,7 +157,7 @@ $('#DetailModalProduct').on('show.bs.modal', function (event) {
             modal.find('#update_productprice').val(data.data.price)
             modal.find('#update_productstatus').val(data.data.status)
             modal.find('#update_productquantity').val(data.data.quantity)
-            modal.find('#update_productcategory').val(data.data.category)
+            modal.find('#update_productcategory').val(data.data.category.name)
             modal.find('#update_productshopid').val(data.data.shopId)
             //modal.find().val(data.data[0].id)
         }
