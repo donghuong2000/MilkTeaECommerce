@@ -1,0 +1,70 @@
+﻿@model MilkTeaECommerce.Models.Models.DeliveryDetailViewModel
+
+
+<div class="modal fade" id="Detail">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h4>Chi tiết đơn hàng</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <dl class="row">
+                        <dt class="col-sm-3">
+                            Mã đơn hàng
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input  id="Name" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Người nhận
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input  id="Name" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Địa chỉ
+                        </dt>
+                        <dd class="col-sm-9">
+                            <textarea  id="Description" class="form-control" disabled></textarea>
+                        </dd>
+                        <dt class="col-sm-3">
+                            Tên sản phẩm
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input id="DateStart" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Tổng tiền
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input id="DateStart" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Ghi chú
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input id="DateStart" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Phí ship
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input id="DateExpired" class="form-control" disabled />
+                        </dd>
+
+                        <dt class="col-sm-3">
+                            Ngày bắt đầu
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input id="TimesUseLimit" class="form-control" disabled />
+                        </dd>
+                    </dl>
+                </form>
+                <div>
+                    <a asp-action="Index">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
