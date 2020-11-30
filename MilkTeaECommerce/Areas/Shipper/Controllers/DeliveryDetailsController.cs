@@ -42,18 +42,21 @@ namespace MilkTeaECommerce.Areas.Shipper
             });
             return Json(new { data = orderHeader });
         }
-        public IActionResult GetSelect()
-        {
-            var select = _context.Deliveries.Select(x => new
-            {
-                Id = x.Id,
-                Text = x.Name
-            });
-            return Json(new { items = select });
-        }
+        //public IActionResult GetSelect()
+        //{
+        //    var select = _context.Deliveries.Select(x => new
+        //    {
+        //        Id = x.Id,
+        //        Text = x.Name
+        //    });
+        //    return Json(new { items = select });
+        //}
         // GET: Shipper/DeliveryDetails
         public IActionResult Index()
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            ViewBag.ShipperId = claim.Value;
             return View();
         }
 
@@ -100,6 +103,7 @@ namespace MilkTeaECommerce.Areas.Shipper
 
         // POST: Shipper/DeliveryDetails/Delete/5
         [HttpPost]
+        
         public async Task<IActionResult> Get(string id)
         {
             // add deliveryId cho DeliveryDetail
@@ -107,12 +111,27 @@ namespace MilkTeaECommerce.Areas.Shipper
             orderDetail.Status = "Đã nhận đơn";
 
             // add shipper id   + add vào shopping cartx    
-            //var claimsIdentity = (ClaimsIdentity)User.Identity;
-            //var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             //orderDetail.ShipperId = claim.Value;
+            var shoppingCart= new ShoppingCart{
+                Id=Guid.NewGuid().ToString(),
+                ApplicationUserId=claim.Value,
+                // id don hang detail
+                //ProductId= orderDetail.Id,
+                //Count=1
+                
+            };
+            try
+            {
+                _context.ShoppingCarts.Add(shoppingCart);
+                _context.OrderDetails.Update(orderDetail);
+                 _context.SaveChanges();
+            }
+            catch(Exception e)
+            {
 
-            _context.OrderDetails.Update(orderDetail);
-            await _context.SaveChangesAsync();
+            }
             return Json(new { success = true });
         }
 
