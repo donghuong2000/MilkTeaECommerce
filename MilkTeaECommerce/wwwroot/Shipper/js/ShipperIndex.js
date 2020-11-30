@@ -27,30 +27,47 @@
         ]
 
     });
-});
+    $('#dataTableDetail').DataTable({
+        "ajax": {
+            "url": '/shipper/deliverydetails/getorder'
+        },
+        "columns": [
+            { "data": "headerId" },
+            { "data": "address" },
+            { "data": "phone" },
+            { "data": "payment" },
+            { "data": "price" },
+            { "data": "status" },
+            {
+                "data": "orderDetailId",
+                "render": function (data) {
+                    return `
+                             <div class="text-center" >
+                                <a href="/Shipper/DeliveryDetails/changestatus/${data}" 
+                                class="btn btn-success" style="font-size:small">Thay đổi trạng thái</a>
+                            </div>  
 
+                           `
+                }
+            }
+        ]
+
+    });
+});
 $('#Detail').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var idOrder = button.data('id') // Extract info from data-* attributes
     var modal = $(this)
+    console.log(idOrder)
     $.ajax({
         method: 'GET',
-        url: '/Shipper/DeliveryDetails/Details/' + idOrder,
+        url: '/Shipper/deliverydetails/changestatus/' + idOrder,
         success: function (data) {
-            console.log(data.idDiscount);
+            console.log(data);
+            
             modal.find('#Id').val(data.id);
-            modal.find('#Name').val(data.name);
-            modal.find('#Description').val(data.des);
-            modal.find('#DateStart').val(data.dateStart);
-            modal.find('#DateExpired').val(data.dateEnd);
-            modal.find('#TimesUsed').val(data.timeUsed);
-            modal.find('#TimesUseLimit').val(data.timeuselimit);
-            modal.find('#PercentDiscount').val(data.per);
-            modal.find('#MaxDiscount').val(data.max);
-            modal.find('#Code').val(data.code);
-            modal.find('#CategoryDiscount').val(data.cate);
-            modal.find('#DeliveryDiscount').val(data.deli);
-            modal.find('#ProductDiscount').val(data.prod);
+            modal.find('#Status').val(data.status);
+            modal.find('#Order').val(data.orderDetailId);
         }
     })
 })

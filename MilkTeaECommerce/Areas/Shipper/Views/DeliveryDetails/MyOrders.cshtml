@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Shopping";
+}
+
+<partial name="_ChangeStatus" model="new OrderDetail()" />
+
+    <div class="card shadow mb-4" id="Detail">
+        <div class="card-header py-3">
+            Đơn hàng đã nhận
+            @ViewBag.ShipperId
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTableDetail" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn hàng</th>
+                            <th>Địa chỉ</th>
+                            <th>Số điện thoại</th>
+                            <th>Phương thức thanh toán</th>
+                            <th>Giá</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+@section Header{
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+}
+
+@section Scripts {
+    <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Select 2-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="/Shipper/js/ShipperIndex.js"></script>
+}

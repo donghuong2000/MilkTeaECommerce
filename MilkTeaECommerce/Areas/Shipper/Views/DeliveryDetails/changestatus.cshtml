@@ -1,0 +1,32 @@
+﻿@model OrderDetail
+@{
+    ViewData["Title"] = "changestatus";
+}
+
+<div class="card justify-content-center col-sm-4">
+    <h5 class="modal-title">Đơn hàng @Model.Id</h5>
+</div>
+<div class="card-body col-sm-4">
+    <form class="form-group" asp-action="ChangeStatus" method="post">
+        <input id="Id" asp-for="Id" hidden />
+        <input  asp-for="OrderHeaderId" hidden />
+        <input  asp-for="ProductId" hidden />
+        <input  asp-for="ShipperId" hidden />
+        <input  asp-for="Count" hidden />
+        <input  asp-for="Price" hidden />
+
+        <select asp-for="Status" class="form-control">
+            <option>Chọn trạng thái</option>
+            <option value="Đã nhận đơn">Đã nhận đơn</option>
+            <option value="Đã lấy hàng">Đã lấy hàng</option>
+            <option value="Hoàn thành">Hoàn thành</option>
+        </select>
+        <label>Ghi chú</label>
+        <textarea class="form-control"></textarea>
+        <div class="modal-footer">
+            <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        </div>
+    </form>
+    
+</div>

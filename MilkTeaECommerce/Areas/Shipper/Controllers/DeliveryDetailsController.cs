@@ -42,16 +42,8 @@ namespace MilkTeaECommerce.Areas.Shipper
             });
             return Json(new { data = orderHeader });
         }
-        //public IActionResult GetSelect()
-        //{
-        //    var select = _context.Deliveries.Select(x => new
-        //    {
-        //        Id = x.Id,
-        //        Text = x.Name
-        //    });
-        //    return Json(new { items = select });
-        //}
-        // GET: Shipper/DeliveryDetails
+
+
         public IActionResult Index()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -81,30 +73,9 @@ namespace MilkTeaECommerce.Areas.Shipper
             return View(deliveryDetail);
         }
 
-        // GET: Shipper/DeliveryDetails/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var deliveryDetail = await _context.DeliveryDetails
-                .Include(d => d.Delivery)
-                .Include(d => d.OrderDetail)
-                .FirstOrDefaultAsync(m => m.OrderDetailId == id);
-            if (deliveryDetail == null)
-            {
-                return NotFound();
-            }
-
-            return View(deliveryDetail);
-        }
-
-        // POST: Shipper/DeliveryDetails/Delete/5
         [HttpPost]
         
-        public async Task<IActionResult> Get(string id)
+        public IActionResult Get(string id)
         {
             // add deliveryId cho DeliveryDetail
             var orderDetail = _context.OrderDetails.Where(x => x.Id == id).SingleOrDefault();
@@ -113,18 +84,10 @@ namespace MilkTeaECommerce.Areas.Shipper
             // add shipper id   + add vào shopping cartx    
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            //orderDetail.ShipperId = claim.Value;
-            var shoppingCart= new ShoppingCart{
-                Id=Guid.NewGuid().ToString(),
-                ApplicationUserId=claim.Value,
-                // id don hang detail
-                //ProductId= orderDetail.Id,
-                //Count=1
-                
-            };
+            orderDetail.ShipperId = claim.Value;
+           
             try
             {
-                _context.ShoppingCarts.Add(shoppingCart);
                 _context.OrderDetails.Update(orderDetail);
                  _context.SaveChanges();
             }
@@ -138,6 +101,59 @@ namespace MilkTeaECommerce.Areas.Shipper
         private bool DeliveryDetailExists(string id)
         {
             return _context.DeliveryDetails.Any(e => e.OrderDetailId == id);
+        }
+        [HttpGet]
+        public IActionResult getorder()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            // các đơn hàng của shipper chưa hoàn thành
+            var order = _context.OrderDetails.Include(x=>x.OrderHeader)
+                .Where(x => x.ShipperId == claim.Value && x.Status != "Hoàn thành")
+                .Select(x => new
+            {
+                    headerId = x.OrderHeader.Id,
+                    price = x.OrderHeader.Price.GetValueOrDefault().ToString("#,###"),
+                    payment = x.OrderHeader.PaymentStatus,
+                    address = x.OrderHeader.Address,
+                    phone = x.OrderHeader.Phone,
+                    status=x.Status,
+                    orderDetailId = x.Id
+            });
+            return Json(new { data = order });
+        }
+        public IActionResult MyOrders()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            ViewBag.ShipperId = claim.Value;
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult changestatus(string id)
+        {
+            // cần chuyển qua modal ajax
+
+
+            var status = _context.OrderDetails.Where(x => x.Id == id).SingleOrDefault();
+            //return Json(new { data = status });
+            return View(status);
+        }
+        [HttpPost]
+        public IActionResult ChangeStatus(OrderDetail order)
+        {
+            try
+            {
+                _context.OrderDetails.Update(order);
+                _context.SaveChanges();
+            }
+            catch
+            {
+
+            }
+            return RedirectToAction(nameof(MyOrders));
         }
     }
 }
