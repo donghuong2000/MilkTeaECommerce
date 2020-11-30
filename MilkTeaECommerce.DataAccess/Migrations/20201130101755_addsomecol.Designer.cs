@@ -10,8 +10,8 @@ using MilkTeaECommerce.Data;
 namespace MilkTeaECommerce.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201129042530_andshipperToOrderDetail")]
-    partial class andshipperToOrderDetail
+    [Migration("20201130101755_addsomecol")]
+    partial class addsomecol
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -524,12 +524,12 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                     b.Property<string>("ImgUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsConfirm")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
-
-                    b.Property<float?>("Rate")
-                        .HasColumnType("real");
 
                     b.HasKey("ApplicationUserId")
                         .HasName("PK__Shops__9CBCE319A2F8A378");
