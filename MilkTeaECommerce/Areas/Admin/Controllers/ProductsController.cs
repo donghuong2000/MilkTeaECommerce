@@ -23,8 +23,8 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         // GET: Admin/Products
         public IActionResult Index()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
-            ViewData["ShopId"] = new SelectList(_context.Shops, "Id", "Id");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
+            ViewData["ShopId"] = new SelectList(_context.Shops, "Id", "I");
             return View();
         }
         public IActionResult GetAll()
@@ -42,7 +42,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                     Description = x.Description,
                     ImageUrl = x.ImageUrl,
                     Price = x.Price,
-                    Status = x.Status,
+                    //Status = x.Status,
                     Quantity = x.Quantity,
                     CategoryId = x.CategoryId,
                     ShopId = x.ShopId,
@@ -61,7 +61,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         {
             try
             {
-                Product product = new Product() { Id = id, Name = name, Description = description, ImageUrl = imageUrl, Price = price, Status = status,Quantity = quantity, CategoryId = categoryId, ShopId = shopId };
+                Product product = new Product() { Id = id, Name = name, Description = description, ImageUrl = imageUrl, Price = price,Quantity = quantity, CategoryId = categoryId, ShopId = shopId };
                 _context.Products.Add(product);
                 _context.SaveChanges();
                 
@@ -84,7 +84,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 description = product.Description,
                 imageurl = product.ImageUrl,
                 price = product.Price,
-                status = product.Status,
+                //status = product.Status,
                 quantity = product.Quantity,
                 categoryId = product.CategoryId,
                 shopId = product.ShopId,
@@ -121,7 +121,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             obj.Description = description;
             obj.ImageUrl = imageurl;
             obj.Price = price;
-            obj.Status = status;
+            //obj.Status = status;
             obj.Quantity = quantity;
             obj.CategoryId = categoryid;
             obj.ShopId = shopid;

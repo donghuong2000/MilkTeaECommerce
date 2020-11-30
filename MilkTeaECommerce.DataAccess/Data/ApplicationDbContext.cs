@@ -172,8 +172,6 @@ namespace MilkTeaECommerce.Data
 
                 entity.Property(e => e.ShopId).HasMaxLength(450);
 
-                entity.Property(e => e.Status).HasMaxLength(100);
-
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CategoryId)
