@@ -3,32 +3,71 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="container">
+    <ul class="nav nav-pills mb-3 row " id="pills-tab" role="tablist">
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link active" id="pills-comfirm-tab" data-toggle="pill" href="#pills-comfirm" role="tab" aria-controls="pills-comfirm" aria-selected="true">Nhận đơn</a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="pills-wait-tab" data-toggle="pill" href="#pills-wait" role="tab" aria-controls="pills-wait" aria-selected="false">Đã nhận đơn</a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="pills-delivery-tab" data-toggle="pill" href="#pills-delivery" role="tab" aria-controls="pills-delivery" aria-selected="false">Đã lấy hàng</a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="pills-deliveried-tab" data-toggle="pill" href="#pills-deliveried" role="tab" aria-controls="pills-deliveried" aria-selected="false">Hoàn thành</a>
+        </li>
+    </ul>
+</div>
+
+<div>
+    <partial name="_Detail" model="new OrderDetail()" />
+</div>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         Đơn hàng
-        @ViewBag.ShipperId
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Mã đơn hàng</th>
-                        <th>Địa chỉ</th>
-                        <th>Số điện thoại</th>
-                        <th>Phương thức thanh toán</th>
-                        <th>Giá</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-comfirm" role="tabpanel" aria-labelledby="pills-comfirm-tab">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Tên khách hàng</th>
+                                <th>Địa chỉ giao</th>
+                                <th>Tên shop</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                @*<div class="tab-pane fade show active" id="pills-comfirm" role="tabpanel" aria-labelledby="pills-comfirm-tab">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Tên khách hàng</th>
+                                <th>Địa chỉ giao</th>
+                                <th>Tên shop</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>*@
+            </div>
         </div>
     </div>
 </div>
-
 @section Header{
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
 }

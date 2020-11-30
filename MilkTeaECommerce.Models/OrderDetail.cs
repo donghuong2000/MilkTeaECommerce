@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MilkTeaECommerce.Models
 {
@@ -14,6 +15,8 @@ namespace MilkTeaECommerce.Models
         // y thêm tạm vào do chưa scaffold 
         //nhớ xóa
         public string ShipperId { get; set; }
+        [ForeignKey("ShipperId")]
+        public ApplicationUser Shipper { get; set; }
         public virtual OrderHeader OrderHeader { get; set; }
         public virtual Product Product { get; set; }
         public virtual DeliveryDetail DeliveryDetails { get; set; }

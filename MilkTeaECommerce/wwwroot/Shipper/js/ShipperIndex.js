@@ -4,42 +4,61 @@
             "url": '/shipper/deliverydetails/getall'
         },
         "columns": [
-            { "data": "headerId" },
-            { "data": "address" },
-            { "data": "phone" },    
-            { "data": "payment" },
-            { "data": "price" },  
             {
-                "data": "orderDetailId",
+                "data": "image",
+                "render": function (data) {
+                    return `
+                            <img src="${data} />
+                            `
+                }
+            },
+            { "data": "title" },
+            //{ "data": "quantity" },
+            //{ "data": "price" },
+            { "data": "customer" },
+            { "data": "address" },
+            //{ "data": "payment" },
+            { "data": "shopName" },
+            {
+                "data": "id",
                 "render": function (data) {
                     return `
                              <div class="text-center" >
                                 <a href="/Shipper/DeliveryDetails/Details/${data}" 
                                 class="btn btn-success" style="font-size:small">Details</a>
-                                <a onClick=Delete("/Shipper/DeliveryDetails/Get/${data}") class="btn btn-danger text-white" style="cursor:pointer">
-                                   Nhận
-                                </a>
+                                <a href="/Shipper/DeliveryDetails/Details/${data}" 
+                                class="btn btn-success" style="font-size:small">Details</a>
+                                 <a href="#" data-target="#Detail" data-toggle="modal" data-id="${data}" 
+                                class="btn btn-success" style="font-size:small">Nhaanj</a>
                             </div>  
 
                            `
                 }
             }
         ]
-
     });
     $('#dataTableDetail').DataTable({
         "ajax": {
             "url": '/shipper/deliverydetails/getorder'
         },
         "columns": [
-            { "data": "headerId" },
-            { "data": "address" },
-            { "data": "phone" },
-            { "data": "payment" },
-            { "data": "price" },
-            { "data": "status" },
             {
-                "data": "orderDetailId",
+                "data": "image",
+                "render": function (data) {
+                    return `
+                            <img src="${data} />
+                            `
+                }
+            },
+            { "data": "title" },
+            //{ "data": "quantity" },
+            //{ "data": "price" },
+            { "data": "customer" },
+            { "data": "address" },
+            //{ "data": "payment" },
+            { "data": "shopName" },
+            {
+                "data": "id",
                 "render": function (data) {
                     return `
                              <div class="text-center" >
@@ -61,13 +80,20 @@ $('#Detail').on('show.bs.modal', function (event) {
     console.log(idOrder)
     $.ajax({
         method: 'GET',
-        url: '/Shipper/deliverydetails/changestatus/' + idOrder,
+        url: '/Shipper/deliverydetails/Details/' + idOrder,
         success: function (data) {
             console.log(data);
-            
+            console.log(modal.find('#Id').val());
             modal.find('#Id').val(data.id);
-            modal.find('#Status').val(data.status);
-            modal.find('#Order').val(data.orderDetailId);
+            modal.find('#NameP').val(data.title);
+            modal.find('#Image').val(data.image);
+            modal.find('#Count').val(data.count);
+            modal.find('#Price').val(data.price);
+            modal.find('#NameC').val(data.customer);
+            modal.find('#Address').val(data.address);
+            modal.find('#Payment').val(data.payment);
+            modal.find('#NameS').val(data.shopName);
+            //modal.find('#AddressS').val(data.orderDetailId);
         }
     })
 })

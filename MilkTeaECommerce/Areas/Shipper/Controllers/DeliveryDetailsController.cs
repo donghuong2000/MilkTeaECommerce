@@ -24,21 +24,17 @@ namespace MilkTeaECommerce.Areas.Shipper
         public IActionResult GetAll()
         {
 
-            var orderHeader = _context.OrderDetails.Include(x=>x.OrderHeader).Where(x=>x.Status==null).Select(x => new
+            var orderHeader = _context.OrderDetails.Include(x=>x.OrderHeader).Include(x=>x.Product)
+                .Where(x=>x.Status==null).Select(x => new
             {
-                //id=x.Id,
-                //orderHeaderId=x.OrderHeaderId,
-                //productId=x.ProductId,
-                //count=x.Count,
-                //price=x.Price,
-                //status=x.Status,
-                headerId=x.OrderHeader.Id,
-                price=x.OrderHeader.Price.GetValueOrDefault().ToString("#,###"),
-                payment =x.OrderHeader.PaymentStatus,
+                id=x.Id,
+                image=x.Product.ImageUrl,
+                title=x.Product.Name,
+                price=x.Price,
+                customer=x.OrderHeader.ApplicationUser.Name,
                 address=x.OrderHeader.Address,
-                phone=x.OrderHeader.Phone,
-                orderDetailId=x.Id,
-                shop=x.OrderHeader.ApplicationUserId
+                payment=x.OrderHeader.PaymentStatus,
+                shopName=x.Product.Shop.Name
             });
             return Json(new { data = orderHeader });
         }
@@ -54,23 +50,34 @@ namespace MilkTeaECommerce.Areas.Shipper
 
         // GET: Shipper/DeliveryDetails/Details/5
         [HttpGet]
-        public async Task<IActionResult> Details(string id)
+        public IActionResult Details(string id)
         {
+            // xem detail owr index
             if (id == null)
             {
                 return NotFound();
             }
 
-            var deliveryDetail = await _context.DeliveryDetails
-                .Include(d => d.Delivery)
-                .Include(d => d.OrderDetail)
-                .FirstOrDefaultAsync(m => m.OrderDetailId == id);
-            if (deliveryDetail == null)
+            var orderHeader = _context.OrderDetails.Include(x => x.OrderHeader).Include(x => x.Product)
+                .Where(x => x.Status == null && x.Id==id).Select(x => new
+                {
+                    id = x.Id,
+                    image = x.Product.ImageUrl,
+                    title = x.Product.Name,
+                    count=x.Count,
+                    price = x.Price,
+                    customer = x.OrderHeader.ApplicationUser.Name,
+                    address = x.OrderHeader.Address,
+                    payment = x.OrderHeader.PaymentStatus,
+                    shopName = x.Product.Shop.Name
+                }).SingleOrDefault();
+            
+            if (orderHeader == null)
             {
                 return NotFound();
             }
 
-            return View(deliveryDetail);
+            return Json(new { data = orderHeader });
         }
 
         [HttpPost]
@@ -113,14 +120,15 @@ namespace MilkTeaECommerce.Areas.Shipper
                 .Where(x => x.ShipperId == claim.Value && x.Status != "Hoàn thành")
                 .Select(x => new
             {
-                    headerId = x.OrderHeader.Id,
-                    price = x.OrderHeader.Price.GetValueOrDefault().ToString("#,###"),
-                    payment = x.OrderHeader.PaymentStatus,
+                    id = x.Id,
+                    image = x.Product.ImageUrl,
+                    title = x.Product.Name,
+                    price = x.Price,
+                    customer = x.OrderHeader.ApplicationUser.Name,
                     address = x.OrderHeader.Address,
-                    phone = x.OrderHeader.Phone,
-                    status=x.Status,
-                    orderDetailId = x.Id
-            });
+                    payment = x.OrderHeader.PaymentStatus,
+                    shopName = x.Product.Shop.Name
+                });
             return Json(new { data = order });
         }
         public IActionResult MyOrders()

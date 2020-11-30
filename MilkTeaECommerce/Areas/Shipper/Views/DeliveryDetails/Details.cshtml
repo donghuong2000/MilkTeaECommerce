@@ -1,4 +1,4 @@
-﻿@model MilkTeaECommerce.Models.DeliveryDetail
+﻿@model MilkTeaECommerce.Models.OrderDetail
 
 @{
     ViewData["Title"] = "Details";
@@ -8,13 +8,13 @@
 <h4 class="row justify-content-center">Chi tiết đơn hàng</h4>
 <hr />
 <div class="row justify-content-center">
-    <form class="form-group col-sm-6" >
+    <form class="form-group col-sm-6">
         <dl class="row ">
-            <dt class="col-sm-3">Mã đơn hàng</dt>
-            <dd class="col-sm-7">
-                <input  name="Id" class="form-control" disabled />
-            </dd>
             <dt class="col-sm-3">Tên sản phẩm</dt>
+            <dd class="col-sm-7">
+                <input name="Id" class="form-control" disabled />
+            </dd>
+            <dt class="col-sm-3">Hình ảnh</dt>
             <dd class="col-sm-7">
                 <input name="ProductName" class="form-control" disabled />
             </dd>
@@ -22,11 +22,20 @@
             <dd class="col-sm-7">
                 <input name="Count" class="form-control" disabled />
             </dd>
-            <dt class="col-sm-3">Địa chỉ</dt>
+            <dt class="col-sm-3">Tổng tiền</dt>
             <dd class="col-sm-7">
                 <input name="Address" class="form-control" disabled />
             </dd>
-            <dt class="col-sm-3">Số điện thoại</dt>
+
+            <dt class="col-sm-5">Thông tin khách hàng</dt>
+            <dd class="col-sm-5">
+                <hr />
+            </dd>
+            <dt class="col-sm-3">Tên khách hàng</dt>
+            <dd class="col-sm-7">
+                <input name="Phone" class="form-control" disabled />
+            </dd>
+            <dt class="col-sm-3">Địa chỉ</dt>
             <dd class="col-sm-7">
                 <input name="Phone" class="form-control" disabled />
             </dd>
@@ -34,15 +43,26 @@
             <dd class="col-sm-7">
                 <input name="Payment" class="form-control" disabled />
             </dd>
-            <dt class="col-sm-3">Tổng tiền</dt>
+            <dt class="col-sm-5">Thông tin của hàng</dt>
+            <dd class="col-sm-5">
+                <hr />
+            </dd>
+            <dt class="col-sm-3">Tên cửa hàng</dt>
+            <dd class="col-sm-7">
+                <input name="Price" class="form-control" disabled />
+            </dd>
+            <dt class="col-sm-3">Địa chỉ</dt>
             <dd class="col-sm-7">
                 <input name="Price" class="form-control" disabled />
             </dd>
         </dl>
+        <div>
+            <a onClick=Delete("/Shipper/DeliveryDetails/Get/@Model.Id") class="btn btn-danger text-white" style="cursor:pointer">
+                Nhận
+            </a>
+            <a asp-action="Index">Trở lại</a>
+        </div>
+
     </form>
-  
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.OrderDetailId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
 </div>
