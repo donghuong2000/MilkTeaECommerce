@@ -15,7 +15,7 @@ namespace MilkTeaECommerce.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.8")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -379,6 +379,9 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasMaxLength(450);
 
+                    b.Property<string>("ShipperId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -387,6 +390,8 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                     b.HasIndex("OrderHeaderId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("ShipperId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -562,6 +567,9 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -677,6 +685,10 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .HasForeignKey("ProductId")
                         .HasConstraintName("FK_OrderDetail_Product")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("MilkTeaECommerce.Models.ApplicationUser", "Shipper")
+                        .WithMany()
+                        .HasForeignKey("ShipperId");
                 });
 
             modelBuilder.Entity("MilkTeaECommerce.Models.OrderHeader", b =>

@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using MilkTeaECommerce.Models;
 using MilkTeaECommerce.DataAccess.Repository.IRepository;
 using MilkTeaECommerce.DataAccess.Repository;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using MilkTeaECommerce.Utility;
 
 namespace MilkTeaECommerce
 {
@@ -33,11 +35,17 @@ namespace MilkTeaECommerce
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<ApplicationUser>()
-                .AddUserManager<UserManager<ApplicationUser>>()
-                .AddSignInManager<SignInManager<ApplicationUser>>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>(options => {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+            .AddUserManager<UserManager<ApplicationUser>>()
+            .AddSignInManager<SignInManager<ApplicationUser>>()
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
+            services.AddSingleton<IEmailSender, EmailSender>();
+            
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.ConfigureApplicationCookie(options =>
@@ -73,6 +81,11 @@ namespace MilkTeaECommerce
 
             app.UseEndpoints(endpoints =>
             {
+
+                endpoints.MapAreaControllerRoute(
+                   name: "Seller",
+                   areaName: "Seller",
+                   pattern: "Seller/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapAreaControllerRoute(
                    name: "Admin",
                    areaName: "Admin",
@@ -80,6 +93,7 @@ namespace MilkTeaECommerce
                 endpoints.MapDefaultControllerRoute();
                 
                 
+
             });
         }
     }

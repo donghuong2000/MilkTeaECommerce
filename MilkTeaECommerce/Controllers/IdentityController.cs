@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using MilkTeaECommerce.Models;
 using MilkTeaECommerce.Models.Models;
 
@@ -15,10 +19,12 @@ namespace MilkTeaECommerce.Controllers
         private static string _returnUrl;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        public IdentityController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        private readonly IEmailSender _emailSender;
+        public IdentityController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         [HttpPost]
@@ -42,7 +48,7 @@ namespace MilkTeaECommerce.Controllers
             return Json(new { success = false, message = "Account ko hợp lệ" });
 
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> SignUp(string name,string email,string sdt,string username,string password)
         {
@@ -52,9 +58,29 @@ namespace MilkTeaECommerce.Controllers
 
             if(result.Succeeded)
             {
+                // xác nhận mail 
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Action(
+                    "ConfirmEmail",
+                    "Identity",
+                    values: new { userId = user.Id, code = code},
+                    protocol: Request.Scheme,
+                    host: Request.Host.Value);
+                await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
+                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
                 await _userManager.AddToRoleAsync(user, "Customer");
-                await _signInManager.SignInAsync(user, false);
-                return Json(new { success = true, message = "SignUp Success" });
+                if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                {
+                    return Json(new { success = false, message = "comfirm email " });
+                }
+                else
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return Json(new { success = true, message = "SignUp Success" });
+
+                }
+
             }
             string er = "";
             foreach (var item in result.Errors)
@@ -65,6 +91,54 @@ namespace MilkTeaECommerce.Controllers
 
 
         }
+
+
+        public async Task<IActionResult> MailConfirm(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if(user != null)
+            {
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Action(
+                    "ConfirmEmail",
+                    "Identity",
+                    values: new { userId = user.Id, code = code },
+                    protocol: Request.Scheme,
+                    host: Request.Host.Value);
+                await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
+                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                return Json(new { message = "Please check your mail to confirm!" });
+            }
+            return Json(new { message = "Please check your mail to confirm!" });
+        }
+        public async Task<IActionResult> ConFirmEmail(string userId,string code)
+        {
+            if (userId == null || code == null)
+            {
+                return RedirectToAction("Index","home");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userId}'.");
+            }
+
+            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if(result.Succeeded)
+            {
+                return Content("đã xác nhận email thành công");
+            }    
+            else
+            {
+                return Content("đã xác nhận email không thành công");
+            }    
+            
+        }
+
+
         public async Task<IActionResult> Logout()
         {
 
@@ -123,6 +197,43 @@ namespace MilkTeaECommerce.Controllers
             
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            {
+                // Don't reveal that the user does not exist or is not confirmed
+                return Json(new { message = "Please check your email to reset your password." });
+            }
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            
+            await _emailSender.SendEmailAsync(
+                    email,
+                    "Reset Password",
+                    $"Please reset your password by use this token: "+code);
+            return Json(new { message = "Please check your email to reset your password." });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(string email,string password,string code )
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return Json(new { success = false, message = "something has been wrong" });
+            }
+            var result = await _userManager.ResetPasswordAsync(user, code, password);
+            if (result.Succeeded)
+            {
+                return Json(new { success = true, message = "Your password has been reset" });
+            }
+            return Json(new { success = false, message = "something has been wrong" });
+
+        }
+
 
         public IActionResult LockOut()
         {
