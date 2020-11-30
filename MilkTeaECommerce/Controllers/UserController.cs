@@ -107,6 +107,34 @@ namespace MilkTeaECommerce.Controllers
         {
             return View();
         }
-
+        public async Task<IActionResult> ShopChannel()
+        {
+            var curuser = await _userManager.GetUserAsync(User);
+            //check shop exits
+            var shop = _db.Shops.FirstOrDefault(x => x.ApplicationUserId == curuser.Id);
+            //shop chưa tạo
+           
+            if (shop == null)
+            {
+                var CanCreateShop = await _userManager.IsEmailConfirmedAsync(curuser);
+                if (CanCreateShop)
+                {
+                    var newshop = new Shop() { ApplicationUserId = curuser.Id, Name = curuser.Name, ImgUrl = "https://picsum.photos/200/300",Description="",IsConfirm=false };
+                    _db.Shops.Add(newshop);
+                    _db.SaveChanges();
+                    return Json(new { status = true, message = "Wait For Admin Confirm Your Shop" });
+                }
+                else
+                    return Json(new { status = false, message = "Please Confirm your mail to create shop" });
+            }
+            else
+            {
+                if (shop.IsConfirm)
+                {
+                    return Json(new { status = true, message = "OK", url = "/Seller" });
+                }
+                return Json(new { status = false, message = "Your Shop is pending or has been lock" });
+            }    
+        }
     }
 }

@@ -1,0 +1,74 @@
+﻿@model MilkTeaECommerce.Models.Models.ShopProfileViewModel
+@{
+    ViewData["Title"] = "ShopDetail";
+}
+
+<form method="post" asp-action="ShopDetail" enctype="multipart/form-data">
+    <div class="row p-3 border">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ApplicationUserId" />
+        <div class="col-12 border-bottom">
+            <h2 class="text-primary">ShopDetail</h2>
+        </div>
+
+        <div class="col-8 pt-4">
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Name">Tên cửa hàng</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Description">Mô tả</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    Hình ảnh
+                </div>
+                <div class="col-8">
+                    <input type="file" asp-for="File" class="form-control" />
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                <div class="col-8 offset-4">
+
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit"  class="btn btn-primary form-control">Lưu</button>
+                        </div>
+                        <div class="col">
+                            <button asp-action="Index" class="btn btn-success form-control">Trở về</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (Model.ImgUrl != null)
+        {
+            <div class="col-3 offset-1 pt-4">
+                <img src="@Model.ImgUrl" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
+            </div>
+        }
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
+

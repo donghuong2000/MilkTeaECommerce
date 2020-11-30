@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MilkTeaECommerce.Data;
+using MilkTeaECommerce.Models;
 
 namespace MilkTeaECommerce.Areas.Admin.Controllers
 {
@@ -12,8 +16,10 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
     public class ShopController : Controller
     {
         private readonly ApplicationDbContext _db;
+        
         public ShopController(ApplicationDbContext db)
         {
+            
             _db = db;
         }
         public IActionResult Index()
@@ -53,5 +59,6 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             
 
         }
+        
     }
 }
