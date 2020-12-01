@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using MilkTeaECommerce.Data;
 using MilkTeaECommerce.Models;
@@ -105,8 +106,31 @@ namespace MilkTeaECommerce.Controllers
         }
         public async Task<IActionResult> OrderDetail()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            var obj = _db.OrderDetails.Include(x => x.Product).ThenInclude(x => x.Shop)
+                .Include(x => x.DeliveryDetails).ThenInclude(x => x.Delivery)/*.Where(x=>x.OrderHeader.ApplicationUserId == user.Id)*/
+                .Select(x => new OrderDetailUserViewModel()
+                {
+                    shopimage = x.Product.Shop.ImgUrl,
+                    shopid = x.Product.Shop.ApplicationUserId,
+                    shopname = x.Product.Shop.Name,
+                    productimage = x.Product.ImageUrl,
+                    productid = x.Product.Id,
+                    productname = x.Product.Name,
+                    categoryname = x.Product.CategoryId,
+                    count = x.Count,
+                    deliveryandprice = x.DeliveryDetails.Delivery.Name + ":" + x.DeliveryDetails.Price,
+                    status = x.Status,
+                    beforeprice = x.Product.Price,
+                    afterprice = x.Product.Price,
+                    totalprice = x.Price,
+                    orderdetailid = x.Id,
+                }).ToList();
+                
+            
+            return View(obj);
         }
+
         public async Task<IActionResult> ShopChannel()
         {
             var curuser = await _userManager.GetUserAsync(User);

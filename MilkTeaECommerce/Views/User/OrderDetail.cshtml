@@ -1,4 +1,4 @@
-﻿
+﻿@model List<MilkTeaECommerce.Models.Models.OrderDetailUserViewModel> 
 @{
     ViewData["Title"] = "OrderDetail";
 }
@@ -38,20 +38,19 @@
         <div style="margin-top:30px" class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade" id="pills-wait" role="tabpanel" aria-labelledby="pills-wait-tab">
                 <div class="wait-confirm-list">
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
+                    @foreach (var item in Model)
+                    {
+                    <partial name="_OrderDetailUserPartial" model="item"/>
+                    }
+                    
+                   
                 </div>
 
 
             </div>
             <div class="tab-pane fade" id="pills-comfirm" role="tabpanel" aria-labelledby="pills-comfirm-tab">
                 <div class="wait-confirm-list">
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
+                   
                 </div>
 
             </div>
