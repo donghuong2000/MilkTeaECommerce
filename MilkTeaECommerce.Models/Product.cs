@@ -18,7 +18,7 @@ namespace MilkTeaECommerce.Models
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public float? Price { get; set; }
-        public string Status { get; set; }
+        public bool IsConfirm { get; set; }
         public int? Quantity { get; set; }
         public string CategoryId { get; set; }
         public string ShopId { get; set; }

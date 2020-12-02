@@ -6,16 +6,16 @@
 <div class="container">
     <ul class="nav nav-pills mb-3 row " id="pills-tab" role="tablist">
         <li class="nav-item col-2 text-center" role="presentation">
-            <a class="nav-link active" id="pills-comfirm-tab" data-toggle="pill" href="#pills-comfirm" role="tab" aria-controls="pills-comfirm" aria-selected="true">Nhận đơn</a>
+            <a class="nav-link active" id="order-null-tab" data-toggle="pill" href="#order-null" role="tab" aria-controls="order-null" aria-selected="true">Nhận đơn</a>
         </li>
         <li class="nav-item col-2 text-center" role="presentation">
-            <a class="nav-link" id="pills-wait-tab" data-toggle="pill" href="#pills-wait" role="tab" aria-controls="pills-wait" aria-selected="false">Đã nhận đơn</a>
+            <a class="nav-link" id="order-confirm-tab" data-toggle="pill" href="#order-confirm" role="tab" aria-controls="order-confirm" aria-selected="false">Đã nhận đơn</a>
         </li>
         <li class="nav-item col-2 text-center" role="presentation">
-            <a class="nav-link" id="pills-delivery-tab" data-toggle="pill" href="#pills-delivery" role="tab" aria-controls="pills-delivery" aria-selected="false">Đã lấy hàng</a>
+            <a class="nav-link" id="order-get-tab" data-toggle="pill" href="#order-get" role="tab" aria-controls="order-get" aria-selected="false">Đã lấy hàng</a>
         </li>
         <li class="nav-item col-2 text-center" role="presentation">
-            <a class="nav-link" id="pills-deliveried-tab" data-toggle="pill" href="#pills-deliveried" role="tab" aria-controls="pills-deliveried" aria-selected="false">Hoàn thành</a>
+            <a class="nav-link" id="order-done-tab" data-toggle="pill" href="#order-done" role="tab" aria-controls="order-done" aria-selected="false">Hoàn thành</a>
         </li>
     </ul>
 </div>
@@ -30,9 +30,9 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-comfirm" role="tabpanel" aria-labelledby="pills-comfirm-tab">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="order-null" role="tabpanel" aria-labelledby="order-null-tab">
+                    <table class="table table-bordered" id="dataTableNull" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Hình ảnh</th>
@@ -40,6 +40,7 @@
                                 <th>Tên khách hàng</th>
                                 <th>Địa chỉ giao</th>
                                 <th>Tên shop</th>
+                                <th>Địa chỉ shop</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -48,8 +49,9 @@
                     </table>
                 </div>
 
-                @*<div class="tab-pane fade show active" id="pills-comfirm" role="tabpanel" aria-labelledby="pills-comfirm-tab">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <div class="tab-pane fade" id="order-confirm" role="tabpanel" aria-labelledby="order-confirm-tab">
+
+                    <table class="table table-bordered" id="dataTableConfirm" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Hình ảnh</th>
@@ -57,13 +59,44 @@
                                 <th>Tên khách hàng</th>
                                 <th>Địa chỉ giao</th>
                                 <th>Tên shop</th>
+                                <th>Địa chỉ shop</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
-                        </tbody>
                     </table>
-                </div>*@
+                </div>
+                <div class="tab-pane fade" id="order-get" role="tabpanel" aria-labelledby="order-get-tab">
+
+                    <table class="table table-bordered" id="dataTableGet" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Tên khách hàng</th>
+                                <th>Địa chỉ giao</th>
+                                <th>Tên shop</th>
+                                <th>Địa chỉ shop</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="order-done" role="tabpanel" aria-labelledby="order-get-tab">
+
+                    <table class="table table-bordered" id="dataTableDone" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Tên khách hàng</th>
+                                <th>Địa chỉ giao</th>
+                                <th>Tên shop</th>
+                                <th>Địa chỉ shop</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

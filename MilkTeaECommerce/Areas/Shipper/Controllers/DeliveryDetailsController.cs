@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using MilkTeaECommerce.Models;
 namespace MilkTeaECommerce.Areas.Shipper
 {
     [Area("Shipper")]
+    [Authorize(Roles = "Shipper")]
     public class DeliveryDetailsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,12 +22,13 @@ namespace MilkTeaECommerce.Areas.Shipper
         {
             _context = context;
         }
-
-        public IActionResult GetAll()
+        [HttpGet]
+        public IActionResult GetAll(string status)
         {
+           // var product = _context.OrderDetails.Include(x => x.Product).ToList();
 
             var orderHeader = _context.OrderDetails.Include(x=>x.OrderHeader).Include(x=>x.Product)
-                .Where(x=>x.Status==null).Select(x => new
+                .Where(x=>x.Status==status).Select(x => new
             {
                 id=x.Id,
                 image=x.Product.ImageUrl,
@@ -34,7 +37,8 @@ namespace MilkTeaECommerce.Areas.Shipper
                 customer=x.OrderHeader.ApplicationUser.Name,
                 address=x.OrderHeader.Address,
                 payment=x.OrderHeader.PaymentStatus,
-                shopName=x.Product.Shop.Name
+                shopName=x.Product.Shop.Name,
+                shopAddress=x.Product.Shop.ApplicationUser.Address
             });
             return Json(new { data = orderHeader });
         }
@@ -58,26 +62,34 @@ namespace MilkTeaECommerce.Areas.Shipper
                 return NotFound();
             }
 
+            //var status = _context.OrderDetails.Where(x => x.Id == id).Select(x => new
+            //{
+            //    status = x.Status
+            //});
+
+           
             var orderHeader = _context.OrderDetails.Include(x => x.OrderHeader).Include(x => x.Product)
-                .Where(x => x.Status == null && x.Id==id).Select(x => new
-                {
-                    id = x.Id,
-                    image = x.Product.ImageUrl,
-                    title = x.Product.Name,
-                    count=x.Count,
-                    price = x.Price,
-                    customer = x.OrderHeader.ApplicationUser.Name,
-                    address = x.OrderHeader.Address,
-                    payment = x.OrderHeader.PaymentStatus,
-                    shopName = x.Product.Shop.Name
-                }).SingleOrDefault();
-            
+               .Where(x => x.Id==id).Select(x => new
+               {
+                   id = x.Id,
+                   image = x.Product.ImageUrl,
+                   title = x.Product.Name,
+                   count=x.Count,
+                   status=x.Status,
+                   price = (x.Product.Price* x.Count).GetValueOrDefault().ToString("#,###"),
+                   customer = x.OrderHeader.ApplicationUser.Name,
+                   address = x.OrderHeader.Address,
+                   payment = x.OrderHeader.PaymentStatus,
+                   shopName = x.Product.Shop.Name,
+                   shopAddress = x.Product.Shop.ApplicationUser.Address,
+               }).SingleOrDefault();
+
             if (orderHeader == null)
             {
                 return NotFound();
             }
 
-            return Json(new { data = orderHeader });
+            return Json( orderHeader);
         }
 
         [HttpPost]
@@ -86,10 +98,22 @@ namespace MilkTeaECommerce.Areas.Shipper
         {
             // add deliveryId cho DeliveryDetail
             var orderDetail = _context.OrderDetails.Where(x => x.Id == id).SingleOrDefault();
-            orderDetail.Status = "Đã nhận đơn";
+            if(orderDetail.Status==null)
+            {
+                orderDetail.Status = "Đã nhận đơn";
+            }
+            else if(orderDetail.Status== "Đã nhận đơn")
+            {
+                orderDetail.Status = "Đã lấy hàng";
+            }
+            else
+            {
+                orderDetail.Status = "Hoàn thành";
+            }
+
 
             // add shipper id   + add vào shopping cartx    
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             orderDetail.ShipperId = claim.Value;
            
@@ -105,10 +129,6 @@ namespace MilkTeaECommerce.Areas.Shipper
             return Json(new { success = true });
         }
 
-        private bool DeliveryDetailExists(string id)
-        {
-            return _context.DeliveryDetails.Any(e => e.OrderDetailId == id);
-        }
         [HttpGet]
         public IActionResult getorder()
         {

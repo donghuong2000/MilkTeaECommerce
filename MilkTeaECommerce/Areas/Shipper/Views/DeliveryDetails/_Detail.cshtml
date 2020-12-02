@@ -15,7 +15,7 @@
                 <form class="form-group">
                     <dl class="row ">
                         <div>
-                            <input id="Id" hidden />
+                            <input asp-for="Id" id="Id" hidden />
                         </div>
                         <dt class="col-sm-3">Tên sản phẩm</dt>
                         <dd class="col-sm-9">
@@ -23,7 +23,7 @@
                         </dd>
                         <dt class="col-sm-3">Hình ảnh</dt>
                         <dd class="col-sm-9">
-                            <input id="Image" class="form-control" disabled />
+                            <img id="Image" disabled />
                         </dd>
                         <dt class="col-sm-3">Số lượng</dt>
                         <dd class="col-sm-9">
@@ -63,11 +63,13 @@
                             <input id="AddressS" class="form-control" disabled />
                         </dd>
                     </dl>
-                    <div>
-                        <a onClick=Delete("/Shipper/DeliveryDetails/Get/@Model.Id") class="btn btn-danger text-white" style="cursor:pointer">
-                            Nhận
+                    <div class="row justify-content-center">
+                        <a  id="getOrder"  class="btn btn-danger text-white" data-dismiss="modal" style="cursor:pointer">
+                           
                         </a>
-                        <a asp-action="Index">Trở lại</a>
+                        <a asp-for="Index" class="btn btn-danger text-white" data-dismiss="modal" style="cursor:pointer;margin-left:1rem;">
+                            Trở lại
+                        </a>
                     </div>
 
                 </form>

@@ -12,8 +12,8 @@ namespace MilkTeaECommerce.Models
         public int? Count { get; set; }
         public float? Price { get; set; }
         public string Status { get; set; }
-        // y thêm tạm vào do chưa scaffold 
-        //nhớ xóa
+
+
         public string ShipperId { get; set; }
         [ForeignKey("ShipperId")]
         public ApplicationUser Shipper { get; set; }
