@@ -1,4 +1,6 @@
 ﻿@model MilkTeaECommerce.Models.Models.OrderDetailUserViewModel
+
+
 <div class="wait-confirm-items">
     <div class="item-inner">
         <div class="item-header">
@@ -43,7 +45,7 @@
         @if (Model.status == "cho xac nhan")
         {
             <div class="item-fooder">
-                <h1 class="text-right">Tổng tiền: @Model.totalprice</h1>
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
                 <div class="text-right mt">
                     <a class="btn btn-lg btn-info" href="#">Hủy đơn</a>
                 </div>
@@ -52,49 +54,51 @@
         else if (Model.status == "da xac nhan")
         {
             <div class="item-fooder">
-                <h1 class="text-right">Tổng tiền: @Model.totalprice</h1>
-                <div class="text-right mt">
-                    <a class="btn btn-lg btn-info" href="#">Hủy đơn</a>
-                </div>
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
             </div>
         }
         else if (Model.status == "van chuyen")
         {
             <div class="item-fooder">
-                <h1 class="text-right">Tổng tiền: @Model.totalprice</h1>
-                <div class="text-right mt">
-                    <a class="btn btn-lg btn-info" href="#">Hủy đơn</a>
-                </div>
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
             </div>
         }
         else if (Model.status == "da nhan")
         {
             <div class="item-fooder">
-                <h1 class="text-right">Tổng tiền: @Model.totalprice</h1>
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
                 <div class="text-right mt">
-                    <a class="btn btn-lg btn-info" href="#">Hủy đơn</a>
+                    <a href="#" class="btn btn-lg btn-info" data-toggle="modal" data-target="#RatingModal" data-whatever="@Model.productid">Đánh Giá</a>
                 </div>
             </div>
+            <!-- pop up danh gia san pham-->
+            <!-- đây là cho edit modal-->
         }
         else if (Model.status == "danh gia")
         {
             <div class="item-fooder">
-                <h1 class="text-right">Tổng tiền: @Model.totalprice</h1>
-                <div class="text-right mt">
-                    <a class="btn btn-lg btn-info" href="#">Hủy đơn</a>
-                </div>
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
             </div>
         }
-        else
-        {
-            <div class="item-fooder">
-                <h1 class="text-right">Tổng tiền: @Model.afterprice * Model.count</h1>
-                <div class="text-right mt">
-                    <a class="btn btn-lg btn-info" href="#">Hủy đơn</a>
+        @*else
+            {
+                <div class="item-fooder">
+                    <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
+                    <div class="text-right mt">
+                        <a class="btn btn-lg btn-info" href="#">Hủy đơn</a>
+                    </div>
                 </div>
-            </div>
-        }
+            }*@
 
     </div>
-    
+
 </div>
+
+@section Scripts{
+    <script src="~/js/userRating.js"></script>
+
+}
+
+
+
+

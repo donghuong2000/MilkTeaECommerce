@@ -1,4 +1,4 @@
-﻿@model List<MilkTeaECommerce.Models.Models.OrderDetailUserViewModel> 
+﻿@model List<MilkTeaECommerce.Models.Models.OrderDetailUserViewModel>
 @{
     ViewData["Title"] = "OrderDetail";
 }
@@ -23,7 +23,7 @@
                 <a class="nav-link active" id="pills-wait-tab" data-toggle="pill" href="#pills-wait" role="tab" aria-controls="pills-wait" aria-selected="true">Chờ xác nhận</a>
             </li>
             <li class="nav-item col-md-2 text-center" role="presentation">
-                <a class="nav-link" id="pills-comfirm-tab" data-toggle="pill" href="#pills-comfirm" role="tab" aria-controls="pills-comfirm" aria-selected="false">Đã xác nhận</a>
+                <a class="nav-link" id="pills-comfirm-tab" data-toggle="pill" href="#pills-confirm" role="tab" aria-controls="pills-comfirm" aria-selected="false">Đã xác nhận</a>
             </li>
             <li class="nav-item col-md-2 text-center" role="presentation">
                 <a class="nav-link" id="pills-delivery-tab" data-toggle="pill" href="#pills-delivery" role="tab" aria-controls="pills-delivery" aria-selected="false">Vận chuyển</a>
@@ -40,41 +40,149 @@
                 <div class="wait-confirm-list">
                     @foreach (var item in Model)
                     {
-                    <partial name="_OrderDetailUserPartial" model="item"/>
+                        if (item.status == "cho xac nhan")
+                        {
+                            <partial name="_OrderDetailUserPartial" model="item" />
+                        }
                     }
-                    
-                   
                 </div>
-
-
             </div>
-            <div class="tab-pane fade" id="pills-comfirm" role="tabpanel" aria-labelledby="pills-comfirm-tab">
+            <div class="tab-pane fade" id="pills-confirm" role="tabpanel" aria-labelledby="pills-confirm-tab">
                 <div class="wait-confirm-list">
-                   
+                    @foreach (var item in Model)
+                    {
+                        if (item.status == "da xac nhan")
+                        {
+                            <partial name="_OrderDetailUserPartial" model="item" />
+                        }
+                    }
                 </div>
-
             </div>
             <div class="tab-pane fade" id="pills-delivery" role="tabpanel" aria-labelledby="pills-delivery-tab">
-
-                đang vận chuyển
-
+                <div class="wait-confirm-list">
+                    @foreach (var item in Model)
+                    {
+                        if (item.status == "van chuyen")
+                        {
+                            <partial name="_OrderDetailUserPartial" model="item" />
+                        }
+                    }
+                </div>
             </div>
             <div class="tab-pane fade" id="pills-recived" role="tabpanel" aria-labelledby="pills-recived-tab">
-
-                đã nhận
-
+                <div class="wait-confirm-list">
+                    @foreach (var item in Model)
+                    {
+                        if (item.status == "da nhan")
+                        {
+                            <partial name="_OrderDetailUserPartial" model="item" />
+                        }
+                    }
+                </div>
             </div>
             <div class="tab-pane fade" id="pills-evaluate" role="tabpanel" aria-labelledby="pills-evaluate-tab">
-
-                đánh giá
-
+                <div class="wait-confirm-list">
+                    @foreach (var item in Model)
+                    {
+                        if (item.status == "danh gia")
+                        {
+                            <partial name="_OrderDetailUserPartial" model="item" />
+                        }
+                    }
+                </div>
             </div>
+        </div>
 
+    </div>
+</div>
+<div class="modal fade" id="RatingModal" tabindex="-1" role="dialog" aria-labelledby="RatingModalLabelOrderDetailUserPartial" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="RatingModalLabelOrderDetailUserPartial">Đánh giá sản phẩm</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*<form onsubmit="return false">
+            <div class="form-group">
+                <label> Ảnh Sản Phẩm: </label>
+                <img src="" alt="Ảnh Sản Phẩm" id="ratingimage">
+            </div>
+            <div class="form-group">
+                <label>Tên sản phẩm: </label>
+                <input readonly class=" form-control " type="text" id="ratingname" />
+            </div>
+            <div class="form-group">
+                <label>Phân Loại Hàng: </label>
+                <input readonly class=" form-control " type="text" id="ratingcategory" />
+            </div>
+            <div class="form-group">
+                <label>Điểm Đánh Giá: </label>
+                <div class="txt-center">
+                    <div class="rating">
+                        <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
+                        <label for="star5">☆</label>
+                        <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
+                        <label for="star4">☆</label>
+                        <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
+                        <label for="star3">☆</label>
+                        <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
+                        <label for="star2">☆</label>
+                        <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
+                        <label for="star1">☆</label>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <input data-dismiss="modal" class=" form-control btn btn-primary" type="submit" id="submitratingmodal" value="Lưu" />
+        </form>*@
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input hidden type="text" id="ratingproductid" />
+                            <input hidden type="text" id="ratinguserid" />
+                            <img src="" alt="Ảnh Sản Phẩm" id="ratingimage" height="100" width="100">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Tên sản phẩm:  </label>
+                            <label id="ratingname" class="font-weight-bold"></label> <br />
+                            <label>Phân loại:  </label>
+                            <label id="ratingname" style="opacity:0.5">abc</label> <br />
+                            <label>Điểm Đánh Giá: </label>
+                            <div class="txt-center">
+                                <div class="rating">
+                                    <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
+                                    <label for="star5">☆</label>
+                                    <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
+                                    <label for="star4">☆</label>
+                                    <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
+                                    <label for="star3">☆</label>
+                                    <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
+                                    <label for="star2">☆</label>
+                                    <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
+                                    <label for="star1">☆</label>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <textarea cols="50" rows="10" style="width:100%"> </textarea>
+                </div>
+                
+                
+                @*<input readonly class=" form-control " type="text" id="ratingname" />*@
+            </div>
         </div>
     </div>
-
 </div>
 @section header {
     <link href="~/css/orderdetail.css" rel="stylesheet" />
 }
+@section Scripts{
+    <script src="~/js/userRating.js"></script>
 
+}

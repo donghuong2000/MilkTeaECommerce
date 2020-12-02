@@ -108,7 +108,7 @@ namespace MilkTeaECommerce.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var obj = _db.OrderDetails.Include(x => x.Product).ThenInclude(x => x.Shop)
-                .Include(x => x.DeliveryDetails).ThenInclude(x => x.Delivery)/*.Where(x=>x.OrderHeader.ApplicationUserId == user.Id)*/
+                .Include(x => x.DeliveryDetails).ThenInclude(x => x.Delivery).Where(x=>x.OrderHeader.ApplicationUserId == user.Id)
                 .Select(x => new OrderDetailUserViewModel()
                 {
                     shopimage = x.Product.Shop.ImgUrl,
@@ -130,7 +130,26 @@ namespace MilkTeaECommerce.Controllers
             
             return View(obj);
         }
+        
+        //public async IActionResult Rate(string productid, string Content , float? Rate)
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
 
+        //}
+        public async Task<IActionResult> Get(string id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var product = _db.Products.FirstOrDefault(x => x.Id == id);
+            var obj = new
+            {
+                productid = product.Id,
+                productimage = product.ImageUrl,
+                user = user.Id,
+                productname = product.Name,
+                productcategory = product.CategoryId,
+            };
+            return Json(new { data = obj });
+        }
         public async Task<IActionResult> ShopChannel()
         {
             var curuser = await _userManager.GetUserAsync(User);
