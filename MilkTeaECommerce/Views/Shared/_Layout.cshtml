@@ -1238,8 +1238,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
             if (total < 3) {
                 alert('The minimum order quantity is 3. Please add more to your shopping cart before checking out');
+                console.log(items)
                 evt.preventDefault();
             }
+            else {
+                var o=[];
+                for (i = 0; i < len; i++) {
+                    o.push(items[i]._data)
+                    console.log(items[i]._data);
+                }
+                var obj = JSON.stringify(o);
+                
+                console.log(obj);
+                $.ajax({
+                    
+                    method: 'POST',
+                    url: '/Checkout/Detail',
+                    data: { cart: obj },
+                    success: function (data) {
+                        console.log(data);
+                    }
+                })
+            }
+            
+            
+            evt.preventDefault();
             
         });
     </script>

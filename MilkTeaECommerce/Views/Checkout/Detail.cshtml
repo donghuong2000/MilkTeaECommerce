@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<MilkTeaECommerce.Models.Models.CartItemViewModel>
 @{
     ViewData["Title"] = "Detail";
 }
@@ -21,7 +21,7 @@
                 <span>3 Products</span>
             </h4>
             <div class="table-responsive">
-                <table class="timetable_sub">
+                <table id="checkoutdetail" class="timetable_sub">
                     <thead>
                         <tr>
                             <th>SL No.</th>
@@ -169,19 +169,40 @@
 </div>
 
 @section Scripts{
+
+    <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- cái này của sweatalert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="~/js/build/toastr.min.js"></script>
+
+
+    <script src="~/Admin/js/user.js"></script>
+
+
+
+
+
+
+
+
     <!--quantity-->
     <script>
-		$('.value-plus').on('click', function () {
-			var divUpd = $(this).parent().find('.value'),
-				newVal = parseInt(divUpd.text(), 10) + 1;
-			divUpd.text(newVal);
-		});
+        $('.value-plus').on('click', function () {
+            var divUpd = $(this).parent().find('.value'),
+                newVal = parseInt(divUpd.text(), 10) + 1;
+            divUpd.text(newVal);
+        });
 
-		$('.value-minus').on('click', function () {
-			var divUpd = $(this).parent().find('.value'),
-				newVal = parseInt(divUpd.text(), 10) - 1;
-			if (newVal >= 1) divUpd.text(newVal);
-		});
+        $('.value-minus').on('click', function () {
+            var divUpd = $(this).parent().find('.value'),
+                newVal = parseInt(divUpd.text(), 10) - 1;
+            if (newVal >= 1) divUpd.text(newVal);
+        });
     </script>
     <!--quantity-->
+}
+@section Header{
+    <link href="~/js/build/toastr.css" rel="stylesheet" />
 }

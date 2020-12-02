@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MilkTeaECommerce.Models.Models;
+using Newtonsoft.Json.Linq;
 
 namespace MilkTeaECommerce.Controllers
 {
@@ -13,10 +15,14 @@ namespace MilkTeaECommerce.Controllers
         {
             return View();
         }
+        
         [HttpPost]
-        public IActionResult Detail(string a)
+        public IActionResult Detail(string cart)
         {
-            return View();
+            var obj = JArray.Parse(cart);
+            var cartItem = obj.Select(x=>x.ToObject<CartItemViewModel>());
+
+            return View(cartItem);
         }
     }
 }
