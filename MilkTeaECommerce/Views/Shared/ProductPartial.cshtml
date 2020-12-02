@@ -1,0 +1,47 @@
+﻿@model MilkTeaECommerce.Models.Models.ProductViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="col-md-4 product-men">
+    <div class="men-pro-item simpleCart_shelfItem">
+        <div class="men-thumb-item">
+            <!-- hình ảnh sản phẩm-->
+            <img src="@Model.ProductImgUrl" alt="">
+            <div class="men-cart-pro">
+                <div class="inner-men-cart-pro">
+                    <!-- link về info sản phẩm-->
+                    <a asp-action="detail" asp-controller="Product" asp-route-id="@Model.ProductId" class="link-product-add-cart">Quick View</a>
+                </div>
+            </div>
+            <span class="product-new-top">New</span>
+
+        </div>
+        <div class="item-info-product ">
+            <h4>
+                <a href="single.html">@Model.ProductName</a>
+            </h4>
+            <div class="info-product-price">
+                <!-- giảm giá-->
+                <span class="item_price">@Model.Price</span>
+                <del>$@Model.OldPrice</del>
+            </div>
+            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                <form action="#" method="post">
+                    <fieldset>
+                        <input type="hidden" name="cmd" value="_cart" />
+                        <input type="hidden" name="add" value="1" />
+                        <input type="hidden" name="shipping" value="@Model.ProductId" />
+                        <input type="hidden" name="item_name" value="@Model.ProductName" />
+                        <input type="hidden" name="amount" value="@Model.OldPrice" />
+                        <input type="hidden" name="discount_amount" value="@Model.Price" />
+                        <input type="hidden" name="currency_code" value="USD" />
+                        <input type="hidden" name="return" value=" " />
+                        <input type="hidden" name="cancel_return" value=" " />
+                        <input type="submit" name="submit" value="Add to cart" class="button" />
+                    </fieldset>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
