@@ -91,9 +91,27 @@ namespace MilkTeaECommerce.Controllers
 
 
         }
-        
 
 
+        public async Task<IActionResult> MailConfirm(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if(user != null)
+            {
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Action(
+                    "ConfirmEmail",
+                    "Identity",
+                    values: new { userId = user.Id, code = code },
+                    protocol: Request.Scheme,
+                    host: Request.Host.Value);
+                await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
+                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                return Json(new { message = "Please check your mail to confirm!" });
+            }
+            return Json(new { message = "Please check your mail to confirm!" });
+        }
         public async Task<IActionResult> ConFirmEmail(string userId,string code)
         {
             if (userId == null || code == null)

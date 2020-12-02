@@ -10,23 +10,22 @@
 <hr />
 <div class="row">
     <div class="col-md-3 ">
-        <img class="img-circle" src="https://via.placeholder.com/70" alt="">
         <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action ">
+            <a asp-action="Index" asp-controller="User" class="list-group-item list-group-item-action ">
                 List Product
             </a>
-            <a href="#" class="list-group-item list-group-item-action">Home</a>
-            <a href="#" class="list-group-item list-group-item-action active">Info</a>
-            <a href="#" class="list-group-item list-group-item-action">Bill Info</a>
+            <a   class="list-group-item list-group-item-action">Home</a>
+            <a  asp-action="Profile" asp-controller="User" class="list-group-item list-group-item-action active">Info</a>
+            <a class="list-group-item list-group-item-action">Bill Info</a>
             <a href="#" class="list-group-item list-group-item-action">Some thing else</a>
         </div>
     </div>
     <div class="col-md-6">
-        <form asp-action="Profile">
+        <form asp-action="Profile" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
-                <input disabled asp-for="Username" class="form-control" />
+                <input readonly asp-for="Username" class="form-control" />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -34,30 +33,69 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <label asp-for="Email" class="control-label"></label>
+            <div class="row">
+
+                <div class="form-group col-md-11">
+                    <input asp-for="Email" type="email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-1">
+                    @if (Model.IsMailComfirm)
+                    {
+                        <a  class="btn btn-success "><i class="glyphicon glyphicon-ok"></i></a>
+                    }
+                    else
+                    {
+                        <a onclick=Confirm("@Model.Email") class="btn btn-danger "><i class="glyphicon glyphicon-remove"></i></a>
+                    }
+
+                </div>
+            </div>
+            <label asp-for="Phonenumber" class="control-label"></label>
+            <div class="row">
+                <div class="form-group col-md-11" >
+                    <input asp-for="Phonenumber" class="form-control" />
+                    <span asp-validation-for="Phonenumber" class="text-danger"></span>
+                </div>
+                <div class="col-md-1">
+                    @if (Model.IsPhoneComfirm)
+                    {
+                        <a href="#" class="btn btn-success "><i class="glyphicon glyphicon-ok"></i></a>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-danger "><i class="glyphicon glyphicon-remove"></i></a>
+                    }
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="Phonenumber" class="control-label"></label>
-                <input asp-for="Phonenumber" class="form-control" />
-                <span asp-validation-for="Phonenumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                <label asp-for="file" class="control-label"></label>
+                <input asp-for="file" class="form-control" />
+                <span asp-validation-for="file" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         </form>
     </div>
-    <div class="col-md-3" >
-        <img class="img-circle" style="margin-bottom:20px;margin-left:70px" src="https://via.placeholder.com/90" alt="">
-        <h4 style="margin-bottom:20px;margin-left:70px">Username</h4>
+    <div class="col-md-3">
+        @if (Model.ImageUrl != null)
+        {
+            <img class="img-circle" style="margin-bottom:20px;margin-left:70px" src="@Model.ImageUrl" height="90" width="90" alt="">
+        }
+        else
+        {
+            <img class="img-circle" style="margin-bottom:20px;margin-left:70px" src="https://via.placeholder.com/90" alt="">
+
+        }
+        <h4 style="margin-bottom:20px;margin-left:70px">@Model.Username</h4>
+
     </div>
 </div>
 
 
+@section Scripts{
+    <script src="~/js/user.js"></script>
+
+ }

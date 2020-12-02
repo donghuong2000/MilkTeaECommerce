@@ -6,34 +6,33 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Product list</h1>
+    <h1 class="h3 mb-2 text-gray-800">Shop</h1>
 
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Product list</h6>
-            <a class="btn btn-primary ml-auto">Create User</a>
+            <h6 class="m-0 font-weight-bold text-primary">Shop Manager</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Phone</th>
+                            <th>Shop Image</th>
+                            <th>Shop Name</th>
+                            <th>Description</th>
+                            <th>Product Count</th>
                             <th>Ban</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Phone</th>
+                            <th>Shop Image</th>
+                            <th>Shop Name</th>
+                            <th>Description</th>
+                            <th>Product Count</th>
                             <th>Ban</th>
-                            <th>Action</th>
                         </tr>
                     </tfoot>
 
@@ -47,17 +46,11 @@
 @section Scripts{
     <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    <!-- cái này của sweatalert-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
     <script src="~/js/build/toastr.min.js"></script>
-
-
-    <script src="~/js/Seller/product.js"></script>
+    <script src="~/Admin/js/shop.js"></script>
 
 
 }
 @section Header{
     <link href="~/js/build/toastr.css" rel="stylesheet" />
 }
-

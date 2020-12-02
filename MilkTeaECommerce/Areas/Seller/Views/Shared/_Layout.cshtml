@@ -8,8 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="~/Admin/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="~/Admin/DataTables/css/jquery.dataTables.css" rel="stylesheet" />
+
     <title>SB Admin 2 - Dashboard</title>
 
     <!-- Custom fonts for this template-->
@@ -18,9 +17,7 @@
           rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="~/Admin/css/sb-admin-2.min.css" rel="stylesheet">
-    <!-- Select 2-->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    @RenderSection("Header", required: false)
+    @RenderSection("Header",required:false)
 
 </head>
 
@@ -342,8 +339,9 @@
                 </nav>
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
-                @RenderBody()
-
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
                 <!-- /.container-fluid -->
 
             </div>
@@ -397,12 +395,9 @@
 
     <!-- Custom scripts for all pages-->
     <script src="~/Admin/js/sb-admin-2.min.js"></script>
-    
     @RenderSection("Scripts", required: false)
     <!-- Page level plugins -->
-
-
-
+    
 
 </body>
 
