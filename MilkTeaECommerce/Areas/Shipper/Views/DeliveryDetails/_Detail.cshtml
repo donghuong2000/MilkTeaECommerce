@@ -1,0 +1,81 @@
+﻿@model MilkTeaECommerce.Models.OrderDetail
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="modal fade" id="Detail">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title">Chi tiết đơn hàng</h5>
+            </div>
+            <div class="modal-body">
+                <form class="form-group">
+                    <dl class="row ">
+                        <div>
+                            <input asp-for="Id" id="Id" hidden />
+                        </div>
+                        <dt class="col-sm-3">Tên sản phẩm</dt>
+                        <dd class="col-sm-9">
+                            <input id="NameP" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">Hình ảnh</dt>
+                        <dd class="col-sm-9">
+                            <img id="Image" disabled />
+                        </dd>
+                        <dt class="col-sm-3">Số lượng</dt>
+                        <dd class="col-sm-9">
+                            <input id="Count" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">Tổng tiền</dt>
+                        <dd class="col-sm-9">
+                            <input id="Price" class="form-control" disabled />
+                        </dd>
+
+                        <dt class="col-sm-5">Thông tin khách hàng</dt>
+                        <dd class="col-sm-5">
+                            <hr />
+                        </dd>
+                        <dt class="col-sm-3">Tên khách hàng</dt>
+                        <dd class="col-sm-9">
+                            <input id="NameC" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">Địa chỉ</dt>
+                        <dd class="col-sm-9">
+                            <input id="Address" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">Phương thức thanh toán</dt>
+                        <dd class="col-sm-9">
+                            <input id="Payment" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-5">Thông tin của hàng</dt>
+                        <dd class="col-sm-5">
+                            <hr />
+                        </dd>
+                        <dt class="col-sm-3">Tên cửa hàng</dt>
+                        <dd class="col-sm-9">
+                            <input id="NameS" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">Địa chỉ</dt>
+                        <dd class="col-sm-9">
+                            <input id="AddressS" class="form-control" disabled />
+                        </dd>
+                    </dl>
+                    <div class="row justify-content-center">
+                        <a  id="getOrder"  class="btn btn-danger text-white" data-dismiss="modal" style="cursor:pointer">
+                           
+                        </a>
+                        <a asp-for="Index" class="btn btn-danger text-white" data-dismiss="modal" style="cursor:pointer;margin-left:1rem;">
+                            Trở lại
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
+

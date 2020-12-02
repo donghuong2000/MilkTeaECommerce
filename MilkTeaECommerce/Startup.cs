@@ -90,6 +90,10 @@ namespace MilkTeaECommerce
                    name: "Admin",
                    areaName: "Admin",
                    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapAreaControllerRoute(
+                  name: "Shipper",
+                  areaName: "Shipper",
+                  pattern: "Shipper/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapDefaultControllerRoute();
                 
                 
