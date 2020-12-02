@@ -103,7 +103,7 @@
             {
                 "data": "id",
                 "render": function (data) {
-                    console.log(data);
+
                     return `
                              <div class="text-center" >
                                 <a id="a-detail" data-toggle="modal" data-target="#Detail" data-id="${data}" data-value="#dataTableGet"
@@ -143,7 +143,6 @@
             {
                 "data": "id",
                 "render": function (data) {
-                    console.log(data);
                     return `
                              <div class="text-center" >
                                 <a id="a-detail" data-toggle="modal" data-target="#Detail" data-id="${data}" data-value="#dataTableDone"
@@ -161,13 +160,12 @@ $('#Detail').on('show.bs.modal', function (event) {
     var idOrder = button.data('id') // Extract info from data-* attributes
     var modal = $(this)
     var table = $("#a-detail").data('value');
-    console.log(table +"table");
+
     $.ajax({
         method: 'GET',
         url: '/Shipper/deliverydetails/Details/' + idOrder,
         success: function (data) {
 
-            console.log(data.status+"status");
             if (data.status == null) {
                 data.status = "Đã nhận đơn";
             }
@@ -181,7 +179,6 @@ $('#Detail').on('show.bs.modal', function (event) {
                 data.status = "hidden";
             }
                 
-            console.log(modal.find('#Id').val());
             var url='"/Shipper/DeliveryDetails/Get/'+data.id+'"';
             modal.find('#Id').val(data.id);
             //modal.find('#Id').attr('src', "iadasdsa");
@@ -212,47 +209,38 @@ const swalWithBootstrapButtons = Swal.mixin({
     buttonsStyling: false
 })
 function GetOrder(url, table) {
-    console.log(url);
 
-    console.log('show'+table);
     if (url == "") {
-        console.log("null");
         var id = $('#Id').val();
         
         url = '/Shipper/DeliveryDetails/get/' + id;
-        console.log(url);
+
     }
     Swal.fire(
         'Xác nhận đơn'
     ).then((result) => {
         if (result.isConfirmed) {
-            //var id = $('#Id').val();
-            //console.log(id);
+
             $.ajax({
                 type: "POST",
                 url: url,
                 success: function (data) {
-                    console.log(data);
+
                     if (data.success) {
                         Swal.fire({
                             position: 'top-end',
                             icon: 'success',
-                            title: 'Your work has been saved',
+                            title: 'Đã thay đổi trạng thái đơn',
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        //swalWithBootstrapButtons.fire(
-                        //    'Deleted!',
-                        //    'Your file has been deleted.',
-                        //    'success'
-                        //);
                         $(table).DataTable().ajax.reload();
                         $('#Detail').removeClass('show');
                     }
                     else {
                         swalWithBootstrapButtons.fire(
-                            'Error',
-                            'Can not delete this, maybe it not exit or error from sever',
+                            'Lỗi',
+                            'Không thể nhận đơn hàng',
                             'error'
                         )
                     }
@@ -263,7 +251,7 @@ function GetOrder(url, table) {
         }
         else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire(
-                'Cancelled',
+                'Hủy',
                 'Your record is safe :)',
                 'error'
             )
