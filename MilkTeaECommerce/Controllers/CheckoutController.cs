@@ -10,19 +10,10 @@ namespace MilkTeaECommerce.Controllers
 {
     public class CheckoutController : Controller
     {
-        [HttpGet]
-        public IActionResult Detail()
+        
+        public IActionResult Index()
         {
             return View();
-        }
-        
-        [HttpPost]
-        public IActionResult Detail(string cart)
-        {
-            var obj = JArray.Parse(cart);
-            var cartItem = obj.Select(x=>x.ToObject<CartItemViewModel>());
-
-            return View(cartItem);
         }
     }
 }

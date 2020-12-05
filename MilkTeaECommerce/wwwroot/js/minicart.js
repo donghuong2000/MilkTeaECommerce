@@ -1904,7 +1904,7 @@
 
             parent: (typeof document !== 'undefined') ? document.body : null,
 
-            action: '#',
+            action: '/Checkout',
 
             target: '',
 
@@ -3001,7 +3001,6 @@
 
                     // Do the initial render when the buttons are ready
                     this.redraw();
-
                     // Only run this once
                     events.remove(document, 'readystatechange', viewevents.readystatechange);
                 }
