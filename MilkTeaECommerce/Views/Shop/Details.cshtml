@@ -1,0 +1,132 @@
+﻿@model Shop
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<section class="details-banner bg_img" >
+    <div class="container">
+        <div class="details-banner-wrapper">
+            <div class="">
+                <img src="@Model.ImgUrl" alt="movie">
+
+            </div>
+            <div class="centered">
+                <h5 id="id" hidden>@Model.ApplicationUserId</h5>
+                <h2>@Model.Name</h2>
+                <p>@Model.Description</p>
+                <div class="item" style="display:flex;padding:1rem;">
+                    <div class="item-header" style=" width: 3rem;">
+                        <span style="font-size:20px;"><i class="fas fa-map-marker-alt"></i></span>
+                    </div>
+                    <div class="item-content">
+                        <p>@Model.ApplicationUser.Address.ToString()</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+<section class="book-section bg-one" style="margin-top: 5rem;">
+    <div class="container product-sec1">
+        <div class="book-wrapper offset-lg-3">
+            <div class="left-side">
+
+            </div>
+        </div>
+        <div class="">
+            <ul class="tab-menu">
+                <li class="active">
+                    <h3>all products</h3>
+                </li>
+
+            </ul>
+
+            <!--===========TẤT CẢ SẢN PHẨM============-->
+            @*<div class="all-product">
+
+            </div>*@
+        </div>
+        <div id="all-products">
+
+        </div>
+    </div>
+</section>
+<section class=" col-md-9" style="height:100px">
+    <div class="wrapper">
+        
+    </div>
+   
+</section>
+
+
+@section Header{
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+
+
+    <link href="/css/shop.css" rel="stylesheet" />
+
+} 
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            var id = $("#id").text();
+            console.log(id);
+            $.ajax({
+                type: 'GET',
+                url: '/Shop/getproducts/' + id,
+                success: function (data) {
+                    var html = "";
+                    var cat = $('#all-products');
+                    $.each(data, function (index, value) {
+                        html = html+ '<div class="col-md-4 product-men">'+
+                            '<div class="men-pro-item simpleCart_shelfItem" >'+
+                              '  <div class="men-thumb-item">'+
+                                    '<img src="'+value.image+'" alt="">'+
+                                       ' <div class="men-cart-pro">'+
+                                           ' <div class="inner-men-cart-pro">'+
+                                                '<a href="" class="link-product-add-cart">Quick View</a>'+
+                                           ' </div>'+
+                                       ' </div>'+
+                                        '<span class="product-new-top">New</span>'+
+                                 '</div>'+
+                                    '<div class="item-info-product ">'+
+                                        '<h4>'+
+                                            '<a href="single.html">'+value.name+'</a>'+
+                                        '</h4>'+
+                                       ' <div class="info-product-price">'+
+                                           ' <span class="item_price">'+value.price.toString()+'</span>'+
+                                            '<del>'+value.price+'</del>'+
+                                        '</div>'+
+                                        '<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">'+
+                                            '<form action="#" method="post">'+
+                                                '<fieldset>'+
+                                                    '<input type="hidden" name="cmd" value="_cart" />'+
+                                                    '<input type="hidden" name="add" value="1" />'+
+                                                   ' <input type="hidden" name="business" value=" " />'+
+                                                   ' <input type="hidden" name="amount" value="149.00" />'+
+                                                    '<input type="hidden" name="discount_amount" value="1.00" />'+
+                                                   ' <input type="hidden" name="currency_code" value="USD" />'+
+                                                   ' <input type="hidden" name="return" value=" " />'+
+                                                   ' <input type="hidden" name="cancel_return" value=" " />'+
+                                                   ' <input type="submit" name="submit" value="Add to cart" class="button" />'+
+                                               '</fieldset>'+
+                                           ' </form>'+
+                                       ' </div>'+
+
+                                   ' </div>'+
+                                '</div>'+
+                            '</div >'
+                        
+
+                    });
+                    cat.append(html);
+                }
+            });
+        });
+    </script>
+}
