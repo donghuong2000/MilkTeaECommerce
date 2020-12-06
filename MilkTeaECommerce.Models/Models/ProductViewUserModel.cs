@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MilkTeaECommerce.Models.Models
 {
-    public class ProductViewModel
+    public class ProductViewUserModel
     {
 
         public string ProductId { get; set; }

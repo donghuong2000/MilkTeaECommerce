@@ -75,7 +75,7 @@ namespace MilkTeaECommerce.Controllers
             }
             // chuyển product thành ProductViewModel
             var obj = listProduct
-                .Select(x => new ProductViewModel
+                .Select(x => new ProductViewUserModel
                 {
                     ProductId = x.Id,
                     ProductName = x.Name,
