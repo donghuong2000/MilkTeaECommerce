@@ -4,7 +4,7 @@
     // chờ xác nhận
     $('#dataTableWait').DataTable({
         "ajax": {
-            "url": "/Seller/OrderManager/GetAll?status=WaitConfirm"
+            "url": "/Seller/Product/GetAll?status=WaitConfirm"
         },
         "columns": [
             {

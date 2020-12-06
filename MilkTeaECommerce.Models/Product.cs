@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 
 namespace MilkTeaECommerce.Models
@@ -23,6 +24,7 @@ namespace MilkTeaECommerce.Models
         public string CategoryId { get; set; }
         public string ShopId { get; set; }
 
+        
         public virtual Category Category { get; set; }
         public virtual Shop Shop { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
