@@ -1,39 +1,42 @@
-﻿
+﻿@using Microsoft.AspNetCore.Hosting;
 @{
     ViewData["Title"] = "Index";
 }
 
-div class="container-fluid">
 
 <!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">User List</h1>
+<h1 class="h3 mb-2 text-gray-800">Danh sách sản phẩm</h1>
 
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">User List</h6>
-        <a class="btn btn-primary ml-auto">Create User</a>
+        <a class="btn btn-primary ml-auto" href="/Seller/Product/Create">Thêm sản phẩm</a>
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="productTableSeller" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Ban</th>
-                        <th>Action</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Hình ảnh</th>
+                        <th>Mô tả</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>confirm</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Ban</th>
-                        <th>Action</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Hình ảnh</th>
+                        <th>Mô tả</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>confirm</th>
+                        <th></th>
                     </tr>
                 </tfoot>
 
@@ -42,22 +45,81 @@ div class="container-fluid">
     </div>
 </div>
 
+<!
+<!-- đây là cho Detail modal-->
+<div class="modal fade" id="DetailModalProductSeller" tabindex="-1" aria-labelledby="DetailModalLabelProductSeller" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DetailModalLabelProductSeller">Chỉnh Sửa sản phẩm</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false">
+                    <div class="form-group container" style="text-align:center">
+                        <img type="text" id="update_productimage" style="width:10rem" />
+                    </div>
+                    <div class="form-group">
+                        <label>Mã sản phẩm</label>
+                        <input class=" form-control " type="text" id="update_productid_old" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Tên sản phẩm</label>
+                        <input class=" form-control " type="text" id="update_productname" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <input class=" form-control " type="text" id="update_productdescription" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Giá</label>
+                        <input class=" form-control " type="text" id="update_productprice" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Số lượng</label>
+                        <input class=" form-control " type="text" id="update_productquantity" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Loại</label>
+                        <input class=" form-control " type="text" id="update_productcategory" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Cửa hàng</label>
+                        <input class=" form-control " type="text" id="update_productshopid" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Trạng thái</label>
+                        <input class="form-control " id="update_productconfirm" readonly />
+                        
+                    </div>
+                    <a href="/Seller/Product/Index" class="btn btn-dark">Quay lại</a>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts{
+    <!-- Page level plugins -->
     <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    <!-- cái này của sweatalert-->
+    <script src="~/Admin/js/build/toastr.min.js"></script>
+    <!--cái này của thông báo-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-    <script src="~/js/build/toastr.min.js"></script>
-
-
-    <script src="~/Admin/js/user.js"></script>
+    <!--cái này của selectlist search-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="~/Seller/Products.js"></script>
 
 
 }
 @section Header{
-    <link href="~/js/build/toastr.css" rel="stylesheet" />
-}
 
+    <!--cái này của selectlist search-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <!--cái này của thông báo-->
+    <link href="~/Admin/js/build/toastr.css" rel="stylesheet" />
+}
