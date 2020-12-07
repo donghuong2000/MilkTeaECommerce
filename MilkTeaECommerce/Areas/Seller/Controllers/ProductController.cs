@@ -97,7 +97,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
                     Name = productViewModel.Name,
                     Description = productViewModel.Description,
                     Price = productViewModel.Price,
-                    IsConfirm = productViewModel.IsConfirm,
+                    IsConfirm = false,
                     Quantity = productViewModel.Quantity,
                     CategoryId = productViewModel.CategoryId,
                 };
@@ -217,7 +217,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
                 Name = productViewModel.Name,
                 Description = productViewModel.Description,
                 Price = productViewModel.Price,
-                IsConfirm = productViewModel.IsConfirm,
+                IsConfirm = false,
                 Quantity = productViewModel.Quantity,
                 CategoryId = productViewModel.CategoryId,
             };

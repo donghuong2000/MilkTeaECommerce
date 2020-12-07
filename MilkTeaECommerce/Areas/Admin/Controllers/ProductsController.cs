@@ -29,34 +29,23 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         }
         public IActionResult GetAll()
         {
-            var list = _context.Products.ToList();
+            var list = _context.Products.Include(x=>x.Category).Include(x => x.Shop).Select(x=>new { 
+                id = x.Id,
+                name = x.Name,
+                de = x.Description==null? "0 Kí tự" : x.Description.Length + " Kí tự",
+                price = x.Price,
+                quantity = x.Quantity,
+                shop = x.Shop.Name,
+                category = x.Category.Name,
+                image = x.ImageUrl,
+                isConfirm = x.IsConfirm
+            }).ToList();
             return Json(new { data = list });
         }
-        public IActionResult GetforSelect(string q)
-        {
-            var obj = _context.Products.ToList()
-                .Select(x => new
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    ImageUrl = x.ImageUrl,
-                    Price = x.Price,
-                    //Status = x.Status,
-                    Quantity = x.Quantity,
-                    CategoryId = x.CategoryId,
-                    ShopId = x.ShopId,
-
-                });
-            if (!(string.IsNullOrEmpty(q) || string.IsNullOrWhiteSpace(q)))
-            {
-                obj = obj.Where(x => x.Name.ToLower().StartsWith(q.ToLower())).ToList();
-            }
-            return Json(new { items = obj });
-        }
+       
         
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+  
         public IActionResult Create(string id, string name, string description, string imageUrl, float price,string status, int quantity, string categoryId, string shopId)
         {
             try
@@ -93,44 +82,17 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             };
             return Json(new { data = obj });
         }
-        //GET: Admin/Products/Edit/5
-        public IActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var product = _context.Products.Find(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return Json(new { data = product });
-        }
 
-        // POST: Admin/Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public IActionResult Update(string oldid, string name, string description, string imageurl, float price, string status, int quantity, string categoryid, string shopid)
+        public IActionResult LockUnLock(string id)
         {
-            var obj = _context.Products.Find(oldid);
-            obj.Name = name;
-            obj.Description = description;
-            obj.ImageUrl = imageurl;
-            obj.Price = price;
-            //obj.Status = status;
-            obj.Quantity = quantity;
-            obj.CategoryId = categoryid;
-            obj.ShopId = shopid;
             try
             {
-
+                var obj = _context.Products.Find(id);
+                obj.IsConfirm = !obj.IsConfirm;
                 _context.Products.Update(obj);
                 _context.SaveChanges();
-                return Json(new { success = true, message = "cập nhập mục thành công" });
+                return Json(new { success = true, message = "khóa/mở khóa thành công" });
             }
             catch (Exception ex)
             {
@@ -138,42 +100,8 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
 
             }
         }
-        [HttpPost]
-        public IActionResult Edit(string id, [Bind("Id,Name,Description,ImageUrl,Price,Status,Quantity,CategoryId,ShopId")] Product product)
-        {
-            if (id != product.Id)
-            {
-                return NotFound();
-            }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(product);
-                    _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-            ViewData["ShopId"] = new SelectList(_context.Shops, "ApplicationUserId", "ApplicationUserId", product.ShopId);
-            return View(product);
-        }
-
-        // POST: Admin/Products/Delete/5
         [HttpDelete]
-        //[ValidateAntiForgeryToken]
         public IActionResult Delete(string id)
         {
             try
