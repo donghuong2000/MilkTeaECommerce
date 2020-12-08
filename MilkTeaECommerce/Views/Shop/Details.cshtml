@@ -4,71 +4,15 @@
 *@
 @{
 }
-<section class="">
-    @*<div class="offset-md-6">
-        <div class="cart_inner">
-            <div class="">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                        </tr> 
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="media-min">
-                                    <div class="d-flex">
-                                        <img style="height:10rem" src="@ViewBag.Image" alt="">
-                                    </div>
-                                    <div class="media-body-min">
-                                        <a href="/shop/details/@ViewBag.IdShop" style="color:black;font-weight:700">@ViewBag.NameShop</a>
-                                        <p>@ViewBag.Address</p>
-                                        <p>@ViewBag.DeShop</p>
-                                    </div>
-                                </div>
-                            </td>
-
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>*@
-    <!--<div class="container">
-    <div class="details-banner-wrapper">
-        <div class="">
-            <img src="@ViewBag.Image" alt="movie">
-
-        </div>
-        <div class="centered">
-            <h5 id="id" hidden>@ViewBag.IdShop</h5>
-            <h2>@ViewBag.NameShop</h2>
-            <p>@ViewBag.DeShop</p>
-            <div class="item" style="display:flex;padding:1rem;">
-                <div class="item-header" style=" width: 3rem;">
-                    <span style="font-size:20px;"><i class="fas fa-map-marker-alt"></i></span>
-                </div>
-                <div class="item-content">
-                    <p>-->
-    @*@ViewBag.Address.ToString()*@
-    <!--</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div>-->
-
-</section>
 <div class="ads-grid">
     <div class="container">
-        <div class="side-bar col-md-3" style=" justify-content: center; display: grid;">
-            <div class="search-hotel">
+        <div class="side-bar col-md-3"  >
+            <div class="search-hotel" style="place-items: center;display: grid;">
                 <img src="@ViewBag.Image" style="margin-bottom:2rem" />
-                <h4 style="justify-content: center;display: flex;font-weight:700">@ViewBag.NameShop</h4>
-                <p></p>
+                <h4 >
+                    @ViewBag.NameShop
+                </h4>
+                <p >@ViewBag.Address </p>
             </div>
             <!-- price range -->
             <div>
@@ -137,11 +81,11 @@
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center">
                                         <li class="page-item">
-                                            <a class="page-link" href="/shop/details?page=@(ViewBag.page - 1)" tabindex="-1" aria-disabled="true">Previous</a>
+                                            <a class="page-link" href="/shop/details?id=@ViewBag.IdShop&page=@(ViewBag.page - 1)" tabindex="-1" aria-disabled="true">Previous</a>
                                         </li>
                                         <li class="page-item"><a class="page-link" href="#">@ViewBag.page</a></li>
                                         <li class="page-item">
-                                            <a class="page-link" href="/shop/details?page=@(ViewBag.page + 1)">Next</a>
+                                            <a class="page-link" href="/shop/details?id=@ViewBag.IdShop&page=@(ViewBag.page + 1)">Next</a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -160,7 +104,6 @@
 @section Header{
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
-
 
     <link href="/css/shop/shop.css" rel="stylesheet" />
 

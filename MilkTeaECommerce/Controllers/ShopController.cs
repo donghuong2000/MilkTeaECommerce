@@ -28,6 +28,11 @@ namespace MilkTeaECommerce.Controllers
             {
                 int numpage = shopCount % num == 0 ? shopCount / num : (shopCount / num) + 1;
 
+                // trang cuoi +1
+                if(page>numpage)
+                {
+                    return RedirectToAction();
+                }
                 ViewBag.page = page;
                 // nếu là trang cuối và là rơi vào trường hơp 2
                 if (page >= numpage && shopCount % num != 0)
@@ -77,8 +82,8 @@ namespace MilkTeaECommerce.Controllers
             ViewBag.NameShop = shop.Name;
             ViewBag.DeShop = shop.Description;
             ViewBag.Image = shop.ImgUrl;
-            //ViewBag.Address = shop.ApplicationUser.Address;
-            //ViewBag.Address = shop.ApplicationUser.Address;
+            ViewBag.Address = shop.ApplicationUser.Address;
+
             int num = 9;
             var lstProduct = _context.Products.Where(x => x.ShopId==id && x.IsConfirm==true);
 
@@ -88,7 +93,15 @@ namespace MilkTeaECommerce.Controllers
             {
                 int numpage = procount % num == 0 ? procount / num : (procount / num) + 1;
 
-                ViewBag.page = page;
+                // trang cuoi +1
+                if (page > numpage)
+                {
+                    ViewBag.page = numpage;
+                }
+                else
+                {
+                    ViewBag.page = page;
+                }
                 // nếu là trang cuối và là rơi vào trường hơp 2
                 if (page >= numpage && procount % num != 0)
                 {
