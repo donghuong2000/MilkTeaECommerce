@@ -1,9 +1,88 @@
-﻿
-<h1>WELCOME </h1>
-@foreach (var item in ViewBag.IdShop)
-{
-    <div>
-        <a href="/Shop/Details/@item">@item</a>
-    </div>
-}
+﻿@model IEnumerable<MilkTeaECommerce.Models.Models.ShopViewModel>;
 
+<h3 class="heading-tittle">All Products</h3>
+<span class="heading-style"></span>
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="border-top: 1px solid #dee2e6 !important;">
+                                    <div class="media-min">
+                                        <div class="d-flex">
+                                            <img style="height:10rem" src="@item.ImgUrl" alt="">
+                                        </div>
+                                        <div class="media-body-min">
+                                            <a href="/shop/details/@item.Id" style="color:black;font-weight:700">@item.Name</a>
+                                            <p>@item.Address</p>
+                                        </div>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+@*<div class="container" style=" margin-bottom: 5rem; margin-top:3rem">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 product-men">
+                    <div class="men-pro-item simplecart_shelfitem">
+                        <div class="men-thumb-item">
+                            <img src="@item.imgurl" alt="">
+                            <div class="men-cart-pro">
+                                <div class="inner-men-cart-pro">
+                                    <a href="/shop/details/@item.id" class="link-product-add-cart">go to shop</a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="item-info-product ">
+                            <h4>
+                                <a href="single.html" style="font-weight:700">@item.name</a>
+                                <p>@item.address</p>
+                            </h4>
+
+                        </div>
+                    </div>
+                </div>
+
+        }
+
+    </div>*@
+<div>
+    <div style=" place-content: center; display: flex;">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="/shop/index?page=@(ViewBag.page - 1)" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">@ViewBag.page</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="/shop/index?page=@(ViewBag.page + 1)">Next</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+@section Header{
+    <link href="~/css/shop/shop.css" rel="stylesheet" />
+}

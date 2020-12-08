@@ -1,5 +1,4 @@
 ﻿body {
-    color:black;
 }
 .banner-section {
     padding: 100px 0 316px;
@@ -127,4 +126,101 @@ a{
 }
 ul{
     list-style:none;
+}
+.cart_inner .table td {
+    padding: .75rem 1.5rem;
+    border-color: #EEEEEE;
+}
+.cart_inner .table tbody tr td {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    vertical-align: middle;
+    align-self: center;
+
+}
+    .cart_inner .table tbody tr td .media-min .d-flex {
+        padding-right: 30px;
+    }
+.cart_inner .table tbody tr td .media-min .d-flex img {
+            border-radius: 3px;
+        }
+.cart_inner .table tbody tr td .media-min .media-body-min {
+        vertical-align: middle;
+        align-self: center;
+}
+.cart_area {
+}
+.cart_inner .table tbody tr td {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    vertical-align: middle;
+    align-self: center;
+}
+
+    .cart_inner .table tbody tr td .media-min .media-body-min p {
+        margin-bottom: 0px;
+    }    
+.table-responsive-min {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+table {
+    border-collapse: collapse;
+}
+.media-min {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+.d-flex {
+    display: -ms-flexbox !important;
+    display: flex !important;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+.media-body-min {
+    -ms-flex: 1;
+    flex: 1;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+.cart_inner .table thead tr th {
+    border-top: 0px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Oswald",sans-serif;
+    color: #222;
+    border-bottom: 0px !important;
+}
+.cart_inner .table th, .cart_inner .table td {
+    padding: .75rem 1.5rem;
+    border-color: #EEEEEE;
+}
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6 !important;
+}
+th {
+    text-align: inherit;
 }
