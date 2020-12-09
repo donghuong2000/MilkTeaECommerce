@@ -26,7 +26,7 @@
                 <a class="nav-link" id="pills-comfirm-tab" data-toggle="pill" href="#pills-confirm" role="tab" aria-controls="pills-comfirm" aria-selected="false">Đã xác nhận</a>
             </li>
             <li class="nav-item col-md-2 text-center" role="presentation">
-                <a class="nav-link" id="pills-delivery-tab" data-toggle="pill" href="#pills-delivery" role="tab" aria-controls="pills-delivery" aria-selected="false">Vận chuyển</a>
+                <a class="nav-link" id="pills-delivery-tab" data-toggle="pill" href="#pills-delivery" role="tab" aria-controls="pills-delivery" aria-selected="false">Đang vận chuyển</a>
             </li>
             <li class="nav-item col-md-2 text-center" role="presentation">
                 <a class="nav-link" id="pills-received-tab" data-toggle="pill" href="#pills-received" role="tab" aria-controls="pills-received" aria-selected="false">Đã nhận</a>
@@ -142,6 +142,57 @@
                     <br />
                     <textarea cols="50" rows="10" style="width:100%" id="ratingcontent"> </textarea>
                     <button id="submit_rating_modal" type="button" class="btn btn-success">Xác Nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="RatingModalReadOnly" tabindex="-1" role="dialog" aria-labelledby="RatingModalLabelOrderDetailUserPartial" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="RatingModalLabelOrderDetailUserPartial">Đánh giá sản phẩm</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input hidden type="text" id="orderdetailidreadonly" />
+                            <input hidden type="text" id="ratingproductidreadonly" />
+                            <input hidden type="text" id="ratinguseridreadonly" />
+                            <img src="" alt="Ảnh Sản Phẩm" id="ratingimagereadonly" height="100" width="100">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Tên sản phẩm:  </label>
+                            <label id="ratingnamereadonly" class="font-weight-bold"></label> <br />
+                            <label>Phân loại:  </label>
+                            <label id="ratingcategoryreadonly" style="opacity:0.5"> </label> <br />
+                            <label>Điểm Đánh Giá: </label>
+                            <label id="ratingratereadonly"></label>
+                            <div class="txt-center">
+                                <div class="rating">
+                                    <input id="star5readonly" name="star" type="radio" value="5" class="radio-btn hide" />
+                                    <label for="star5readonly">☆</label>
+                                    <input id="star4readonly" name="star" type="radio" value="4" class="radio-btn hide" />
+                                    <label for="star4readonly">☆</label>
+                                    <input id="star3readonly" name="star" type="radio" value="3" class="radio-btn hide" />
+                                    <label for="star3readonly">☆</label>
+                                    <input id="star2readonly" name="star" type="radio" value="2" class="radio-btn hide" />
+                                    <label for="star2readonly">☆</label>
+                                    <input id="star1readonly" name="star" type="radio" value="1" class="radio-btn hide" />
+                                    <label for="star1readonly">☆</label>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <textarea readonly cols="50" rows="10" style="width:100%" id="ratingcontentreadonly"> </textarea>
                 </div>
             </div>
         </div>
