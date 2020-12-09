@@ -4,19 +4,20 @@
             "url": "/Seller/Product/GetAll"
         },
         "columns": [
-            { "data": "name" },
             {
-                "data": "imageUrl",
+                "data": "image",
                 "render": function (data) {
                     return `
                                 <img src="${data}" style="width:5rem" />
                             `
                 }
             },
-            { "data": "description" },
+            { "data": "name" },
+            { "data": "cate" },
+            { "data": "de" },
             { "data": "price" },
             { "data": "quantity" },
-            { "data": "isConfirm" },
+            { "data": "confirm" },
             {
                 "data": "id",
                 "render": function (data) {

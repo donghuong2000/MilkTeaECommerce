@@ -5,16 +5,14 @@
     Layout = "~/Areas/Seller/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<h1 class="text-center">Edit</h1>
 
-<h4>ProductViewModel</h4>
-<hr />
-<div >
+<div class="d-flex justify-content-center">
     <img src="@Model.ImageUrl" style="width:10rem" />
 </div>
-<div class="row">
-    <div class="col-md-4">
-        
+<div class="row justify-content-center">
+    <div class="col-md-6">
+
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -23,7 +21,7 @@
                 <label class="control-label">Hình ảnh</label>
                 <input asp-for="files" type="file" />
             </div>
-            <div class="form-group">
+            <div hidden class="form-group">
                 <label class="control-label">Mã sản phẩm</label>
                 <input asp-for="Id" class="form-control" readonly />
                 <span asp-validation-for="Id" class="text-danger"></span>
@@ -35,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Mô tả</label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -43,11 +41,7 @@
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsConfirm" /> @Html.DisplayNameFor(model => model.IsConfirm)
-                </label>
-            </div>
+
             <div class="form-group">
                 <label class="control-label">Số lượng</label>
                 <input asp-for="Quantity" class="form-control" />
@@ -59,10 +53,10 @@
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="ImageUrl" class="form-control" hidden/>
+                <input asp-for="ImageUrl" class="form-control" hidden />
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="form-control btn btn-primary" />
             </div>
         </form>
     </div>
@@ -74,4 +68,13 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdn.tiny.cloud/1/6qphqda4r8594dz14i8gydgxx8w80tid2pxsrcnf5hrk214j/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            toolbar_mode: 'floating',
+        });
+    </script>
 }
