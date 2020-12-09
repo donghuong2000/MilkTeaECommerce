@@ -43,8 +43,19 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            var list = _context.Products
-                .Where(x => x.ShopId == claim.Value).ToList();
+            var list = _context.Products.Include(x => x.Category)
+                .Where(x => x.ShopId == claim.Value).Select(x => new
+                {
+                    id = x.Id,
+                    name = x.Name,
+                    image = x.ImageUrl,
+                    de = x.Description.Count() + " Word",
+                    confirm = x.IsConfirm == true ? "VERYFY" : "NOT VERYFIED",
+                    price = x.Price,
+                    quantity = x.Quantity,
+                    cate = x.Category.Name
+
+                }).ToList();
 
             return Json(new { data = list });
         }
@@ -93,7 +104,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
         {
             Product product = new Product()
                 {
-                    Id = productViewModel.Id,
+                    Id = Guid.NewGuid().ToString(),
                     Name = productViewModel.Name,
                     Description = productViewModel.Description,
                     Price = productViewModel.Price,
@@ -152,7 +163,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
 
         public IActionResult Get(string id)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+            var product = _context.Products.Include(x=>x.Category).Include(x=>x.Shop).FirstOrDefault(x => x.Id == id);
             
             var obj = new
             {
@@ -161,8 +172,8 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
                 description = product.Description,
                 price = product.Price,
                 quantity = product.Quantity,
-                categoryId = product.CategoryId,
-                shopId = product.ShopId,
+                categoryId = product.Category.Name,
+                shopId = product.Shop.Name,
                 isConfirm = product.IsConfirm,
                 imageUrl = product.ImageUrl,
 

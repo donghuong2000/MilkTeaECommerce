@@ -29,8 +29,8 @@
                     if (data.isConfirm) {
                         return `
                             <div class="text-center">
-                                <a onclick=LockUnLock(${data.id})  class="btn btn-danger text-white" style="cursor:pointer">
-                                    <i class="fas fa-lock"></i>
+                                <a onclick=LockUnLock("${data.id}")  class="btn btn-success text-white" style="cursor:pointer">
+                                    <i class="fas fa-lock-open"></i>
                                 </a>
                                
                             </div>  
@@ -40,8 +40,8 @@
                     else {
                         return `
                             <div class="text-center">
-                                <a onclick=LockUnLock(${data.id})  class="btn btn-success text-white" style="cursor:pointer">
-                                    <i class="fas fa-lock-open"></i>
+                                <a onclick=LockUnLock("${data.id}")  class="btn btn-danger text-white" style="cursor:pointer">
+                                    <i class="fas fa-lock"></i>
                                 </a>
                             </div>  
 

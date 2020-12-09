@@ -73,7 +73,6 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 description = product.Description,
                 imageurl = product.ImageUrl,
                 price = product.Price,
-                //status = product.Status,
                 quantity = product.Quantity,
                 categoryId = product.CategoryId,
                 shopId = product.ShopId,
@@ -118,9 +117,6 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             }
         }
 
-        private bool ProductExists(string id)
-        {
-            return _context.Products.Any(e => e.Id == id);
-        }
+       
     }
 }
