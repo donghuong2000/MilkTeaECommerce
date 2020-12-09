@@ -123,12 +123,13 @@ namespace MilkTeaECommerce.Controllers
             }
             // chuyển product thành ProductViewModel
             var obj = lstProduct
-                .Select(x => new Product
+                .Select(x => new ProductViewUserModel
                 {
-                    Id = x.Id,
-                    Name = x.Name,
-                    ImageUrl = x.ImageUrl,
-                    Price = x.Price
+                    ProductId = x.Id,
+                    ProductName = x.Name,
+                    ProductImgUrl = x.ImageUrl,
+                    Price = x.Price.GetValueOrDefault(),
+                    OldPrice=x.Price.GetValueOrDefault()*2
                 }).ToList();
             return View(obj);
         }
