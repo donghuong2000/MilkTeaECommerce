@@ -117,7 +117,7 @@ namespace MilkTeaECommerce.Controllers
                     productimage = x.Product.ImageUrl,
                     productid = x.Product.Id,
                     productname = x.Product.Name,
-                    categoryname = x.Product.CategoryId,
+                    categoryname = _db.Categories.FirstOrDefault(category=>category.Id == x.Product.CategoryId).Name,
                     count = x.Count,
                     deliveryandprice = x.DeliveryDetails.Delivery.Name + ":" + x.DeliveryDetails.Price,
                     status = x.Status,
@@ -136,20 +136,7 @@ namespace MilkTeaECommerce.Controllers
         //    var user = await _userManager.GetUserAsync(User);
 
         //}
-        public async Task<IActionResult> Get(string id)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var product = _db.Products.FirstOrDefault(x => x.Id == id);
-            var obj = new
-            {
-                productid = product.Id,
-                productimage = product.ImageUrl,
-                user = user.Id,
-                productname = product.Name,
-                productcategory = product.CategoryId,
-            };
-            return Json(new { data = obj });
-        }
+        
         public async Task<IActionResult> ShopChannel()
         {
             var curuser = await _userManager.GetUserAsync(User);

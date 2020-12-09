@@ -29,10 +29,10 @@
                 <a class="nav-link" id="pills-delivery-tab" data-toggle="pill" href="#pills-delivery" role="tab" aria-controls="pills-delivery" aria-selected="false">Vận chuyển</a>
             </li>
             <li class="nav-item col-md-2 text-center" role="presentation">
-                <a class="nav-link" id="pills-recived-tab" data-toggle="pill" href="#pills-recived" role="tab" aria-controls="pills-recived" aria-selected="false">Đã nhận</a>
+                <a class="nav-link" id="pills-received-tab" data-toggle="pill" href="#pills-received" role="tab" aria-controls="pills-received" aria-selected="false">Đã nhận</a>
             </li>
             <li class="nav-item col-md-2 text-center" role="presentation">
-                <a class="nav-link" id="pills-evaluate-tab" data-toggle="pill" href="#pills-evaluate" role="tab" aria-controls="pills-evaluate" aria-selected="false">Đánh giá</a>
+                <a class="nav-link" id="pills-cancel-tab" data-toggle="pill" href="#pills-cancel" role="tab" aria-controls="pills-cancel" aria-selected="false">Đã Hủy</a>
             </li>
         </ul>
         <div style="margin-top:30px" class="tab-content" id="pills-tabContent">
@@ -40,7 +40,7 @@
                 <div class="wait-confirm-list">
                     @foreach (var item in Model)
                     {
-                        if (item.status == "cho xac nhan")
+                        if (item.status == OrderDetailStatus.unconfirm.ToString())
                         {
                             <partial name="_OrderDetailUserPartial" model="item" />
                         }
@@ -51,7 +51,7 @@
                 <div class="wait-confirm-list">
                     @foreach (var item in Model)
                     {
-                        if (item.status == "da xac nhan")
+                        if (item.status == OrderDetailStatus.confirmed.ToString())
                         {
                             <partial name="_OrderDetailUserPartial" model="item" />
                         }
@@ -62,29 +62,29 @@
                 <div class="wait-confirm-list">
                     @foreach (var item in Model)
                     {
-                        if (item.status == "van chuyen")
+                        if (item.status == OrderDetailStatus.delivery.ToString())
                         {
                             <partial name="_OrderDetailUserPartial" model="item" />
                         }
                     }
                 </div>
             </div>
-            <div class="tab-pane fade" id="pills-recived" role="tabpanel" aria-labelledby="pills-recived-tab">
+            <div class="tab-pane fade" id="pills-received" role="tabpanel" aria-labelledby="pills-received-tab">
                 <div class="wait-confirm-list">
                     @foreach (var item in Model)
                     {
-                        if (item.status == "da nhan")
+                        if (item.status == OrderDetailStatus.deliveried.ToString() || item.status == OrderDetailStatus.evaluated.ToString())
                         {
                             <partial name="_OrderDetailUserPartial" model="item" />
                         }
                     }
                 </div>
             </div>
-            <div class="tab-pane fade" id="pills-evaluate" role="tabpanel" aria-labelledby="pills-evaluate-tab">
+            <div class="tab-pane fade" id="pills-cancel" role="tabpanel" aria-labelledby="pills-cancel-tab">
                 <div class="wait-confirm-list">
                     @foreach (var item in Model)
                     {
-                        if (item.status == "danh gia")
+                        if (item.status == OrderDetailStatus.cancelled.ToString())
                         {
                             <partial name="_OrderDetailUserPartial" model="item" />
                         }
@@ -105,42 +105,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                @*<form onsubmit="return false">
-            <div class="form-group">
-                <label> Ảnh Sản Phẩm: </label>
-                <img src="" alt="Ảnh Sản Phẩm" id="ratingimage">
-            </div>
-            <div class="form-group">
-                <label>Tên sản phẩm: </label>
-                <input readonly class=" form-control " type="text" id="ratingname" />
-            </div>
-            <div class="form-group">
-                <label>Phân Loại Hàng: </label>
-                <input readonly class=" form-control " type="text" id="ratingcategory" />
-            </div>
-            <div class="form-group">
-                <label>Điểm Đánh Giá: </label>
-                <div class="txt-center">
-                    <div class="rating">
-                        <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
-                        <label for="star5">☆</label>
-                        <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
-                        <label for="star4">☆</label>
-                        <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
-                        <label for="star3">☆</label>
-                        <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
-                        <label for="star2">☆</label>
-                        <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
-                        <label for="star1">☆</label>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-            </div>
-            <input data-dismiss="modal" class=" form-control btn btn-primary" type="submit" id="submitratingmodal" value="Lưu" />
-        </form>*@
+
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
+                            <input hidden type="text" id="orderdetailid" />
                             <input hidden type="text" id="ratingproductid" />
                             <input hidden type="text" id="ratinguserid" />
                             <img src="" alt="Ảnh Sản Phẩm" id="ratingimage" height="100" width="100">
@@ -149,8 +118,9 @@
                             <label>Tên sản phẩm:  </label>
                             <label id="ratingname" class="font-weight-bold"></label> <br />
                             <label>Phân loại:  </label>
-                            <label id="ratingname" style="opacity:0.5">abc</label> <br />
+                            <label id="ratingcategory" style="opacity:0.5"> </label> <br />
                             <label>Điểm Đánh Giá: </label>
+                            <label id="ratingrate"></label>
                             <div class="txt-center">
                                 <div class="rating">
                                     <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
@@ -170,19 +140,21 @@
 
                     </div>
                     <br />
-                    <textarea cols="50" rows="10" style="width:100%"> </textarea>
+                    <textarea cols="50" rows="10" style="width:100%" id="ratingcontent"> </textarea>
+                    <button id="submit_rating_modal" type="button" class="btn btn-success">Xác Nhận</button>
                 </div>
-                
-                
-                @*<input readonly class=" form-control " type="text" id="ratingname" />*@
             </div>
         </div>
     </div>
 </div>
 @section header {
     <link href="~/css/orderdetail.css" rel="stylesheet" />
+    <link href="~/js/build/toastr.css" rel="stylesheet" />
 }
 @section Scripts{
     <script src="~/js/userRating.js"></script>
 
+    <script src="~/js/build/toastr.min.js"></script>
+
 }
+

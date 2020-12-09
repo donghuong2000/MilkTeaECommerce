@@ -20,6 +20,6 @@ namespace MilkTeaECommerce.Models
         public ApplicationUser Shipper { get; set; }
         public virtual OrderHeader OrderHeader { get; set; }
         public virtual Product Product { get; set; }
-        public virtual DeliveryDetail DeliveryDetails { get; set; }
+        public virtual DeliveryDetail DeliveryDetails { get; set; }  
     }
 }
