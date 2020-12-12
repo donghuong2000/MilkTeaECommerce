@@ -1,0 +1,174 @@
+﻿@model OrderHeader
+@{
+    ViewData["Title"] = "Summary";
+}
+
+
+<div style="margin-bottom:20px;">
+    <form>
+        <br />
+        <div class="backgroundWhiteBorder">
+            <div class="container">
+                <div class="card" style="margin:auto;">
+                    <div class="   row container" style="height:50px; background-color:darkslategray; margin-bottom:30px;">
+                        <div class="col-6">
+                            <i class="fa fa-shopping-cart"></i> &nbsp;
+                            Chi tiết đơn đặt
+                        </div>
+
+                    </div>
+                    <div class="card-body" style="margin-bottom:30px; margin-left: 100px;">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-info">Chi tiết người đặt:</span>
+                                    </h4>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Tên</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="ApplicationUser.Name" type="text" class="form-control" readonly />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Phone</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="ApplicationUser.PhoneNumber" type="text" class="form-control" readonly />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label>Địa chỉ</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="ApplicationUser.Address" type="text" class="form-control" readonly />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12 col-md-5 offset-lg-1">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-info">Chi tiết đặt hàng:</span>
+                                </h4>
+                                <ul class="list-group mb-3">
+                                    @foreach (var item in Model.OrderDetails)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <div>
+                                                        <h6 class="my-0"></h6>
+                                                        <div class="text-muted"><strong>Tên sản phẩm:</strong> </div>
+                                                    </div>
+                                                    <small class="text-muted">@item.Product.Name  x @item.Count</small>
+                                                    <div>
+                                                        <h6 class="my-0"></h6>
+                                                        <div class="text-muted"><strong>Đơn giá:</strong> </div>
+                                                    </div>
+                                                    <small class="text-muted">@item.Product.Price</small>
+                                                    <div>
+                                                        <h6 class="my-0"></h6>
+                                                        <div class="text-muted"><strong>Tổng giá:</strong> </div>
+                                                    </div>
+                                                    <small class="text-muted">@item.Price</small>
+                                                </div>
+
+
+                                                <div class="col-md-6 text-right">
+                                                    <a>
+                                                        <img src="@item.Product.ImageUrl" height="150" width="100" class="rounded" />
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+
+                                        </li>
+                                    }
+
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <small class="text-info">Đơn vị vận chuyển :</small>
+                                        <strong class="text-info">@Model.OrderDetails.First().DeliveryDetails.Delivery.Name </strong><br />
+                                        <small class="text-info">Phí vận chuyển :</small>
+                                        <strong class="text-info">@Model.OrderDetails.First().DeliveryDetails.Price</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <small class="text-info">Tiền giảm (VND) :</small>
+                                        <strong class="text-info">@Model.Price</strong><br />
+                                        <small class="text-info">Tổng tiền (VND) :</small>
+                                        <strong class="text-info">@Model.Price</strong>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer" style="margin-left: 90px;">
+                        <div class="row" style="position:relative;">
+                            <div class="col-12 col-lg-6 pt-2">
+                                <p style="color:maroon; font-size:14px;">Thời gian giao dự kiến: @DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()</p>
+                            </div>
+                            <div class="col-12 col-lg-5" style="position:absolute; right:87px; bottom:-9px;">
+
+                                @*<script>
+                                        document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                                    </script>*@
+                                <span class="col-lg-6 text-right">
+                                    <a href="/Checkout/CancelBill" class="btn btn-danger form-control ">Back to Cart</a>
+                                </span>
+                                <span class="col-lg-6">
+                                    <a id="btnOrder" value="Place Order" class="btn btn-success form-control ">Place Order</a>
+                                </span>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+@section Scripts{
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+    <script>
+        $('#btnOrder').click(function () {
+            Swal.showLoading()
+            $.ajax({
+                url: "/Checkout/genaratebill",
+                success: function (data) {
+                    if (data.success) {
+                        Swal.fire(
+                            'Đơn đặt hàng',
+                            data.message,
+                            'success')
+                    }
+                    else {
+                        Swal.fire(
+                            'Đơn đặt hàng',
+                            data.message,
+                            'error')
+                    }
+                }
+            })
+            
+        })
+
+    </script>
+}
