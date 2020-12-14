@@ -1,0 +1,226 @@
+﻿body {
+}
+.banner-section {
+    padding: 100px 0 316px;
+    position: relative;
+}
+.banner-section .banner-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: .3;
+}
+.bg-fixed {
+    background-attachment: fixed;
+}
+.bg_img {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.details-banner {
+    padding-bottom: 20px;
+    position: relative;
+    height: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    place-items: center;
+}
+.details-banner-wrapper {
+    position: relative;
+
+}
+.details-banner-wrapper .details-banner-thumb {
+   position: absolute;
+    top: -150px;
+    left: 0;
+    display: none;
+    overflow: hidden;
+    border-radius: 5px;
+}
+.details-banner-content .tags {
+    margin-bottom: 21px;
+}
+.details-banner-content .tags span, .details-banner-content .tags a {
+    font-size: 14px;
+    color: #9aace5;
+    text-transform: uppercase;
+}
+
+a {
+    display: inline-block;
+    -webkit-transition: all ease 0.3s;
+    transition: all ease 0.3s;
+}
+.details-banner-wrapper .details-banner-thumb img {
+    width: 100%;
+}
+img {
+    border-style: none;
+}
+@media (min-width: 992px) 
+{
+    .details-banner-wrapper .details-banner-thumb {
+        width: calc(25% - 28px);
+        display: block;
+    }
+}
+.details-banner-content .tags {
+    margin-bottom: 21px;
+}
+/*@media (min-width: 1200px) 
+{
+    .container {
+        max-width: 1170px;
+    }
+}
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}*/
+@media (min-width: 992px){
+    .offset-lg-3 {
+        margin-left: 25%;
+    }
+}
+.centered {
+    position: absolute;
+    text-transform: uppercase;
+    padding: 0.5rem;
+    letter-spacing: 2px;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    font-family: "Roboto", sans-serif;
+}
+
+.fixed-nav {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    background: white;
+}
+.tab-menu {
+    display: flex;
+    padding: 10px 0;
+    border-top: 1px solid #11326f;
+    border-bottom: 1px solid #11326f;
+    margin-bottom: 40px;
+    place-content: center;
+}
+.active {
+    color: black;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size:20px;
+}
+a{
+    text-decoration: none;
+    color:black;
+    
+
+}
+ul{
+    list-style:none;
+}
+.cart_inner .table td {
+    padding: .75rem 1.5rem;
+    border-color: #EEEEEE;
+}
+.cart_inner .table tbody tr td {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    vertical-align: middle;
+    align-self: center;
+
+}
+    .cart_inner .table tbody tr td .media-min .d-flex {
+        padding-right: 30px;
+    }
+.cart_inner .table tbody tr td .media-min .d-flex img {
+            border-radius: 3px;
+        }
+.cart_inner .table tbody tr td .media-min .media-body-min {
+        vertical-align: middle;
+        align-self: center;
+}
+.cart_area {
+}
+.cart_inner .table tbody tr td {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    vertical-align: middle;
+    align-self: center;
+}
+
+    .cart_inner .table tbody tr td .media-min .media-body-min p {
+        margin-bottom: 0px;
+    }    
+.table-responsive-min {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+table {
+    border-collapse: collapse;
+}
+.media-min {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+.d-flex {
+    display: -ms-flexbox !important;
+    display: flex !important;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+.media-body-min {
+    -ms-flex: 1;
+    flex: 1;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+.cart_inner .table thead tr th {
+    border-top: 0px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Oswald",sans-serif;
+    color: #222;
+    border-bottom: 0px !important;
+}
+.cart_inner .table th, .cart_inner .table td {
+    padding: .75rem 1.5rem;
+    border-color: #EEEEEE;
+}
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6 !important;
+}
+th {
+    text-align: inherit;
+}

@@ -27,10 +27,10 @@ $(document).ready(function () {
     });
 
     $('.selectlist').select2({
-        placeholder: "Select a Delivery",
+        placeholder: "Select a ",
         minimumInputLength: 1,
         ajax: {
-            url: '/Admin/Deliveries/GetforSelect',
+            url: '/Admin/DeliveryDetail/GetforSelect',
             data: function (params) {
                 return {
                     q: params.term// search term
