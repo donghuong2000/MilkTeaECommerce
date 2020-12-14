@@ -45,6 +45,7 @@ namespace MilkTeaECommerce.Controllers
             profile.Name = user.Name;
             profile.Phonenumber = user.PhoneNumber;
             profile.ImageUrl = user.ImageUrl;
+            profile.Address = user.Address;
             profile.IsMailComfirm = user.EmailConfirmed;
             profile.IsPhoneComfirm = user.PhoneNumberConfirmed;
             return View(profile);
@@ -75,6 +76,7 @@ namespace MilkTeaECommerce.Controllers
                 }
                 var user = await _userManager.FindByNameAsync(vm.Username);
                 user.Name = vm.Name;
+                user.Address = vm.Address;
                 if(vm.Email.ToLower() != user.Email.ToLower())
                 {
                     user.UserName = vm.Email;

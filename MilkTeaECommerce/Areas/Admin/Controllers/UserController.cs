@@ -66,7 +66,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 {
                     UserName = vm.Username,
                     Name = vm.Name,
-                    Email = vm.Name,
+                    Email = vm.Mail,
                     PhoneNumber = vm.Sdt,
                     
                 };

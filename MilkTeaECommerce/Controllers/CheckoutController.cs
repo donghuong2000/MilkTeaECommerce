@@ -137,10 +137,12 @@ namespace MilkTeaECommerce.Controllers
                 Count = x.quantity,
                 OrderHeaderId = headerId,
                 ProductId = x.add,
-                Product = _db.Products.AsNoTracking().FirstOrDefault(a=>a.Id==x.add),
-                Price = x.amount/2 *x.quantity,
+                Product = _db.Products.AsNoTracking().FirstOrDefault(a => a.Id == x.add),
+                Price = x.amount / 2 * x.quantity,
                 Id = Guid.NewGuid().ToString(),
-                DeliveryDetails = deliverydetail
+                DeliveryDetails = deliverydetail,
+                Status = OrderDetailStatus.unconfirm.ToString()
+
 
             }) ;
             header.OrderDetails = ShoppingItem.ToList();
