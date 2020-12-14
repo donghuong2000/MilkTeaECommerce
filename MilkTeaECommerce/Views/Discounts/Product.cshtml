@@ -1,7 +1,8 @@
-﻿
+﻿@model List<MilkTeaECommerce.Models.Models.DiscountViewModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Product";
 }
+
 
 <div class="ads-grid">
     <div class="container">
@@ -13,7 +14,7 @@
                 <i></i>
             </span>
         </h3>
-        <div class="side-bar col-md-3" >
+        <div class="side-bar col-md-3">
             <div class="search-hotel">
                 <h3 class="agileits-sear-head">Search Here..</h3>
                 <form action="#" method="post">
@@ -38,45 +39,46 @@
         <div class="agileinfo-ads-display col-md-9">
             <!-- product-->
             <div class="wrapper">
-                <div class="product-sec1" style="height: 500px;">
+                <div class="product-sec1" style="height: 500px;" id="product">
                     <div>
-                        <h3 class="heading-tittle">Product</h3>
-                        <a href="/Discounts/Product" style="float:right; cursor:pointer">Xem thêm</a>
-                        <div id="product">
-
+                        <h3 class="heading-tittle">@ViewBag.Name</h3>
+                    </div>
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-5" style="cursor: pointer;margin: 1rem 2rem;border: 1px solid rgba(0, 0, 0, 0.16);padding: 1rem;border-radius: 6px;"
+                             data-target="#discount-modal" data-toggle="modal" data-id="@item.Id">
+                            <div class="col-xs-4 img-deals" style=" margin-top: 1rem;">
+                                @item.Code
+                            </div>
+                            <div class="col-xs-8 img-deal1">
+                                <h3>@item.Name </h3>
+                                <a> @item.DateStart.GetValueOrDefault().ToString("dd-MM-yyyy") </a>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
-                
+
+            </div>
+            <div class="product-sec1" style="place-content: center; display: flex;">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="/Discounts/@ViewBag.Name?page=@(ViewBag.page - 1)" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">@ViewBag.page</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="/Discounts/@ViewBag.Name?page=@(ViewBag.page + 1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="clearfix"></div>
             </div>
 
-            <!-- delvery-->
-            <div class="wrapper">
-                <div class="product-sec1" style="height: 500px;" id="delivery">
-                    <div>
-                        <h3 class="heading-tittle">Delivery</h3>
-                        <a href="/Discounts/Delivery" style="float:right; cursor:pointer">Xem thêm</a>
-                    </div>
-                   
-
-                </div>
-            </div>
-            <!-- category-->
-            <div class="wrapper">
-                <div class="product-sec1" style="height: 500px;" id="category">
-                    <div>
-                        <h3 class="heading-tittle">Category</h3>
-                        <a href="/Discounts/Category" style="float:right; cursor:pointer">Xem thêm</a>
-                    </div>
-                    
-
-                </div>
-            </div>
         </div>
     </div>
 </div>
 
-<div >
+<div>
     <div class="modal" id="discount-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -89,7 +91,7 @@
                 <div class="modal-body">
                     <div class="side-bar" style=" display: grid;place-items: center;">
                         <p style="color:black"> Nhập mã sau để sử dụng khuyến mãi</p>
-                        <div  style="background: white;padding: 0.5rem 1rem;width: fit-content;border: 1px solid #e5e5e5;">
+                        <div style="background: white;padding: 0.5rem 1rem;width: fit-content;border: 1px solid #e5e5e5;">
                             <p id="discount-code" style="color: #FF5722;"></p>
                         </div>
                     </div>
@@ -104,7 +106,3 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    <script src="~/js/home-discount.js"></script>
-
-}
