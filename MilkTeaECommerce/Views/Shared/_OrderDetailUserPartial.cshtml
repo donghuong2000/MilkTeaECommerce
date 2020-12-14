@@ -1,16 +1,51 @@
-﻿
+﻿@model MilkTeaECommerce.Models.Models.OrderDetailUserViewModel
+
+
 <div class="wait-confirm-items">
     <div class="item-inner">
         <div class="item-header">
             <!--đây là thông tin của shop, bao gồm ảnh và tên -->
             <!-- phải link về thông tin của shop-->
             <a href="#">
-                <img class="avatar-shop" src="https://via.placeholder.com/150" alt="shop avatar" />
-                <strong>Tên của shop</strong>
+                <img class="avatar-shop" src="@Model.shopimage" alt="shop avatar" />
+                <strong>@Model.shopname</strong>
             </a>
             <div>
                 <!-- trạng thái có thể sửa dc-->
-                <span class="fa fa-truck" aria-hidden="true"> chờ cửa hàng xác nhận</span>
+                @{string status = ""; }
+
+                @{
+
+                    if (Model.status == OrderDetailStatus.unconfirm.ToString())
+                    {
+                        status = "Chờ xác nhận";
+                    }
+                    if (Model.status == OrderDetailStatus.confirmed.ToString())
+                    {
+                        status = "Đã xác nhận";
+                    }
+                    if (Model.status == OrderDetailStatus.delivery.ToString())
+                    {
+                        status = "Đang Vận chuyển";
+                    }
+                    if (Model.status == OrderDetailStatus.deliveried.ToString() )
+                    {
+                        status = "Đã nhận";
+                    }
+                    if (Model.status == OrderDetailStatus.evaluated.ToString())
+                    {
+                        status = "Đã đánh giá";
+                    }
+                    if (Model.status == OrderDetailStatus.cancelled.ToString())
+                    {
+                        status = "Đã Hủy";
+                    }
+
+
+                }
+
+                <span class="fa fa-truck" aria-hidden="true"> @status</span>
+
             </div>
         </div>
         <!-- thanh ngang-->
@@ -19,44 +54,110 @@
         <div class="item-body">
             <div style="display:flex">
                 <a href="#">
-                    <img class="item-img" src="https://via.placeholder.com/150" alt="items" />
+                    <img class="item-img" src="@Model.productimage" alt="items" />
                 </a>
                 <div class="info">
-                    <h4><strong>Tieu để của sản phẩm, đây là một sản phẩm rất là tuyệt vời ok men</strong></h4>
-                    <p>Phân loại hàng: quần xxx</p>
-                    <p>X 10</p>
+                    <a href="#"><h4><strong>@Model.productname</strong></h4></a>
+                    <p>Phân loại hàng : @Model.categoryname</p>
+                    <p>X @Model.count</p>
                     <!--đơn vị vận chuyenr nếu có-->
-                    <p>đơn vị vận chuyển: XXXXX: 12.000 đ</p>
+                    <p>Đơn Vị Vận Chuyển : @Model.deliveryandprice</p>
                 </div>
             </div>
             <!--giá từng món-->
             <div>
                 <!--giá cũ từng món-->
-                <p><del>1.000.000</del></p>
+                <p><del>@Model.beforeprice đ</del></p>
                 <!--giá Khuyến mĩa từng món-->
-                <h2 class="text-danger">10.000</h2>
+                <h2 class="text-danger">@Model.afterprice đ</h2>
             </div>
         </div>
         <!-- nếu trạng thái giao hàng là gì thì ra cái gì-->
-        @if (true)
+        <!-- Cac status = (cho xac nhan,cho lay hang,dang giao, da giao-->
+        @if (Model.status == OrderDetailStatus.unconfirm.ToString())
         {
             <div class="item-fooder">
-                <h1 class="text-right">Tổng tiền: 112.000</h1>
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
                 <div class="text-right mt">
+                    <a class="btn btn-lg " style="background-color:#343a40 ; color:#fff" href="#">Xem chi tiết đơn hàng</a>
                     <a class="btn btn-lg btn-info" href="#">Hủy đơn</a>
                 </div>
             </div>
         }
-        else
+        else if (Model.status == OrderDetailStatus.confirmed.ToString())
         {
             <div class="item-fooder">
-                <h1 class="text-right">Tổng tiền: 112.000</h1>
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
                 <div class="text-right mt">
-                    <a class="btn btn-lg btn-info" href="#">Hủy đơn</a>
+                    <a class="btn btn-lg" style="background-color:#343a40 ; color:#fff" href="#">Xem chi tiết đơn hàng</a>
                 </div>
             </div>
+
+        }
+        else if (Model.status == OrderDetailStatus.delivery.ToString())
+        {
+            <div class="item-fooder">
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
+                <div class="text-right mt">
+                    <a class="btn btn-lg" style="background-color:#343a40 ; color:#fff" href="#">Xem chi tiết đơn hàng</a>
+                </div>
+            </div>
+        }
+        else if (Model.status == OrderDetailStatus.deliveried.ToString())
+        {
+            <div class="item-fooder">
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
+                <div class="text-right mt">
+                    <a class="btn btn-lg" style="background-color:#343a40 ; color:#fff" href="#">Xem chi tiết đơn hàng</a>
+                    <a href="#" class="btn btn-lg btn-success" data-toggle="modal" data-target="#RatingModal" data-productid="@Model.productid" data-orderdetailid=@Model.orderdetailid>Đánh Giá</a>
+                    <a href="#" class="btn btn-lg btn-danger" data-whatever="@Model.productid">Mua lần nữa</a>
+                </div>
+            </div>
+            <!-- pop up danh gia san pham-->
+            <!-- đây là cho edit modal-->
+        }
+        else if (Model.status == OrderDetailStatus.evaluated.ToString())
+        {
+            <div class="item-fooder">
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
+            </div>
+            <div class="text-right mt">
+                <a class="btn btn-lg" style="background-color:#343a40;color:#fff" href="#">Xem chi tiết đơn hàng</a>
+                <a href="#" class="btn btn-lg btn-warning" data-toggle="modal" data-target="#RatingModalReadOnly" data-productid="@Model.productid" data-orderdetailid=@Model.orderdetailid>Xem Chi Tiết Đánh Giá</a>
+                <a href="#" class="btn btn-lg btn-danger" data-whatever="@Model.productid">Mua lần nữa</a>
+            </div>
+
+        }
+        else if (Model.status == OrderDetailStatus.cancelled.ToString())
+        {
+            <div class="item-fooder">
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
+            </div>
+            <div class="text-right mt">
+                <a class="btn btn-lg" style="background-color:#343a40;color:#fff" href="#">Chi tiết đơn hủy</a>
+                <a href="#" class="btn btn-lg btn-danger" data-whatever="@Model.productid">Mua lần nữa</a>
+            </div>
+
         }
 
+        @*else
+        {
+            <div class="item-fooder">
+                <h1 class="text-right">Tổng tiền: @(Model.afterprice * Model.count)</h1>
+                <div class="text-right mt">
+                    <a class="btn btn-lg btn-info" href="#">Hủy đơn</a>
+                </div>
+            </div>
+        }*@
+
     </div>
-    
+
 </div>
+
+@section Scripts{
+    <script src="~/js/userRating.js"></script>
+}
+
+
+
+

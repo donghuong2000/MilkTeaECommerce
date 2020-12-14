@@ -1,4 +1,4 @@
-﻿
+﻿@model List<MilkTeaECommerce.Models.Models.OrderDetailUserViewModel>
 @{
     ViewData["Title"] = "OrderDetail";
 }
@@ -23,59 +23,189 @@
                 <a class="nav-link active" id="pills-wait-tab" data-toggle="pill" href="#pills-wait" role="tab" aria-controls="pills-wait" aria-selected="true">Chờ xác nhận</a>
             </li>
             <li class="nav-item col-md-2 text-center" role="presentation">
-                <a class="nav-link" id="pills-comfirm-tab" data-toggle="pill" href="#pills-comfirm" role="tab" aria-controls="pills-comfirm" aria-selected="false">Đã xác nhận</a>
+                <a class="nav-link" id="pills-comfirm-tab" data-toggle="pill" href="#pills-confirm" role="tab" aria-controls="pills-comfirm" aria-selected="false">Đã xác nhận</a>
             </li>
             <li class="nav-item col-md-2 text-center" role="presentation">
-                <a class="nav-link" id="pills-delivery-tab" data-toggle="pill" href="#pills-delivery" role="tab" aria-controls="pills-delivery" aria-selected="false">Vận chuyển</a>
+                <a class="nav-link" id="pills-delivery-tab" data-toggle="pill" href="#pills-delivery" role="tab" aria-controls="pills-delivery" aria-selected="false">Đang vận chuyển</a>
             </li>
             <li class="nav-item col-md-2 text-center" role="presentation">
-                <a class="nav-link" id="pills-recived-tab" data-toggle="pill" href="#pills-recived" role="tab" aria-controls="pills-recived" aria-selected="false">Đã nhận</a>
+                <a class="nav-link" id="pills-received-tab" data-toggle="pill" href="#pills-received" role="tab" aria-controls="pills-received" aria-selected="false">Đã nhận</a>
             </li>
             <li class="nav-item col-md-2 text-center" role="presentation">
-                <a class="nav-link" id="pills-evaluate-tab" data-toggle="pill" href="#pills-evaluate" role="tab" aria-controls="pills-evaluate" aria-selected="false">Đánh giá</a>
+                <a class="nav-link" id="pills-cancel-tab" data-toggle="pill" href="#pills-cancel" role="tab" aria-controls="pills-cancel" aria-selected="false">Đã Hủy</a>
             </li>
         </ul>
         <div style="margin-top:30px" class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade" id="pills-wait" role="tabpanel" aria-labelledby="pills-wait-tab">
                 <div class="wait-confirm-list">
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
+                    @foreach (var item in Model)
+                    {
+                        if (item.status == OrderDetailStatus.unconfirm.ToString())
+                        {
+                            <partial name="_OrderDetailUserPartial" model="item" />
+                        }
+                    }
                 </div>
-
-
             </div>
-            <div class="tab-pane fade" id="pills-comfirm" role="tabpanel" aria-labelledby="pills-comfirm-tab">
+            <div class="tab-pane fade" id="pills-confirm" role="tabpanel" aria-labelledby="pills-confirm-tab">
                 <div class="wait-confirm-list">
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
-                    <partial name="_OrderDetailUserPartial" />
+                    @foreach (var item in Model)
+                    {
+                        if (item.status == OrderDetailStatus.confirmed.ToString())
+                        {
+                            <partial name="_OrderDetailUserPartial" model="item" />
+                        }
+                    }
                 </div>
-
             </div>
             <div class="tab-pane fade" id="pills-delivery" role="tabpanel" aria-labelledby="pills-delivery-tab">
-
-                đang vận chuyển
-
+                <div class="wait-confirm-list">
+                    @foreach (var item in Model)
+                    {
+                        if (item.status == OrderDetailStatus.delivery.ToString())
+                        {
+                            <partial name="_OrderDetailUserPartial" model="item" />
+                        }
+                    }
+                </div>
             </div>
-            <div class="tab-pane fade" id="pills-recived" role="tabpanel" aria-labelledby="pills-recived-tab">
-
-                đã nhận
-
+            <div class="tab-pane fade" id="pills-received" role="tabpanel" aria-labelledby="pills-received-tab">
+                <div class="wait-confirm-list">
+                    @foreach (var item in Model)
+                    {
+                        if (item.status == OrderDetailStatus.deliveried.ToString() || item.status == OrderDetailStatus.evaluated.ToString())
+                        {
+                            <partial name="_OrderDetailUserPartial" model="item" />
+                        }
+                    }
+                </div>
             </div>
-            <div class="tab-pane fade" id="pills-evaluate" role="tabpanel" aria-labelledby="pills-evaluate-tab">
-
-                đánh giá
-
+            <div class="tab-pane fade" id="pills-cancel" role="tabpanel" aria-labelledby="pills-cancel-tab">
+                <div class="wait-confirm-list">
+                    @foreach (var item in Model)
+                    {
+                        if (item.status == OrderDetailStatus.cancelled.ToString())
+                        {
+                            <partial name="_OrderDetailUserPartial" model="item" />
+                        }
+                    }
+                </div>
             </div>
+        </div>
 
+    </div>
+</div>
+<div class="modal fade" id="RatingModal" tabindex="-1" role="dialog" aria-labelledby="RatingModalLabelOrderDetailUserPartial" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="RatingModalLabelOrderDetailUserPartial">Đánh giá sản phẩm</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input hidden type="text" id="orderdetailid" />
+                            <input hidden type="text" id="ratingproductid" />
+                            <input hidden type="text" id="ratinguserid" />
+                            <img src="" alt="Ảnh Sản Phẩm" id="ratingimage" height="100" width="100">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Tên sản phẩm:  </label>
+                            <label id="ratingname" class="font-weight-bold"></label> <br />
+                            <label>Phân loại:  </label>
+                            <label id="ratingcategory" style="opacity:0.5"> </label> <br />
+                            <label>Điểm Đánh Giá: </label>
+                            <label id="ratingrate"></label>
+                            <div class="txt-center">
+                                <div class="rating">
+                                    <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
+                                    <label for="star5">☆</label>
+                                    <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
+                                    <label for="star4">☆</label>
+                                    <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
+                                    <label for="star3">☆</label>
+                                    <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
+                                    <label for="star2">☆</label>
+                                    <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
+                                    <label for="star1">☆</label>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <textarea cols="50" rows="10" style="width:100%" id="ratingcontent"> </textarea>
+                    <button id="submit_rating_modal" type="button" class="btn btn-success">Xác Nhận</button>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+<div class="modal fade" id="RatingModalReadOnly" tabindex="-1" role="dialog" aria-labelledby="RatingModalLabelOrderDetailUserPartial" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="RatingModalLabelOrderDetailUserPartial">Đánh giá sản phẩm</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input hidden type="text" id="orderdetailidreadonly" />
+                            <input hidden type="text" id="ratingproductidreadonly" />
+                            <input hidden type="text" id="ratinguseridreadonly" />
+                            <img src="" alt="Ảnh Sản Phẩm" id="ratingimagereadonly" height="100" width="100">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Tên sản phẩm:  </label>
+                            <label id="ratingnamereadonly" class="font-weight-bold"></label> <br />
+                            <label>Phân loại:  </label>
+                            <label id="ratingcategoryreadonly" style="opacity:0.5"> </label> <br />
+                            <label>Điểm Đánh Giá: </label>
+                            <label id="ratingratereadonly"></label>
+                            <div class="txt-center">
+                                <div class="rating">
+                                    <input id="star5readonly" name="star" type="radio" value="5" class="radio-btn hide" />
+                                    <label for="star5readonly">☆</label>
+                                    <input id="star4readonly" name="star" type="radio" value="4" class="radio-btn hide" />
+                                    <label for="star4readonly">☆</label>
+                                    <input id="star3readonly" name="star" type="radio" value="3" class="radio-btn hide" />
+                                    <label for="star3readonly">☆</label>
+                                    <input id="star2readonly" name="star" type="radio" value="2" class="radio-btn hide" />
+                                    <label for="star2readonly">☆</label>
+                                    <input id="star1readonly" name="star" type="radio" value="1" class="radio-btn hide" />
+                                    <label for="star1readonly">☆</label>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <textarea readonly cols="50" rows="10" style="width:100%" id="ratingcontentreadonly"> </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @section header {
     <link href="~/css/orderdetail.css" rel="stylesheet" />
+    <link href="~/js/build/toastr.css" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/js/userRating.js"></script>
+
+    <script src="~/js/build/toastr.min.js"></script>
+
 }
 
