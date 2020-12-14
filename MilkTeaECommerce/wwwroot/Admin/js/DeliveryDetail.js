@@ -1,36 +1,41 @@
 $(document).ready(function () {
     $('#dataTable').DataTable({
         "ajax": {
-            "url": "/Admin/Deliveries/GetAll"
+            "url": "/Admin/DeliveryDetail/GetAll"
         },
         "columns": [
-            { "data": "id" },
-            { "data": "name" },
+            { "data": "orderdetailid" },
+            { "data": "deliveryid" },
+            { "data": "address" },
+            { "data": "note" },
+            { "data": "price" },
+            { "data": "datestart" },
+            { "data": "dateend" },
             {
-                "data": "id",
+                "data": "orderdetailid",
                 "render": function (data) {
                     return `
                              <div class="text-center">
                                 <a href="#" data-toggle="modal" data-target="#EditModal" data-whatever="${data}" class="btn btn-success text-white" style="cursor:pointer">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a onClick=Delete("/Admin/Deliveries/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                                <a onClick=Delete("/Admin/DeliveryDetail/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>                           
                             
                            `;
-                }, "width": "40%"
+                }
             }
         ]
 
     });
 
     $('.selectlist').select2({
-        placeholder: "Select a ",
+        placeholder: "Select a Delivery",
         minimumInputLength: 1,
         ajax: {
-            url: '/Admin/DeliveryDetail/GetforSelect',
+            url: '/Admin/Deliveries/GetforSelect',
             data: function (params) {
                 return {
                     q: params.term// search term
@@ -52,12 +57,17 @@ $(document).ready(function () {
 });
 
 $('#CreateSubmit').click(function () {
-    var Id = $('#Create_deliveriesid').val();
-    var Name = $('#Create_deliveriesname').val();
+    var Orderdetailid = $('#Create_orderdetailid').val();
+    var Deliveryid = $('#Create_deliveryid').val();
+    var Address = $('#Create_address').val();
+    var Note = $('#Create_note').val();
+    var Price = $('#Create_price').val();
+    var Datestart = $('#Create_datestart').val();
+    var Dateend = $('#Create_dateend').val();
     $.ajax({
         method: 'POST',
-        url: "/Admin/Deliveries/Create",
-        data: { id: Id, name: Name },
+        url: "/Admin/DeliveryDetail/Create",
+        data: { orderdetailid: Orderdetailid, deliveryid: Deliveryid, address: Address, note: Note, price: Price, datestart: Datestart, dateend : Dateend },
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         success: function (data) {
             if (data.success) {
@@ -71,13 +81,17 @@ $('#CreateSubmit').click(function () {
     })
 })
 $('#editSubmit').click(function () {
-    var oldId = $('#update_deliveriesid_old').val();
-    var newId = $('#update_deliveriesid_new').val();
-    var Name = $('#update_deliveriesname').val();
+    var Orderdetailid = $('#update_orderdetailid').val();
+    var Deliveryid = $('#update_deliveryid').val();
+    var Address = $('#update_address').val();
+    var Note = $('#update_note').val();
+    var Price = $('#update_price').val();
+    var Datestart = $('#update_datestart').val();
+    var Dateend = $('#update_dateend').val();
     $.ajax({
         method: 'POST',
-        url: "/Admin/Deliveries/Update",
-        data: { newid: newId, newname: Name },
+        url: "/Admin/DeliveryDetail/Update",
+        data: { orderdetailid: Orderdetailid, deliveryid: Deliveryid, address: Address, note: Note, price: Price, datestart: Datestart, dateend: Dateend },
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         success: function (data) {
             if (data.success) {
@@ -96,16 +110,25 @@ $('#EditModal').on('show.bs.modal', function (event) {
     var modal = $(this)
     $.ajax({
         method: "GET",
-        url: '/Admin/Deliveries/Get/' + ad,
+        url: '/Admin/DeliveryDetail/Get/' + ad,
         success: function (data) {
             console.log(data)
-            modal.find('#update_deliveriesid_old').val(data.data.id)
-            modal.find('#update_deliveriesid_new').val(data.data.id)
-            modal.find('#update_deliveriesname').val(data.data.name)
+            console.log(modal.find('#update_dateend'))
+            modal.find('#update_orderdetailid').val(data.data.orderDetailid)
+            modal.find('#update_deliveryid').val(data.data.deliveryId)
+            modal.find('#update_address').val(data.data.address)
+            modal.find('#update_note').val(data.data.note)
+            modal.find('#update_price').val(data.data.price)
+            modal.find('#update_datestart').val(data.data.dateStart)
+            modal.find('#update_dateend').val(data.data.dateEnd)
+            
         
             //modal.find().val(data.data[0].id)
         }
     })
+
+
+
 })
 
 
