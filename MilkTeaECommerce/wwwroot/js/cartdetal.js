@@ -83,7 +83,7 @@ $('#submit-bill').click(function () {
     $.ajax({
         method: 'post',
         url: '/CheckOut/Summary',
-        data: { items: JSON.stringify(product), delivery: de, payment: pa, discount: discode },
+        data: { items: JSON.stringify(product), delivery: de, payment: pa, discountCode: discode },
         success: function (data) {
             
                 window.location.href = data.url;

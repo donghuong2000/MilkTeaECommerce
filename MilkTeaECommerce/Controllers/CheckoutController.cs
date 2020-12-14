@@ -105,7 +105,7 @@ namespace MilkTeaECommerce.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            float total = 0;
+            
             double? discountAmount =0;
             List<CartItemViewModel> cartItems = new List<CartItemViewModel>();
             if (items.Length > 0)
@@ -116,19 +116,20 @@ namespace MilkTeaECommerce.Controllers
             }
             var listProduct = cartItems.Select(x => x.add).ToList();
             var listCategory = cartItems.Select(x => _db.Products.Find(x.add).CategoryId).ToList();
-            if(discountCode!=null )
+            float total = cartItems.Select(x => (x.amount/2)*x.quantity).Sum();
+            if (discountCode!=null)
             {
-                if(CanDisCount(listProduct,listCategory,delivery,discountCode))
+                var dis = _db.Discounts.FirstOrDefault(x => x.Code == discountCode);
+                if (dis != null)
                 {
-                    var dis = _db.Discounts.FirstOrDefault(x => x.Code == discountCode);
-                    total = cartItems.Select(x => x.amount).Sum();
                     // tính tiền giảm
-                    discountAmount = total * ((100 - dis.PercentDiscount) / 100) > dis.MaxDiscount ? dis.MaxDiscount : total * ((100 - dis.PercentDiscount) / 100);
+                    discountAmount = (total * dis.PercentDiscount / 100) > dis.MaxDiscount ? dis.MaxDiscount : (total *dis.PercentDiscount / 100);
                 }    
             }
+            
             var headerId = Guid.NewGuid().ToString();
             var curruser = _db.AspNetUsers.Find(claim.Value);
-            var header = new OrderHeader { ApplicationUser = curruser ,Id = headerId, ApplicationUserId = claim.Value, Address = curruser.Address, Phone = curruser.PhoneNumber, Price = total -  float.Parse(discountAmount.GetValueOrDefault().ToString()) };
+            var header = new OrderHeader { PaymentStatus=discountAmount.ToString(),ApplicationUser = curruser ,Id = headerId, ApplicationUserId = claim.Value, Address = curruser.Address, Phone = curruser.PhoneNumber, Price = total -  float.Parse(discountAmount.GetValueOrDefault().ToString()) };
 
             var deliverydetail = new DeliveryDetail() { Address = header.Address, Price = 15000, DateEnd = DateTime.Now.AddDays(10), DateStart = DateTime.Now, DeliveryId = delivery,Delivery=_db.Deliveries.AsNoTracking().FirstOrDefault(x=>x.Id==delivery), Note = ""};
             var ShoppingItem = cartItems.Select(x => new OrderDetail
@@ -137,7 +138,7 @@ namespace MilkTeaECommerce.Controllers
                 OrderHeaderId = headerId,
                 ProductId = x.add,
                 Product = _db.Products.AsNoTracking().FirstOrDefault(a=>a.Id==x.add),
-                Price = x.amount,
+                Price = x.amount/2 *x.quantity,
                 Id = Guid.NewGuid().ToString(),
                 DeliveryDetails = deliverydetail
 
@@ -149,25 +150,6 @@ namespace MilkTeaECommerce.Controllers
             return Json(new { url = "/Checkout/summary" });
         }
          
-
-        private bool CanDisCount(List<string> productId, List<string> categoryId,string delivery,string disc)
-        {
-            var dis = _db.Discounts.FirstOrDefault(x => x.Code == disc);
-            if (dis == null)
-                return false;
-            var isProductDisCount = _db.ProductDiscount.Any(x => x.DiscountId == dis.Id && productId.Contains(x.ProductId));
-            var isCatgory = _db.CategoryDiscount.Any(x => x.DiscountId == dis.Id && categoryId.Contains(x.CategoryId));
-            var isDelivery = _db.CategoryDiscount.Any(x => x.DiscountId == dis.Id && categoryId.Contains(x.CategoryId));
-            if(isProductDisCount || isCatgory || isDelivery)
-            {
-                return true;
-            }    
-            else
-            {
-                return false;
-            }    
-        }
-
         public IActionResult CancelBill()
         {
 

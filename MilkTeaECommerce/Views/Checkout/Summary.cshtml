@@ -91,8 +91,6 @@
                                                 </div>
                                             </div>
 
-
-
                                         </li>
                                     }
 
@@ -104,9 +102,9 @@
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between bg-light">
                                         <small class="text-info">Tiền giảm (VND) :</small>
-                                        <strong class="text-info">@Model.Price</strong><br />
+                                        <strong class="text-info">@Model.PaymentStatus</strong><br />
                                         <small class="text-info">Tổng tiền (VND) :</small>
-                                        <strong class="text-info">@Model.Price</strong>
+                                        <strong class="text-info">@(Model.Price + Model.OrderDetails.First().DeliveryDetails.Price)</strong>
                                     </li>
                                 </ul>
                             </div>
