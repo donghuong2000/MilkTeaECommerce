@@ -8,6 +8,7 @@ namespace MilkTeaECommerce.Models
     {
         unconfirm,
         confirmed,
+        admit,
         delivery,
         deliveried,
         cancelled,

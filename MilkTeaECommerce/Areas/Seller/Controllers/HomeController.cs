@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MilkTeaECommerce.Data;
 using MilkTeaECommerce.Models;
 using MilkTeaECommerce.Models.Models;
@@ -115,6 +116,17 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
             return Json(total);
 
         }
+        public IActionResult Earnings()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var sellerId = claim.Value;
 
+
+            var totalProduct = _db.OrderDetails.Include(x => x.Product)
+                .Where(x => x.Product.ShopId == sellerId && x.Status == OrderDetailStatus.deliveried.ToString()).Sum(x => x.Price).ToString();
+
+            return Json(totalProduct);
+        }
     }
 }

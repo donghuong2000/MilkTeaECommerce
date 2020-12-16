@@ -3,8 +3,10 @@
     $('#dataTableNull').DataTable({
 
         "ajax": {
-            "url": '/shipper/deliverydetails/getall/null',
-            
+            "url": '/shipper/deliverydetails/getall',
+            "data": {
+                "status": "confirmed"
+            }
         },
         "columns": [
             {
@@ -42,7 +44,7 @@
         "ajax": {
             "url": '/shipper/deliverydetails/getall/',
             "data": {
-                "status":"Đã nhận đơn"
+                "status":"admit"
             }
 
         },
@@ -82,7 +84,7 @@
         "ajax": {
             "url": '/shipper/deliverydetails/getall/',
             "data": {
-                "status": "Đã lấy hàng"
+                "status": "delivery"
             }
 
         },
@@ -122,7 +124,7 @@
         "ajax": {
             "url": '/shipper/deliverydetails/getall/',
             "data": {
-                "status": "Hoàn thành"
+                "status": "deliveried"
             }
 
         },
@@ -166,18 +168,18 @@ $('#Detail').on('show.bs.modal', function (event) {
         url: '/Shipper/deliverydetails/Details/' + idOrder,
         success: function (data) {
 
-            if (data.status == null) {
-                data.status = "Đã nhận đơn";
+            if (data.status == "confirmed") {
+                data.status = "admit";
             }
-            else if (data.status == "Đã nhận đơn") {
-                data.status = "Đã lấy hàng";
+            else if (data.status == "admit") {
+                data.status = "delivery";
             }
-            else if (data.status == "Đã lấy hàng") {
-                data.status = "Hoàn thành";
+            else if (data.status == "delivery") {
+                data.status = "deliveried";
             }
-            else {
-                data.status = "hidden";
-            }
+            //else {
+            //    data.status = "hidden";
+            //}
                 
             var url='"/Shipper/DeliveryDetails/Get/'+data.id+'"';
             modal.find('#Id').val(data.id);
