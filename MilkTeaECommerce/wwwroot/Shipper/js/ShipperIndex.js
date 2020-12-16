@@ -201,7 +201,7 @@ $('#Detail').on('show.bs.modal', function (event) {
     var idOrder = button.data('id') // Extract info from data-* attributes
     var modal = $(this)
     var table = $("#a-detail").data('value');
-
+    var text = "";
     $.ajax({
         method: 'GET',
         url: '/Shipper/deliverydetails/Details/' + idOrder,
@@ -209,12 +209,15 @@ $('#Detail').on('show.bs.modal', function (event) {
 
             if (data.status == "confirmed") {
                 data.status = "admit";
+                text = "Nhận đơn";
             }
             else if (data.status == "admit") {
                 data.status = "delivery";
+                text = "Đã lấy hàng";
             }
             else if (data.status == "delivery") {
                 data.status = "deliveried";
+                text = "Hoàn thành";
             }
             //else {
             //    data.status = "hidden";
@@ -234,8 +237,8 @@ $('#Detail').on('show.bs.modal', function (event) {
             modal.find('#AddressS').val(data.shopAddress);
             modal.find("#getOrder").attr('onclick', "GetOrder(" + url + ',"' + table + '")');
             modal.find("#getOrder").show();
-            modal.find("#getOrder").text(data.status);
-            if (data.status == "hidden") {
+            modal.find("#getOrder").text(text);
+            if (data.status == "confirmed" || data.status=="cancelled") {
                 modal.find("#getOrder").hide();
             }
         }
