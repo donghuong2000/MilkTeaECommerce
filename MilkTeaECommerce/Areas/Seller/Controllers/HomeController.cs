@@ -124,9 +124,33 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
 
 
             var totalProduct = _db.OrderDetails.Include(x => x.Product)
-                .Where(x => x.Product.ShopId == sellerId && x.Status == OrderDetailStatus.deliveried.ToString()).Sum(x => x.Price).ToString();
+                .Where(x => x.Product.ShopId == sellerId && x.Status == OrderDetailStatus.deliveried.ToString()).Sum(x => x.Price).GetValueOrDefault().ToString("#,###");
 
             return Json(totalProduct);
+        }
+        public IActionResult TotalCustomer()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var sellerId = claim.Value;
+
+            var customers = _db.OrderDetails.Include(x => x.Product)
+                .Where(x => x.Product.ShopId == sellerId && x.Status == OrderDetailStatus.deliveried.ToString())
+                .Select(x => x.OrderHeader.ApplicationUserId).Distinct().ToList();
+                //  .Select(x => new
+                //  {
+                //      name = x.OrderHeader.ApplicationUser.Name,
+
+                //  })
+                //.GroupBy(x => x.name)
+                //.Select(cus => new
+                //{
+                //    key = cus.Key,
+                //    count = cus.Count()
+                //}).ToList();
+
+
+            return Json(customers.Count);
         }
     }
 }

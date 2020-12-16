@@ -14,6 +14,16 @@
         url: '/seller/home/Earnings',
         success: function (data) {
             console.log(data);
+            $('#total-price').text(data);
+        }
+    });
+
+    $.ajax({
+        method: 'GET',
+        url: '/seller/home/TotalCustomer',
+        success: function (data) {
+            console.log(data);
+            //$('#total-price').text(data);
         }
     });
 });
