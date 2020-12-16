@@ -222,6 +222,7 @@ namespace MilkTeaECommerce.Controllers
                     ProductId = x.ProductId,
                     Price = x.Price,
                     Id = x.Id,
+                    Status = x.Status,
                     DeliveryDetails = new DeliveryDetail() { Address = x.DeliveryDetails.Address, DateEnd = x.DeliveryDetails.DateEnd, Price = x.DeliveryDetails.Price, DateStart = x.DeliveryDetails.DateStart, DeliveryId = x.DeliveryDetails.DeliveryId, Note = x.DeliveryDetails.Note, OrderDetailId = x.DeliveryDetails.OrderDetailId }
                 });
                 a.OrderDetails = newlistOrderDetail.ToList();
