@@ -91,5 +91,16 @@ namespace MilkTeaECommerce.Controllers
         {
             return View();
         }
+        // get all category in layout
+        [HttpGet]
+        public IActionResult getallcategories()
+        {
+            var categories = _db.Categories.Select(x => new
+            {
+                id=x.Id,
+                name=x.Name
+            });
+            return Json(categories );
+        }
     }
 }
