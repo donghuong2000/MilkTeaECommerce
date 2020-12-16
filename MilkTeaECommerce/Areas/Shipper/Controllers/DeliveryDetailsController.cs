@@ -129,6 +129,18 @@ namespace MilkTeaECommerce.Areas.Shipper
             return Json(new { success = true });
         }
 
+        public IActionResult Cancel(string id)
+        {
+            var orderDetail = _context.OrderDetails.Where(x => x.Id == id).SingleOrDefault();
+
+            orderDetail.Status = "cancelled";
+            _context.OrderDetails.Update(orderDetail);
+
+            /// xử lí cập nhật lại số lượng sản phẩm của shop
+            _context.SaveChanges();
+
+            return Json(new { success = true });
+        }
         [HttpGet]
         public IActionResult getorder()
         {

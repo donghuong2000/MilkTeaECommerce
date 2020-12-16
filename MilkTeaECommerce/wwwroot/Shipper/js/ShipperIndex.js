@@ -112,6 +112,8 @@
                                 class="btn btn-success" style="font-size:small">Chi tiết</a>
                                 <a onClick=GetOrder("/Shipper/DeliveryDetails/Get/${data}","#dataTableGet") class="btn btn-danger text-white" 
                                  style="cursor:pointer">Hoàn thành</a>
+                                <a onClick=Cancel("/Shipper/DeliveryDetails/Cancel/${data}","#dataTableGet") class="btn btn-danger text-white" 
+                                 style="cursor:pointer">Đã hủy</a>
                             </div>  
 
                            `
@@ -243,6 +245,57 @@ function GetOrder(url, table) {
                         swalWithBootstrapButtons.fire(
                             'Lỗi',
                             'Không thể nhận đơn hàng',
+                            'error'
+                        )
+                    }
+                }
+
+            })
+
+        }
+        else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+                'Hủy',
+                'Your record is safe :)',
+                'error'
+            )
+        }
+    })
+}
+
+function Cancel(url, table) {
+
+    if (url == "") {
+        var id = $('#Id').val();
+
+        url = '/Shipper/DeliveryDetails/Cancel/' + id;
+
+    }
+    Swal.fire(
+        'Xác nhận hủy đơn'
+    ).then((result) => {
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) {
+
+                    if (data.success) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Đã hủy đơn hàng',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        $(table).DataTable().ajax.reload();
+                        $('#Detail').removeClass('show');
+                    }
+                    else {
+                        swalWithBootstrapButtons.fire(
+                            'Lỗi',
+                            'Không thể hủy đơn hàng',
                             'error'
                         )
                     }
