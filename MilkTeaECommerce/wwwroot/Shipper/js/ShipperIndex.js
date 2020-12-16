@@ -158,6 +158,43 @@
             }
         ]
     });
+    $('#dataTableCancelled').DataTable({
+
+        "ajax": {
+            "url": '/shipper/deliverydetails/getall/',
+            "data": {
+                "status": "cancelled"
+            }
+
+        },
+        "columns": [
+            {
+                "data": "image",
+                "render": function (data) {
+                    return `
+                            <img src="${data} />
+                            `
+                }
+            },
+            { "data": "title" },
+            { "data": "customer" },
+            { "data": "address" },
+            { "data": "shopName" },
+            { "data": "shopAddress" },
+            {
+                "data": "id",
+                "render": function (data) {
+                    return `
+                             <div class="text-center" >
+                                <a id="a-detail" data-toggle="modal" data-target="#Detail" data-id="${data}" data-value="#dataTableDone"
+                                class="btn btn-success" style="font-size:small">Chi tiết</a>
+                            </div>  
+
+                           `
+                }
+            }
+        ]
+    });
 });
 $('#Detail').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal

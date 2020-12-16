@@ -17,6 +17,9 @@
         <li class="nav-item col-2 text-center" role="presentation">
             <a class="nav-link" id="order-done-tab" data-toggle="pill" href="#order-done" role="tab" aria-controls="order-done" aria-selected="false">Hoàn thành</a>
         </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="order-cancelled-tab" data-toggle="pill" href="#order-cancelled" role="tab" aria-controls="order-cancelled" aria-selected="false">Đã hủy</a>
+        </li>
     </ul>
 </div>
 
@@ -84,6 +87,22 @@
                 <div class="tab-pane fade" id="order-done" role="tabpanel" aria-labelledby="order-get-tab">
 
                     <table class="table table-bordered" id="dataTableDone" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Tên khách hàng</th>
+                                <th>Địa chỉ giao</th>
+                                <th>Tên shop</th>
+                                <th>Địa chỉ shop</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="order-cancelled" role="tabpanel" aria-labelledby="order-get-tab">
+
+                    <table class="table table-bordered" id="dataTableCancelled" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Hình ảnh</th>
