@@ -122,7 +122,7 @@
                 <a href="#">
 
                     <div style="display:flex;align-items:center">
-                        <img src="@Model.Shop.ImgUrl" style="border-radius:50%;margin-right:10px" height="50" width="50" />
+                        <img src="@(Model.Shop.ImgUrl==null?"":Model.Shop.ImgUrl)" style="border-radius:50%;margin-right:10px" height="50" width="50" />
                         <h4>@Model.Shop.Name</h4>
                         <lable style=" margin-left:20px" class="btn btn-primary btn-sm"> go to shop</lable>
                     </div>

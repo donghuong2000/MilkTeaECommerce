@@ -107,6 +107,7 @@ namespace MilkTeaECommerce.Controllers
 
             
             double? discountAmount =0;
+            float? DeliveryPrice = 30000;
             List<CartItemViewModel> cartItems = new List<CartItemViewModel>();
             if (items.Length > 0)
             {
@@ -119,19 +120,65 @@ namespace MilkTeaECommerce.Controllers
             float total = cartItems.Select(x => (x.amount/2)*x.quantity).Sum();
             if (discountCode!=null)
             {
-                var dis = _db.Discounts.FirstOrDefault(x => x.Code == discountCode);
+                // tính tiền giảm giá
+                var dis = _db.Discounts.Include(x=>x.ProductDiscount)
+                    .Include(x=>x.CategoryDiscount)
+                    .Include(x=>x.DeliveryDiscount)
+                    .FirstOrDefault(x => x.Code == discountCode);
                 if (dis != null)
                 {
+                    // check là giảm giá gì
+                    //var isDeliveryDiscount = _db.DeliveryDiscount.Any(x => x.DeliveryId == delivery && x.DiscountId ==dis.Id);
+                    //var isCategoryDiscount = _db.CategoryDiscount.Any(x => listCategory.Contains(x.CategoryId) && x.DiscountId == dis.Id);
+                    //var isProductDiscount = _db.ProductDiscount.Any(x => listProduct.Contains(x.ProductId) && x.DiscountId == dis.Id);
+
+                    var isDeliveryDiscount = dis.DeliveryDiscount.Any(x => x.DeliveryId == delivery);
+                    var isCategoryDiscount = dis.CategoryDiscount.Any(x => listCategory.Contains(x.CategoryId));
+                    var isProductDiscount = dis.ProductDiscount.Any(x => listProduct.Contains(x.ProductId));
                     // tính tiền giảm
-                    discountAmount = (total * dis.PercentDiscount / 100) > dis.MaxDiscount ? dis.MaxDiscount : (total *dis.PercentDiscount / 100);
+
+                    discountAmount = (total * dis.PercentDiscount / 100) > dis.MaxDiscount ? dis.MaxDiscount : (total * dis.PercentDiscount / 100);
+                    if (isDeliveryDiscount)
+                    {
+                        discountAmount = (DeliveryPrice * dis.PercentDiscount / 100) > dis.MaxDiscount ? dis.MaxDiscount : (DeliveryPrice * dis.PercentDiscount / 100);
+                    }    
+                    if(isProductDiscount)
+                    {
+                        // lấy tổng tiền của sản phẩm có thể giảm giá
+                        var toltalProduct = cartItems.Where(x=> listProduct.Contains(x.add)).Select(x => (x.amount / 2) * x.quantity).Sum();
+                        discountAmount = (toltalProduct * dis.PercentDiscount / 100) > dis.MaxDiscount ? dis.MaxDiscount : (toltalProduct * dis.PercentDiscount / 100);
+                    }    
+                    if(isCategoryDiscount)
+                    {
+                        var toltalProduct = cartItems
+                            .Where(x => listCategory.Contains(_db.Products.Find(x.add).CategoryId))
+                            .Select(x => (x.amount / 2) * x.quantity).Sum();
+                        discountAmount = (toltalProduct * dis.PercentDiscount / 100) > dis.MaxDiscount ? dis.MaxDiscount : (toltalProduct * dis.PercentDiscount / 100);
+                    }
+                    if (isCategoryDiscount && isProductDiscount)
+                    {
+                        var toltalProduct = cartItems
+                            .Where(x => listCategory.Contains(_db.Products.Find(x.add).CategoryId) || listProduct.Contains(x.add))
+                            .Select(x => (x.amount / 2) * x.quantity).Sum();
+                        discountAmount = (toltalProduct * dis.PercentDiscount / 100) > dis.MaxDiscount ? dis.MaxDiscount : (toltalProduct * dis.PercentDiscount / 100);
+                    }
+
                 }    
             }
-            
             var headerId = Guid.NewGuid().ToString();
             var curruser = _db.AspNetUsers.Find(claim.Value);
-            var header = new OrderHeader { PaymentStatus=discountAmount.ToString(),ApplicationUser = curruser ,Id = headerId, ApplicationUserId = claim.Value, Address = curruser.Address, Phone = curruser.PhoneNumber, Price = total -  float.Parse(discountAmount.GetValueOrDefault().ToString()) };
+            var header = new OrderHeader 
+            { 
+                PaymentStatus=discountAmount.ToString(),
+                ApplicationUser = curruser ,
+                Id = headerId, 
+                ApplicationUserId = claim.Value,
+                Address = curruser.Address,
+                Phone = curruser.PhoneNumber,
+                Price = total -  float.Parse(discountAmount.GetValueOrDefault().ToString())
+            };
 
-            var deliverydetail = new DeliveryDetail() { Address = header.Address, Price = 15000, DateEnd = DateTime.Now.AddDays(10), DateStart = DateTime.Now, DeliveryId = delivery,Delivery=_db.Deliveries.AsNoTracking().FirstOrDefault(x=>x.Id==delivery), Note = ""};
+            var deliverydetail = new DeliveryDetail() { Address = header.Address, Price = DeliveryPrice, DateEnd = DateTime.Now.AddDays(10), DateStart = DateTime.Now, DeliveryId = delivery,Delivery=_db.Deliveries.AsNoTracking().FirstOrDefault(x=>x.Id==delivery), Note = ""};
             var ShoppingItem = cartItems.Select(x => new OrderDetail
             {
                 Count = x.quantity,
