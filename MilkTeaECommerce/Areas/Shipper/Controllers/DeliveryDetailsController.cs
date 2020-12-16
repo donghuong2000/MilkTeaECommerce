@@ -137,6 +137,11 @@ namespace MilkTeaECommerce.Areas.Shipper
             _context.OrderDetails.Update(orderDetail);
 
             /// xử lí cập nhật lại số lượng sản phẩm của shop
+            var product = _context.Products.Where(x => x.Id == orderDetail.ProductId).SingleOrDefault();
+
+            product.Quantity += orderDetail.Count;
+            _context.Products.Update(product);
+
             _context.SaveChanges();
 
             return Json(new { success = true });
