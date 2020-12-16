@@ -101,5 +101,20 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
 
 
         }
+
+        // tổng số
+        [HttpGet]
+        public IActionResult TotalProducts()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var sellerId = claim.Value;
+
+            var total = _db.Products.Where(x => x.ShopId == sellerId).ToList().Count;
+
+            return Json(total);
+
+        }
+
     }
 }
