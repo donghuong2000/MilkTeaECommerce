@@ -206,9 +206,9 @@ namespace MilkTeaECommerce.Controllers
             return RedirectToAction("index");
         }
 
-        public IActionResult GenarateBill()
+        public async Task< IActionResult> GenarateBill()
         {
-            
+            await using var transaction = await _db.Database.BeginTransactionAsync();
             try
             {
                 var a = HttpContext.Session.Get<OrderHeader>("cart");
@@ -226,14 +226,34 @@ namespace MilkTeaECommerce.Controllers
                     DeliveryDetails = new DeliveryDetail() { Address = x.DeliveryDetails.Address, DateEnd = x.DeliveryDetails.DateEnd, Price = x.DeliveryDetails.Price, DateStart = x.DeliveryDetails.DateStart, DeliveryId = x.DeliveryDetails.DeliveryId, Note = x.DeliveryDetails.Note, OrderDetailId = x.DeliveryDetails.OrderDetailId }
                 });
                 a.OrderDetails = newlistOrderDetail.ToList();
-
+                
+                
+                foreach (var item in a.OrderDetails)
+                {
+                    var objfromDb = _db.Products.Find(item.ProductId);
+                    objfromDb.Quantity = objfromDb.Quantity - item.Count;
+                    if (objfromDb.Quantity < 0)
+                        throw new Exception("Lỗi đơn hàng " + objfromDb.Name + " chỉ còn " + (objfromDb.Quantity + item.Count));
+                    else
+                    {
+                        _db.Update(objfromDb);
+                        _db.SaveChanges();
+                    }
+                       
+                }
                 _db.OrderHeaders.Add(a);
                 _db.SaveChanges();
+                await transaction.CommitAsync();
+                transaction.Dispose();
                 HttpContext.Session.Remove("cart");
                 return Json(new { success = true, message = "Đã tạo đơn hàng thành công" });
+            
+               
             }
             catch (Exception e)
             {
+                transaction.Rollback();
+                transaction.Dispose();
                 return Json(new { success = false, message = e.Message });
 
             }
