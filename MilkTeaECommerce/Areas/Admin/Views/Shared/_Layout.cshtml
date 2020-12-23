@@ -51,10 +51,10 @@
                 </a>
             </li>
 
-           
 
-         
-            
+
+
+
 
             <!-- Nav Item - User Collapse Menu -->
             <li class="nav-item">
@@ -66,9 +66,9 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Action:</h6>
-                        <a class="collapse-item"asp-area="Admin" asp-controller="User" asp-action="Create"  >Create</a>
+                        <a class="collapse-item" asp-area="Admin" asp-controller="User" asp-action="Create">Create</a>
                         <a class="collapse-item" asp-area="Admin" asp-controller="User" asp-action="Index">List User</a>
-                        
+
                     </div>
                 </div>
             </li>
@@ -360,33 +360,47 @@
 
         </div>
         <!-- End of Content Wrapper -->
+        <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div >
+                            <div class="row">
+                                <div class="col-12 mx-auto">
 
+                                    <div class="p-5 bg-white shadow rounded-lg">
+                                        <img src="https://res.cloudinary.com/mhmd/image/upload/v1557366994/img_epm3iz.png" alt="" width="200" class="d-block mx-auto mb-4 rounded-pill">
+
+                                        <form id="importfile" enctype="multipart/form-data"  >
+                                            <div id="alert-text" class="text-danger"></div>
+                                            <div class="custom-file mb-3">
+                                                <input type="file" class="custom-file-input" id="inputFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                                <label class="custom-file-label" for="inputFile" aria-describedby="inputGroup">Choose file</label>
+                                            </div>
+                                            <input type="submit" class="form-control btn btn-primary" name="name" value="Upload sản phẩm" />
+                                        </form>
+
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
     </div>
     <!-- End of Page Wrapper -->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="~/Admin/vendor/jquery/jquery.min.js"></script>
