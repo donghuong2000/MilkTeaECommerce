@@ -148,9 +148,37 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
                 //    key = cus.Key,
                 //    count = cus.Count()
                 //}).ToList();
-
-
             return Json(customers.Count);
+        }
+        public IActionResult ChartEarning()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var sellerId = claim.Value;
+
+
+            //var data = _db.OrderDetails.Include(x => x.Product).Include(x => x.DeliveryDetails)
+            //    .Where(x => x.Product.ShopId == sellerId && x.Status == OrderDetailStatus.deliveried.ToString()
+            //    && x.DeliveryDetails.DateEnd.GetValueOrDefault().ToString("MM") == "12")
+            //    .Sum(x => x.Price).GetValueOrDefault().ToString();
+
+            // lấy các sản orderdetail của shop có ngày giao rồi
+
+            var data=_db.DeliveryDetails.Include(x=>x.OrderDetail).ThenInclude(x=>x.Product).ThenInclude(x=>x.Shop)
+                .Where(x=>x.OrderDetail.Product.ShopId==sellerId &&
+                x.OrderDetail.Status== OrderDetailStatus.deliveried.ToString())
+                .OrderByDescending(x=>x.DateEnd)
+                .Select(x => new
+                {
+                    price = x.Price,
+                    date = x.DateEnd.GetValueOrDefault()
+                }).ToList();
+            int[] month = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+            var lst = new List<object>();
+
+            
+
+            return Json(data);
         }
     }
 }

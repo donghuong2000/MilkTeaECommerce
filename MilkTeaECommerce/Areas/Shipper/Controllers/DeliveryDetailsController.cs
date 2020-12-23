@@ -25,10 +25,12 @@ namespace MilkTeaECommerce.Areas.Shipper
         [HttpGet]
         public IActionResult GetAll(string status)
         {
-           // var product = _context.OrderDetails.Include(x => x.Product).ToList();
+            // var product = _context.OrderDetails.Include(x => x.Product).ToList();
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             var orderHeader = _context.OrderDetails.Include(x=>x.OrderHeader).Include(x=>x.Product)
-                .Where(x=>x.Status==status).Select(x => new
+                .Where(x=>x.Status==status && x.ShipperId== claim.Value).Select(x => new
             {
                 id=x.Id,
                 image=x.Product.ImageUrl,
