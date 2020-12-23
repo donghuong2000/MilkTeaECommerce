@@ -8,7 +8,7 @@ namespace MilkTeaECommerce.Models.Models
 {
     public class ProductViewModel
     {
-        [Required(ErrorMessage = "Dữ liệu không hợp lệ")]
+ 
         public string Id { get; set; }
         [Required(ErrorMessage = "Dữ liệu không hợp lệ")]
         public string Name { get; set; }

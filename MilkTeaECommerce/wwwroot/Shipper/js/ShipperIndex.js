@@ -1,9 +1,12 @@
 ﻿$(document).ready(function () {
-   
+   // data table hiển thị các đơn hàng đã confirmed để cho shipper nhận
     $('#dataTableNull').DataTable({
 
         "ajax": {
-            "url": '/shipper/deliverydetails/getall/null',
+            "url": '/shipper/deliverydetails/getall/',
+            "data": {
+                "status": "confirmed"
+            }
             
         },
         "columns": [
@@ -29,7 +32,7 @@
                                 <a id="a-detail" data-toggle="modal" data-target="#Detail" data-id="${data}" data-value="#dataTableNull"
                                 class="btn btn-success" style="font-size:small">Chi tiết</a>
                                 <a onClick=GetOrder("/Shipper/DeliveryDetails/Get/${data}","#dataTableNull") class="btn btn-danger text-white" 
-                                 style="cursor:pointer">Nhận</a>
+                                 style="cursor:pointer">Đã Nhận Đơn</a>
                             </div>  
 
                            `
@@ -42,7 +45,7 @@
         "ajax": {
             "url": '/shipper/deliverydetails/getall/',
             "data": {
-                "status":"Đã nhận đơn"
+                "status":"received"
             }
 
         },
@@ -82,7 +85,7 @@
         "ajax": {
             "url": '/shipper/deliverydetails/getall/',
             "data": {
-                "status": "Đã lấy hàng"
+                "status": "delivery"
             }
 
         },
@@ -122,7 +125,7 @@
         "ajax": {
             "url": '/shipper/deliverydetails/getall/',
             "data": {
-                "status": "Hoàn thành"
+                "status": "deliveried"
             }
 
         },
@@ -166,13 +169,13 @@ $('#Detail').on('show.bs.modal', function (event) {
         url: '/Shipper/deliverydetails/Details/' + idOrder,
         success: function (data) {
 
-            if (data.status == null) {
+            if (data.status == "confirmed") {
                 data.status = "Đã nhận đơn";
             }
-            else if (data.status == "Đã nhận đơn") {
+            else if (data.status == "received") {
                 data.status = "Đã lấy hàng";
             }
-            else if (data.status == "Đã lấy hàng") {
+            else if (data.status == "delivery") {
                 data.status = "Hoàn thành";
             }
             else {

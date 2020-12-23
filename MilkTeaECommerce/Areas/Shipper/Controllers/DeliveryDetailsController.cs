@@ -98,17 +98,17 @@ namespace MilkTeaECommerce.Areas.Shipper
         {
             // add deliveryId cho DeliveryDetail
             var orderDetail = _context.OrderDetails.Where(x => x.Id == id).SingleOrDefault();
-            if(orderDetail.Status==null)
+            if (orderDetail.Status == OrderDetailStatus.confirmed.ToString())
             {
-                orderDetail.Status = "Đã nhận đơn";
+                orderDetail.Status = OrderDetailStatus.received.ToString();
             }
-            else if(orderDetail.Status== "Đã nhận đơn")
+            else if(orderDetail.Status== OrderDetailStatus.received.ToString())
             {
-                orderDetail.Status = "Đã lấy hàng";
+                orderDetail.Status = OrderDetailStatus.delivery.ToString();
             }
             else
             {
-                orderDetail.Status = "Hoàn thành";
+                orderDetail.Status = OrderDetailStatus.deliveried.ToString();
             }
 
 
