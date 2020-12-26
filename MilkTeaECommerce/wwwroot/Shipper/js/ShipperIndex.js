@@ -3,7 +3,7 @@
     $('#dataTableNull').DataTable({
 
         "ajax": {
-            "url": '/shipper/deliverydetails/getall',
+            "url": '/shipper/home/getall',
             "data": {
                 "status": "confirmed"
             }
@@ -30,7 +30,7 @@
                              <div class="text-center" >
                                 <a id="a-detail" data-toggle="modal" data-target="#Detail" data-id="${data}" data-value="#dataTableNull"
                                 class="btn btn-success" style="font-size:small">Chi tiết</a>
-                                <a onClick=GetOrder("/Shipper/DeliveryDetails/Get/${data}","#dataTableNull") class="btn btn-danger text-white" 
+                                <a onClick=GetOrder("/Shipper/home/Get/${data}","#dataTableNull") class="btn btn-danger text-white" 
                                  style="cursor:pointer">Nhận</a>
                             </div>  
 
@@ -42,7 +42,7 @@
     $('#dataTableConfirm').DataTable({
 
         "ajax": {
-            "url": '/shipper/deliverydetails/getall/',
+            "url": '/shipper/home/getall/',
             "data": {
                 "status":"admit"
             }
@@ -70,7 +70,7 @@
                              <div class="text-center" >
                                 <a id="a-detail" data-toggle="modal" data-target="#Detail" data-id="${data}" data-value="#dataTableConfirm"
                                 class="btn btn-success" style="font-size:small">Chi tiết</a>
-                                <a onClick=GetOrder("/Shipper/DeliveryDetails/Get/${data}","#dataTableConfirm") class="btn btn-danger text-white" 
+                                <a onClick=GetOrder("/Shipper/home/Get/${data}","#dataTableConfirm") class="btn btn-danger text-white" 
                                  style="cursor:pointer">Đã lấy hàng</a>
                             </div>  
 
@@ -82,7 +82,7 @@
     $('#dataTableGet').DataTable({
 
         "ajax": {
-            "url": '/shipper/deliverydetails/getall/',
+            "url": '/shipper/home/getall/',
             "data": {
                 "status": "delivery"
             }
@@ -110,9 +110,9 @@
                              <div class="text-center" >
                                 <a id="a-detail" data-toggle="modal" data-target="#Detail" data-id="${data}" data-value="#dataTableGet"
                                 class="btn btn-success" style="font-size:small">Chi tiết</a>
-                                <a onClick=GetOrder("/Shipper/DeliveryDetails/Get/${data}","#dataTableGet") class="btn btn-danger text-white" 
+                                <a onClick=GetOrder("/Shipper/home/Get/${data}","#dataTableGet") class="btn btn-danger text-white" 
                                  style="cursor:pointer">Hoàn thành</a>
-                                <a onClick=Cancel("/Shipper/DeliveryDetails/Cancel/${data}","#dataTableGet") class="btn btn-danger text-white" 
+                                <a onClick=Cancel("/Shipper/home/Cancel/${data}","#dataTableGet") class="btn btn-danger text-white" 
                                  style="cursor:pointer">Đã hủy</a>
                             </div>  
 
@@ -124,7 +124,7 @@
     $('#dataTableDone').DataTable({
 
         "ajax": {
-            "url": '/shipper/deliverydetails/getall/',
+            "url": '/shipper/home/getall/',
             "data": {
                 "status": "deliveried"
             }
@@ -161,7 +161,7 @@
     $('#dataTableCancelled').DataTable({
 
         "ajax": {
-            "url": '/shipper/deliverydetails/getall/',
+            "url": '/shipper/home/getall/',
             "data": {
                 "status": "cancelled"
             }
@@ -204,7 +204,7 @@ $('#Detail').on('show.bs.modal', function (event) {
     var text = "";
     $.ajax({
         method: 'GET',
-        url: '/Shipper/deliverydetails/Details/' + idOrder,
+        url: '/Shipper/home/Details/' + idOrder,
         success: function (data) {
 
             if (data.status == "confirmed") {
@@ -223,7 +223,7 @@ $('#Detail').on('show.bs.modal', function (event) {
             //    data.status = "hidden";
             //}
                 
-            var url='"/Shipper/DeliveryDetails/Get/'+data.id+'"';
+            var url='"/Shipper/home/Get/'+data.id+'"';
             modal.find('#Id').val(data.id);
             //modal.find('#Id').attr('src', "iadasdsa");
             modal.find('#NameP').val(data.title);
@@ -257,7 +257,7 @@ function GetOrder(url, table) {
     if (url == "") {
         var id = $('#Id').val();
         
-        url = '/Shipper/DeliveryDetails/get/' + id;
+        url = '/Shipper/home/get/' + id;
 
     }
     Swal.fire(
@@ -308,7 +308,7 @@ function Cancel(url, table) {
     if (url == "") {
         var id = $('#Id').val();
 
-        url = '/Shipper/DeliveryDetails/Cancel/' + id;
+        url = '/Shipper/home/Cancel/' + id;
 
     }
     Swal.fire(
