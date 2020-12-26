@@ -156,12 +156,6 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             var sellerId = claim.Value;
 
-
-            //var data = _db.OrderDetails.Include(x => x.Product).Include(x => x.DeliveryDetails)
-            //    .Where(x => x.Product.ShopId == sellerId && x.Status == OrderDetailStatus.deliveried.ToString()
-            //    && x.DeliveryDetails.DateEnd.GetValueOrDefault().ToString("MM") == "12")
-            //    .Sum(x => x.Price).GetValueOrDefault().ToString();
-
             // lấy các sản orderdetail của shop có ngày giao rồi
 
             var data=_db.DeliveryDetails.Include(x=>x.OrderDetail).ThenInclude(x=>x.Product).ThenInclude(x=>x.Shop)
@@ -170,15 +164,19 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
                 .OrderByDescending(x=>x.DateEnd)
                 .Select(x => new
                 {
-                    price = x.Price,
+                    price = x.OrderDetail.Price,
                     date = x.DateEnd.GetValueOrDefault()
                 }).ToList();
             int[] month = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
             var lst = new List<object>();
-
+            foreach (var item in month)
+            {
+                var x = data.Where(x => x.date.Month == item).Sum(x => x.price).Value;
+                lst.Add(x);
+            }
             
 
-            return Json(data);
+            return Json(lst);
         }
     }
 }
