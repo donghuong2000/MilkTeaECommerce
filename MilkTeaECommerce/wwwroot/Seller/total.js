@@ -23,7 +23,7 @@
         url: '/seller/home/TotalCustomer',
         success: function (data) {
             console.log(data);
-            //$('#total-price').text(data);
+            $('#total-customer').text(data);
         }
     });
 });

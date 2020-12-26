@@ -137,17 +137,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
             var customers = _db.OrderDetails.Include(x => x.Product)
                 .Where(x => x.Product.ShopId == sellerId && x.Status == OrderDetailStatus.deliveried.ToString())
                 .Select(x => x.OrderHeader.ApplicationUserId).Distinct().ToList();
-                //  .Select(x => new
-                //  {
-                //      name = x.OrderHeader.ApplicationUser.Name,
 
-                //  })
-                //.GroupBy(x => x.name)
-                //.Select(cus => new
-                //{
-                //    key = cus.Key,
-                //    count = cus.Count()
-                //}).ToList();
             return Json(customers.Count);
         }
         public IActionResult ChartEarning()
@@ -171,7 +161,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
             var lst = new List<object>();
             foreach (var item in month)
             {
-                var x = data.Where(x => x.date.Month == item).Sum(x => x.price).Value;
+                var x = data.Where(x => x.date.Month == item && x.date.Year==DateTime.Now.Year).Sum(x => x.price).Value;
                 lst.Add(x);
             }
             
