@@ -101,11 +101,13 @@ $('#RatingModalReadOnly').on('show.bs.modal', function (event) {
                 document.getElementById("star2readonly").checked = false;
                 document.getElementById("star3readonly").checked = false;
                 document.getElementById("star4readonly").checked = false; // neu get element by id khong get ra duoc thi nhung cau lenh phia sau se khong thuc hien duoc
-                
+                $(':radio:not(:checked)').attr('disabled', true);
             }
             else {
+                document.getElementsByClassName('rating-star').readOnly = false; 
                 modal.find('#ratingratereadonly').html(Math.floor(data.data.rating));
-                document.getElementById(rate+"readonly").checked = true;
+                document.getElementById(rate + "readonly").checked = true;
+                $(':radio:not(:checked)').attr('disabled', true);
                
             }
 
