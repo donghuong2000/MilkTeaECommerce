@@ -3,10 +3,7 @@
     $('#dataTableNull').DataTable({
 
         "ajax": {
-            "url": '/shipper/home/getall',
-            "data": {
-                "status": "confirmed"
-            }
+            "url": '/shipper/home/GetAllConfirmed',//xác nhận (hiển thị cho shipper ở phần nhận đơn)
         },
         "columns": [
             {
@@ -44,7 +41,7 @@
         "ajax": {
             "url": '/shipper/home/getall/',
             "data": {
-                "status":"received"
+                "status": "received"     // hiển thị cho shipper ở phần đã nhận đơn
             }
 
         },
@@ -84,7 +81,7 @@
         "ajax": {
             "url": '/shipper/home/getall/',
             "data": {
-                "status": "delivery"
+                "status": "delivery"    // đang vận chuyển ( hiển thị cho shipper ở phần đã lấy hàng) 
             }
 
         },
@@ -126,7 +123,7 @@
         "ajax": {
             "url": '/shipper/home/getall/',
             "data": {
-                "status": "deliveried"
+                "status": "deliveried"  // hoàn thành
             }
 
         },
@@ -163,7 +160,7 @@
         "ajax": {
             "url": '/shipper/home/getall/',
             "data": {
-                "status": "deliveried"
+                "status": "cancelled"   //đã hủy
             }
 
         },
@@ -206,12 +203,11 @@ $('#Detail').on('show.bs.modal', function (event) {
         method: 'GET',
         url: '/Shipper/home/Details/' + idOrder,
         success: function (data) {
-
             if (data.status == "confirmed") {
-                data.status = "admit";
+                data.status = "received";
                 text = "Nhận đơn";
             }
-            else if (data.status == "admit") {
+            else if (data.status == "received") {
                 data.status = "delivery";
                 text = "Đã lấy hàng";
             }
@@ -219,13 +215,9 @@ $('#Detail').on('show.bs.modal', function (event) {
                 data.status = "deliveried";
                 text = "Hoàn thành";
             }
-            //else {
-            //    data.status = "hidden";
-            //}
                 
             var url='"/Shipper/home/Get/'+data.id+'"';
             modal.find('#Id').val(data.id);
-            //modal.find('#Id').attr('src', "iadasdsa");
             modal.find('#NameP').val(data.title);
             modal.find('#Image').attr('src',data.image);
             modal.find('#Count').val(data.count);
@@ -238,7 +230,7 @@ $('#Detail').on('show.bs.modal', function (event) {
             modal.find("#getOrder").attr('onclick', "GetOrder(" + url + ',"' + table + '")');
             modal.find("#getOrder").show();
             modal.find("#getOrder").text(text);
-            if (data.status == "confirmed" || data.status=="cancelled") {
+            if (data.status == "deliveried" || data.status=="cancelled") {
                 modal.find("#getOrder").hide();
             }
         }

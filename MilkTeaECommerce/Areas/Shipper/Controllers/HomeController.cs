@@ -43,7 +43,24 @@ namespace MilkTeaECommerce.Areas.Shipper.Controllers
                 }).ToList();
             return Json(new { data = orderHeader });
         }
-
+        [HttpGet]
+        public IActionResult GetAllConfirmed()
+        {
+            var orderHeader = _context.OrderDetails.Include(x => x.OrderHeader).Include(x => x.Product)
+                .Where(x => x.Status == "confirmed").Select(x => new
+                {
+                    id = x.Id,
+                    image = x.Product.ImageUrl,
+                    title = x.Product.Name,
+                    price = x.Price,
+                    customer = x.OrderHeader.ApplicationUser.Name,
+                    address = x.OrderHeader.Address,
+                    payment = x.OrderHeader.PaymentStatus,
+                    shopName = x.Product.Shop.Name,
+                    shopAddress = x.Product.Shop.ApplicationUser.Address
+                }).ToList();
+            return Json(new { data = orderHeader });
+        }
 
         public IActionResult Index()
         {
@@ -99,21 +116,20 @@ namespace MilkTeaECommerce.Areas.Shipper.Controllers
         {
             // add deliveryId cho DeliveryDetail
             var orderDetail = _context.OrderDetails.Where(x => x.Id == id).SingleOrDefault();
-            if (orderDetail.Status == "confirmed")
+            if (orderDetail.Status == "confirmed")      //xác nhận (hiển thị cho shipper ở phần nhận đơn)
             {
-                orderDetail.Status = "admit";
+                orderDetail.Status = "received";   
             }
-            else if (orderDetail.Status == "admit")
+            else if (orderDetail.Status == "received")   // hiển thị cho shipper ở phần đã nhận đơn
             {
                 orderDetail.Status = "delivery";
             }
-            else
+            else if(orderDetail.Status=="delivery") // đang vận chuyển ( hiển thị cho shipper ở phần đã lấy hàng)
             {
                 orderDetail.Status = "deliveried";
             }
 
-
-            // add shipper id   + add vào shopping cartx    
+            // add shipper id    
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             orderDetail.ShipperId = claim.Value;

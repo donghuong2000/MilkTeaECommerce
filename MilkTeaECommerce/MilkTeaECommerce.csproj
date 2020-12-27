@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Shipper\Views\DeliveryDetails\**" />
+    <Content Remove="Areas\Shipper\Views\DeliveryDetails\**" />
+    <EmbeddedResource Remove="Areas\Shipper\Views\DeliveryDetails\**" />
+    <None Remove="Areas\Shipper\Views\DeliveryDetails\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MailKit" Version="2.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
@@ -55,10 +62,6 @@
     <Content Update="wwwroot\Admin\js\sb-admin-2 - Copy.min.js">
       <DependentUpon>sb-admin-2.min.js</DependentUpon>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Shipper\Views\DeliveryDetails\" />
   </ItemGroup>
 
 </Project>
