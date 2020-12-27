@@ -100,17 +100,17 @@ namespace MilkTeaECommerce.Areas.Shipper
         {
             // add deliveryId cho DeliveryDetail
             var orderDetail = _context.OrderDetails.Where(x => x.Id == id).SingleOrDefault();
-            if(orderDetail.Status== "confirmed")
+            if (orderDetail.Status == OrderDetailStatus.confirmed.ToString())
             {
-                orderDetail.Status = "admit";
+                orderDetail.Status = OrderDetailStatus.received.ToString();
             }
-            else if(orderDetail.Status== "admit")
+            else if(orderDetail.Status== OrderDetailStatus.received.ToString())
             {
-                orderDetail.Status = "delivery";
+                orderDetail.Status = OrderDetailStatus.delivery.ToString();
             }
             else
             {
-                orderDetail.Status = "deliveried";
+                orderDetail.Status = OrderDetailStatus.deliveried.ToString();
             }
 
 

@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-   
+   // data table hiển thị các đơn hàng đã confirmed để cho shipper nhận
     $('#dataTableNull').DataTable({
 
         "ajax": {
@@ -44,7 +44,7 @@
         "ajax": {
             "url": '/shipper/home/getall/',
             "data": {
-                "status":"admit"
+                "status":"received"
             }
 
         },
@@ -163,7 +163,7 @@
         "ajax": {
             "url": '/shipper/home/getall/',
             "data": {
-                "status": "cancelled"
+                "status": "deliveried"
             }
 
         },

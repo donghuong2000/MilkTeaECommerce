@@ -25,7 +25,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> GetAll(string status)
+        public async Task<IActionResult> GetAll(string status,string status1)
         {
 
             // get current user
@@ -36,7 +36,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
                 .Include(x => x.OrderHeader).ThenInclude(x => x.ApplicationUser)
                 .Include(x => x.DeliveryDetails).ThenInclude(x => x.Delivery)
                 // order status
-                .Where(x => x.Status == status && x.Product.ShopId == userid).Select(x => new
+                .Where(x => (x.Status == status && x.Product.ShopId == userid) || (x.Status == status1 && x.Product.ShopId == userid)).Select(x => new
                 {
                     id = x.Id,
                     image = x.Product.ImageUrl,

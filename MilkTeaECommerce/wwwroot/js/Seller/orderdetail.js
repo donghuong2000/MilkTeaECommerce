@@ -41,7 +41,7 @@
     // đã xác nhận
     $('#dataTableConfirm').DataTable( {
         "ajax": {
-            "url": "/Seller/OrderManager/GetAll?status=confirmed"
+            "url": "/Seller/OrderManager/GetAll?status=confirmed" + "&status1=received" 
         },
         "columns": [
             {
@@ -57,16 +57,41 @@
             { "data": "deliveryInfo" },
             { "data": "total" },
             {
+                "data": "status",
+                "render": function (data) {
+                    if (data == "confirmed")
+                            
+                    return `
+                                <div class="text-center">
+                                    Shipper chưa nhận đơn
+                                </div> 
+                           `;
+                    return `
+                                <div class="text-center">
+                                    Shipper đã nhận đơn
+                                </div> 
+                           `;
+                    
+                }
+            },
+
+            {
                 "data": { "id": "id", "status": "status" },
                 "render": function (data) {
+                    if(data.status == "confirmed")   
                     return `
-                             <div class="text-center">
-                                <a onClick=ChangeStatus("${data.id}","cancelled") class="btn btn-danger text-white" style="cursor:pointer">
-                                    <i class="fas fa-window-close"></i>
-                                </a>
-                            </div>                           
-                            
+                                    <div class="text-center">
+                                        <a onClick=ChangeStatus("${data.id}","cancelled") class="btn btn-danger text-white" style="cursor:pointer">
+                                            <i class="fas fa-window-close"></i>
+                                        </a>
+                                    </div>
                            `;
+                    return `
+                                    <div class="text-center">
+                                    </div>
+
+                        `;
+                    
                 }
             }
         ]
@@ -136,6 +161,38 @@
         ]
 
     });
+    // đánh giá
+    $('#dataTableEvaluate').DataTable({
+        "ajax": {
+            "url": "/Seller/OrderManager/GetAll?status=evaluated"
+        },
+        "columns": [
+            {
+                "data": "image",
+                "render": function (data) {
+                    return `<img href="#" src="${data}" height=50 width=50>`
+                }
+            },
+            { "data": "title" },
+            { "data": "num" },
+            { "data": "customer" },
+            { "data": "price" },
+            { "data": "deliveryInfo" },
+            { "data": "total" },
+            {
+                "data": { "id": "id", "status": "status" },
+                "render": function (data) {
+                    return `
+                             <div class="text-center">
+                                Đã Đánh Giá
+                            </div>                           
+                            
+                           `;
+                }
+            }
+        ]
+
+    });
     // đã hủy
     $('#dataTableCancel').DataTable({
         "ajax": {
@@ -179,11 +236,13 @@ function ChangeStatus(id, status) {
         data: { id: id, status: status },
         success: function (data) {
             if (data.success) {
-                toastr.success(data.message);
+                toastr.success(data.message); 
                 $('#dataTableWait').DataTable().ajax.reload();
+                $('#dataTableConfirm').DataTable().ajax.reload();
             } else {
                 toastr.error(data.message);
                 $('#dataTableWait').DataTable().ajax.reload();
+                $('#dataTableConfirm').DataTable().ajax.reload();
             }
         }
     })

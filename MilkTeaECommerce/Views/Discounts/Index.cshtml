@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="ads-grid">
+    <div class="container">
+        <h3 class="tittle-w3l">
+            Our Top Discounts
+            <span class="heading-style">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </h3>
+        <div class="side-bar col-md-3" >
+            <div class="search-hotel">
+                <h3 class="agileits-sear-head">Search Here..</h3>
+                <form action="#" method="post">
+                    <input type="search" placeholder="Product name..." name="search" required="">
+                    <input type="submit" value="">
+                </form>
+            </div>
+            <!-- price range -->
+            <div class="special-sec1">
+                <div class="clearfix">
+                    <ul class="dropdown-menu6">
+                        <li><h4 class="agileits-sear-head">Product Discounts</h4></li>
+                        <li><h4 class="agileits-sear-head">Delivery Discounts</h4></li>
+                        <li><h4 class="agileits-sear-head">Category Discounts</h4></li>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- //price range -->
+
+        </div>
+        <div class="agileinfo-ads-display col-md-9">
+            <!-- product-->
+            <div class="wrapper">
+                <div class="product-sec1" style="height: 500px;">
+                    <div>
+                        <h3 class="heading-tittle">Product</h3>
+                        <a href="/Discounts/Product" style="float:right; cursor:pointer">More</a>
+                        <div id="product">
+
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- delvery-->
+            <div class="wrapper">
+                <div class="product-sec1" style="height: 500px;" id="delivery">
+                    <div>
+                        <h3 class="heading-tittle">Delivery</h3>
+                        <a href="/Discounts/Delivery" style="float:right; cursor:pointer">More</a>
+                    </div>
+                   
+
+                </div>
+            </div>
+            <!-- category-->
+            <div class="wrapper">
+                <div class="product-sec1" style="height: 500px;" id="category">
+                    <div>
+                        <h3 class="heading-tittle">Category</h3>
+                        <a href="/Discounts/Category" style="float:right; cursor:pointer">More</a>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div >
+    <div class="modal" id="discount-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="discount-name">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="side-bar" style=" display: grid;place-items: center;">
+                        <p style="color:black"> Nhập mã sau để sử dụng khuyến mãi</p>
+                        <div  style="background: white;padding: 0.5rem 1rem;width: fit-content;border: 1px solid #e5e5e5;">
+                            <p id="discount-code" style="color: #FF5722;"></p>
+                        </div>
+                    </div>
+                    <p id="discount-desc">Mô tả</p>
+                    <p id="discount-start"></p>
+                    <p id="discount-exp"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/home-discount.js"></script>
+
+}
