@@ -57,10 +57,7 @@ $('#RatingModal').on('show.bs.modal', function (event) {
             console.log(rate)
             if (rate == "star0")
             {
-                document.getElementById('star1').checked = false;
-                document.getElementById('star2').checked = false;
-                document.getElementById('star3').checked = false;
-                document.getElementById('star4').checked = false; // neu get element by id khong get ra duoc thi nhung cau lenh phia sau se khong thuc hien duoc
+                document.getElementById('star5').checked = false;
                 modal.find('#ratingrate').html(0);
             }
             else
