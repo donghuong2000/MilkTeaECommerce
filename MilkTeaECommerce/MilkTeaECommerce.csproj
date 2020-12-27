@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Shipper\Views\DeliveryDetails\**" />
+    <Content Remove="Areas\Shipper\Views\DeliveryDetails\**" />
+    <EmbeddedResource Remove="Areas\Shipper\Views\DeliveryDetails\**" />
+    <None Remove="Areas\Shipper\Views\DeliveryDetails\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MailKit" Version="2.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
@@ -19,6 +26,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="PayPal" Version="2.0.0-rc2" />
   </ItemGroup>
 
   <ItemGroup>

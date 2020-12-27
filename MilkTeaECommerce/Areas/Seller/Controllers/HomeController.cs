@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MilkTeaECommerce.Data;
 using MilkTeaECommerce.Models;
 using MilkTeaECommerce.Models.Models;
@@ -100,6 +101,72 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
 
 
 
+        }
+
+        // tổng số
+        [HttpGet]
+        public IActionResult TotalProducts()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var sellerId = claim.Value;
+
+            var total = _db.Products.Where(x => x.ShopId == sellerId).ToList().Count;
+
+            return Json(total);
+
+        }
+        public IActionResult Earnings()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var sellerId = claim.Value;
+
+
+            var totalProduct = _db.OrderDetails.Include(x => x.Product)
+                .Where(x => x.Product.ShopId == sellerId && x.Status == OrderDetailStatus.deliveried.ToString()).Sum(x => x.Price).GetValueOrDefault().ToString("#,###");
+
+            return Json(totalProduct);
+        }
+        public IActionResult TotalCustomer()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var sellerId = claim.Value;
+
+            var customers = _db.OrderDetails.Include(x => x.Product)
+                .Where(x => x.Product.ShopId == sellerId && x.Status == OrderDetailStatus.deliveried.ToString())
+                .Select(x => x.OrderHeader.ApplicationUserId).Distinct().ToList();
+
+            return Json(customers.Count);
+        }
+        public IActionResult ChartEarning()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var sellerId = claim.Value;
+
+            // lấy các sản orderdetail của shop có ngày giao rồi
+
+            var data=_db.DeliveryDetails.Include(x=>x.OrderDetail).ThenInclude(x=>x.Product).ThenInclude(x=>x.Shop)
+                .Where(x=>x.OrderDetail.Product.ShopId==sellerId &&
+                x.OrderDetail.Status== OrderDetailStatus.deliveried.ToString())
+                .OrderByDescending(x=>x.DateEnd)
+                .Select(x => new
+                {
+                    price = x.OrderDetail.Price,
+                    date = x.DateEnd.GetValueOrDefault()
+                }).ToList();
+            int[] month = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+            var lst = new List<object>();
+            foreach (var item in month)
+            {
+                var x = data.Where(x => x.date.Month == item && x.date.Year==DateTime.Now.Year).Sum(x => x.price).Value;
+                lst.Add(x);
+            }
+            
+
+            return Json(lst);
         }
     }
 }
