@@ -127,16 +127,41 @@ $(document).ready(function () {   // gọi function này ở đâu //lúc khởi
 })
 function ChooseChanged(obj) {
     console.log(obj.value);
+    statistic_number('/Admin/Home/Getdatanumber/' + obj.value, 0);
     ajax_chart('/Admin/Home/Getdata/' + obj.value, 0);//rồi dô đây
+    //statistic_table('/Admin/Home/GetdatTable/' + obj.value);
     return obj.value;
+}
+function statistic_number(url, data) {
+    console.log(url);//đây nè
+    $.getJSON(url, data).done(function (response) {
+        console.log(response);//rồi xuống đây
+        $('#earning').val(response.earning);
+        $('#sumproduct').val(response.sumproduct);
+        $('#sumcustomer').val(response.sumcustomer);
+    })
 }
 function ajax_chart(url, data) {
     console.log(url);//đây nè
     $.getJSON(url, data).done(function (response) {
         console.log(response);//rồi xuống đây
-        
-        myAreaChart.data.labels = response.a;
-        myAreaChart.data.datasets[0].data = response.b;
+
+        myAreaChart.data.labels = response.labels;
+        myAreaChart.data.datasets[0].data = response.values;
         myAreaChart.update();
     })
 }
+
+//function statistic_table(url) {
+//    $.ajax({
+//        method: "GET",
+//        url: url,
+
+//        columns: [
+//            { "data": "lstCustomerid" },
+//            { "data": "lstCustomerMoney" },
+//        ]
+//    })
+    
+    
+//}
