@@ -196,7 +196,14 @@ namespace MilkTeaECommerce.Controllers
 
             HttpContext.Session.Set("cart", header);
 
-            return Json(new { url = "/Checkout/summary" });
+            if(payment == "paypal")
+            {
+                return Json(new { url = "/Paypal/PaypalCheckout" });
+            }    
+            else
+            {
+                return Json(new { url = "/Checkout/summary" });
+            }     
         }
          
         public IActionResult CancelBill()
@@ -263,5 +270,8 @@ namespace MilkTeaECommerce.Controllers
 
             
         }
+
+
+
     }
 }
