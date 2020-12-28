@@ -115,9 +115,16 @@ namespace MilkTeaECommerce.Controllers
             var transaction = await _db.Database.BeginTransactionAsync();
             try
             {
+                var code = HttpContext.Session.Get<string>("discount");
+                var discount = _db.Discounts.Where(x => (x.TimesUseLimit - x.TimesUsed) > 0 && x.DateExpired > DateTime.Now).FirstOrDefault(x => x.Code == code);
+                if (discount != null)
+                {
+                    discount.TimesUsed++;
+                    _db.SaveChanges();
+                }
                 #region Add cart
                 cart.ApplicationUser = null;
-
+                cart.PaymentStatus = "Paid";
                 var newlistOrderDetail = cart.OrderDetails.Select(x => new OrderDetail
                 {
                     Count = x.Count,
@@ -166,6 +173,7 @@ namespace MilkTeaECommerce.Controllers
                 await transaction.CommitAsync();
                 transaction.Dispose();
                 HttpContext.Session.Remove("cart");
+                HttpContext.Session.Remove("discount");
                 return Redirect(paypalRedirectUrl);
             }
             catch (HttpException httpException)
@@ -174,6 +182,8 @@ namespace MilkTeaECommerce.Controllers
                 var debugId = httpException.Headers.GetValues("PayPal-Debug-Id").FirstOrDefault();
                 transaction.Rollback();
                 transaction.Dispose();
+                HttpContext.Session.Remove("cart");
+                HttpContext.Session.Remove("discount");
                 //Process when Checkout with Paypal fails
                 return Redirect("/Paypal/CheckoutFail");
             }
@@ -181,6 +191,8 @@ namespace MilkTeaECommerce.Controllers
             {
                 transaction.Rollback();
                 transaction.Dispose();
+                HttpContext.Session.Remove("cart");
+                HttpContext.Session.Remove("cart");
                 return Redirect("/Paypal/CheckoutFail");
             }
         }
