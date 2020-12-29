@@ -139,7 +139,7 @@ namespace MilkTeaECommerce.Areas.Shipper.Controllers
                 _context.OrderDetails.Update(orderDetail);
                 _context.SaveChanges();
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }

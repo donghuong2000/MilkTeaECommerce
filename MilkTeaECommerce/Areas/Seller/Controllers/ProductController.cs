@@ -100,7 +100,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id", "Name", "Description","ImageUrl", "Price", "IsConfirm", "Quantity", "CategoryId","files")] ProductViewModel productViewModel)
+        public IActionResult Create([Bind("Id", "Name", "Description","ImageUrl", "Price", "IsConfirm", "Quantity", "CategoryId","files")] ProductViewModel productViewModel)
         {
             Product product = new Product()
                 {
@@ -216,7 +216,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id", "Name", "Description","ImageUrl", "Price", "IsConfirm", "Quantity", "CategoryId", "files")] ProductViewModel productViewModel)
+        public IActionResult Edit(string id, [Bind("Id", "Name", "Description","ImageUrl", "Price", "IsConfirm", "Quantity", "CategoryId", "files")] ProductViewModel productViewModel)
         {
             if (id != productViewModel.Id)
             {
