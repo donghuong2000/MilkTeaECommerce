@@ -1,4 +1,4 @@
-// Set new default font family and font color to mimic Bootstrap's default styling
+﻿// Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
@@ -29,7 +29,23 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
-var myLineChart = new Chart(ctx, {
+
+$(document).ready(function () {
+    ajax_chart();
+    console.log("ready")
+})
+$(function ajax_chart() {
+    $.ajax({
+        type: 'GET',
+        url: '/Seller/Home/ChartEarning',
+        success: function (data) {
+            myLineChart.data.datasets[0].data = data;
+            myLineChart.update();
+            console.log("done");
+        }
+    });
+})
+var myLineChart = new Chart(ctx,  {
   type: 'line',
   data: {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -46,7 +62,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [0, 12000, 5000, 12000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
+      data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
     }],
   },
   options: {
@@ -78,7 +94,7 @@ var myLineChart = new Chart(ctx, {
           padding: 10,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
-            return '$' + number_format(value);
+            return  number_format(value)+' đ';
           }
         },
         gridLines: {
