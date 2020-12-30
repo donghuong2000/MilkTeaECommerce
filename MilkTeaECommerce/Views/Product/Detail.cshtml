@@ -18,7 +18,7 @@
         <div class="col-md-5 single-right-left ">
             <div class="grid images_3_of_2">
                 <div class="flexslider">
-                    <ul class="slides">
+                    <ul class="slides d-none">
                         <!--hinhf anhr san pham-->
                         <li data-thumb="@Model.ImageUrl">
                             <div class="thumb-image">
@@ -117,12 +117,7 @@
             </div>
             <div class="col-md-8">
                 <div class="row">
-                    <div class="col-md-4">thông tin A của shop</div>
-                    <div class="col-md-4">thông tin A của shop</div>
-                    <div class="col-md-4">thông tin A của shop</div>
-                    <div class="col-md-4">thông tin A của shop</div>
-                    <div class="col-md-4">thông tin A của shop</div>
-                    <div class="col-md-4">thông tin A của shop</div>
+                    <div class="col-md-4">@Model.Shop.Description</div>
                 </div>
             </div>
         </div>

@@ -44,21 +44,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="header-bot">
         <div class="header-bot_inner_wthreeinfo_header_mid">
             <!-- header-bot-->
-            <div class="col-md-4 logo_agile">
-                <h1>
-                    <a href="/Home/Index">
-                        <span>M</span>ilk
-                        <span>T</span>ea
-                        <span>F</span>ood
-                        <img src="~/images/logo2.png" alt=" ">
-                    </a>
-                </h1>
-            </div>
             <!-- header-bot -->
-            <div class="col-md-8 header">
+            <div class="col-lg-offset-3 header">
                 <!-- header lists -->
                 <ul>
-                    
+
                     <li>
                         <a href="#" data-toggle="modal" data-target="#myModal1">
                             <span class="fa fa-truck" aria-hidden="true"></span>Track Order
@@ -70,8 +60,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <partial name="_LoginPartial" />
                 </ul>
                 <!-- //header lists -->
-                <!-- search -->
-                <div class="agileits_search">
+
+
+            </div>
+            <!-- search -->
+            <div class="nav-item" style="display:grid;grid-template-columns:20% 70% 10%;width:100%">
+                <div style="grid-column:1">
+                    <a href="/Home/Index">
+                        <img src="~/images/Logo.png" style="width:10rem" />
+                    </a>
+                </div>
+                <div class="agileits_search" style="grid-column:2;padding:2rem">
+
                     <form action="#" method="post">
                         <input name="Search" type="search" placeholder="How can we help you today?" required="">
                         <button type="submit" class="btn btn-default" aria-label="Left Align">
@@ -81,7 +81,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <!-- //search -->
                 <!-- cart details -->
-                <div class="top_nav_right">
+                <div class="top_nav_right" style="grid-column:3;padding:2rem">
                     <div class="wthreecartaits wthreecartaits2 cart cart box_1">
                         <form action="#" method="post" class="last">
                             <input type="hidden" name="cmd" value="_cart">
@@ -93,9 +93,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                 </div>
                 <!-- //cart details -->
-                <div class="clearfix"></div>
             </div>
-            <div class="clearfix"></div>
+            <div class="clearfix" >
+                
+            </div>
         </div>
     </div>
     <!-- shop locator (popup) -->
@@ -243,7 +244,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="container">
             <div class="top_nav_left">
                 <nav class="navbar navbar-default">
-                    <div class="container-fluid">
+                    <div class="container" style="max-width:60rem">
                         <!-- Brand and toggle get grouped for better mobile display -->
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
@@ -255,7 +256,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </button>
                         </div>
                         <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
+                        <div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1" >
                             <ul class="nav navbar-nav menu__list">
                                 <li class="active">
                                     <a class="nav-stylehead" href="/Home">
@@ -273,9 +274,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <a class="nav-stylehead" href="#aboutus">About Us</a>
                                 </li>
 
-                                <li class="">
-                                    <a class="nav-stylehead" href="faqs.html">Faqs</a>
-                                </li>
                                 <li class="dropdown">
                                     <a class="nav-stylehead dropdown-toggle" href="#" data-toggle="dropdown">
                                         Pages
@@ -316,9 +314,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <span class="fa fa-envelope-o" aria-hidden="true"></span>
                 </div>
             </div>
-            <div class="col-xs-4 w3l-rightmk">
+            @*<div class="col-xs-4 w3l-rightmk">
                 <img src="images/tab3.png" alt=" ">
-            </div>
+            </div>*@
             <div class="clearfix"></div>
         </div>
     </div>
@@ -480,12 +478,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                     <div class="agileits_app-devices">
                         <h5>Download the App</h5>
-                        <a href="#">
+                        @*<a href="#">
                             <img src="images/1.png" alt="">
                         </a>
                         <a href="#">
                             <img src="images/2.png" alt="">
-                        </a>
+                        </a>*@
                         <div class="clearfix"> </div>
                     </div>
                 </div>
