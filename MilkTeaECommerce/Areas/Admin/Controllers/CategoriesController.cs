@@ -53,8 +53,13 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(string id, string name)
         {
+
             try
             {
+                if (name == null || id == null)
+                    throw new Exception("Không được để trống tên");
+                if(_context.Categories.Select(x=>x.Name).Contains(name))
+                    throw new Exception("Tên bị trùng bạn êy");
                 Category category = new Category() { Id = id, Name = name};
                 _context.Categories.Add(category);
                 _context.SaveChanges();
@@ -106,7 +111,10 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
            
             try
             {
-
+                if (name == null )
+                    throw new Exception("Không được để trống tên");
+                if (_context.Categories.Select(x => x.Name).Contains(name))
+                    throw new Exception("Tên bị trùng bạn êy");
                 _context.Categories.Update(obj);
                 _context.SaveChanges();
                 return Json(new { success = true, message = "cập nhập mục thành công" });
