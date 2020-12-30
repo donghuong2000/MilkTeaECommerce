@@ -11,6 +11,8 @@ function validateSignin(u, p) {
 function validateSignup(n, e, s, u, p, cp) {
     if (n == "" || e == "" || s == "" || u == "" || p == "" || cp == "")
         return false
+    if (p != cp)
+        return false
     return true
 }
 // Write your JavaScript code.
