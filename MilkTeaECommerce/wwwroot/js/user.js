@@ -42,3 +42,31 @@ function ShopChannel () {
         }
     })
 }
+function ShipChannel() {
+    Swal.showLoading()
+    $.ajax({
+        type: 'GET',
+        url: '/User/ShipChannel',
+        success: function (data) {
+            console.log(data)
+            Swal.close();
+            if (data.status) {
+                if (data.message == 'OK') {
+                    console.log(data.url);
+                    window.location.href = data.url;
+                }
+                Swal.fire(
+                    'info',
+                    data.message,
+                    'info')
+            }
+            else {
+                Swal.fire(
+                    'info',
+                    data.message,
+                    'info')
+            }
+
+        }
+    })
+}

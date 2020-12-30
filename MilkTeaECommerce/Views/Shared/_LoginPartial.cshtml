@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -9,11 +10,13 @@
 <li class="nav-item dropdown">
     <a class="nav-link text-dark" href="#" id="dropdownMenuLink" data-toggle="dropdown">Hello @User.Identity.Name</a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item" href="#">Info</a>
+        <a class="dropdown-item"asp-action="Index" asp-controller="User">Thông tin cá nhân</a>
         <hr />
         <a class="dropdown-item" href="#">cái gì ở đây ta?</a>
         <hr />
-        <a class="dropdown-item" href="#">Seller Channel</a>
+        <a class="dropdown-item" asp-action="Index" asp-controller="Home" asp-area="Seller">Kênh Seller (@(User.IsInRole("Manager") == true?"Đã đăng kí":"Chưa đăng kí"))</a>
+        <hr />
+        <a class="dropdown-item" asp-action="Index" asp-controller="Home" asp-area="Shipper">Kênh Shipper (@(User.IsInRole("Shipper") ==true?"Đã đăng kí":"Chưa đăng kí"))</a>
 
     </div>
 </li>
