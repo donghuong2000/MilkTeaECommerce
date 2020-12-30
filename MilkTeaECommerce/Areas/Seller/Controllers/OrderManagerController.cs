@@ -11,6 +11,7 @@ using MilkTeaECommerce.Models;
 namespace MilkTeaECommerce.Areas.Seller.Controllers
 {
     [Area("seller")]
+    [Authorize(Roles = "Manager")]
     public class OrderManagerController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
