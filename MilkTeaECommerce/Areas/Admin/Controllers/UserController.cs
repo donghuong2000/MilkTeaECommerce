@@ -11,7 +11,8 @@ using MilkTeaECommerce.Models.Models;
 
 namespace MilkTeaECommerce.Areas.Admin.Controllers
 {
-    [Area("admin")]
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

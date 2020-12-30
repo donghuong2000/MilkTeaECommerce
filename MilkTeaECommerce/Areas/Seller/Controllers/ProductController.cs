@@ -18,7 +18,7 @@ using MilkTeaECommerce.Models;
 namespace MilkTeaECommerce.Areas.Seller.Controllers
 {
     [Area("Seller")]
-    //[Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Manager")]
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
