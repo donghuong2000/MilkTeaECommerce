@@ -14,6 +14,7 @@ using SQLitePCL;
 namespace MilkTeaECommerce.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class DiscountsController : Controller
     {
         private readonly ApplicationDbContext _context;

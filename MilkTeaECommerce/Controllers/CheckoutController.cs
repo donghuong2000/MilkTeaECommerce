@@ -126,7 +126,7 @@ namespace MilkTeaECommerce.Controllers
                 var dis = _db.Discounts.Include(x=>x.ProductDiscount)
                     .Include(x=>x.CategoryDiscount)
                     .Include(x=>x.DeliveryDiscount)
-                    .Where(x=>(x.TimesUseLimit-x.TimesUsed)>0 && x.DateExpired > DateTime.Now)
+                    .Where(x=>(x.TimesUseLimit-x.TimesUsed) >0 && x.DateExpired > DateTime.Now && x.DateStart< DateTime.Now )
                     .FirstOrDefault(x => x.Code == discountCode);
                 if (dis != null )
                 {
