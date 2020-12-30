@@ -1,8 +1,8 @@
 ﻿@model MilkTeaECommerce.Models.Product
-
 @{
     ViewData["Title"] = "Detail";
 }
+
 <div class="banner-bootom-w3-agileits">
     <div class="container">
         <!-- tittle heading -->
@@ -42,51 +42,23 @@
         </div>
         <div class="col-md-7 single-right-left simpleCart_shelfItem">
             <!--thoong tin san pham-->
-            <h3>@Model.Name</h3>
-            <div class="rating1">
-                <span class="starRating">
-                    <input id="rating5" type="radio" name="rating" value="5">
-                    <label for="rating5">5</label>
-                    <input id="rating4" type="radio" name="rating" value="4">
-                    <label for="rating4">4</label>
-                    <input id="rating3" type="radio" name="rating" value="3" checked="">
-                    <label for="rating3">3</label>
-                    <input id="rating2" type="radio" name="rating" value="2">
-                    <label for="rating2">2</label>
-                    <input id="rating1" type="radio" name="rating" value="1">
-                    <label for="rating1">1</label>
-                </span>
-            </div>
+            <h3>@Model.Name
+            
+            </h3>
+            
             <p>
-                <span class="item_price">@Model.Price</span>
-                <del>$@(Model.Price*2)</del>
-                <label>Free delivery</label>
+                <span class="item_price">@Model.Price VND</span>
+                <del>@(Model.Price*2) VND</del>
+          
             </p>
-            <div class="single-infoagile">
-                <ul>
-                    <li>
-                        Cash on Delivery Eligible.
-                    </li>
-                    <li>
-                        Shipping Speed to Delivery.
-                    </li>
-                    <li>
-                        Sold and fulfilled by Supple Tek (3.6 out of 5 | 8 ratings).
-                    </li>
-                    <li>
-                        1 offer from
-                        <span class="item_price">$950.00</span>
-                    </li>
-                </ul>
-            </div>
+           
             <div class="product-single-w3l">
                 <p>
                     <i class="fa fa-hand-o-right" aria-hidden="true"></i>This is a
                     <label>@Model.Category.Name</label> product.
                 </p>
                 <ul>
-                    2
-                    @Model.Description
+                    @Html.Raw(@Model.Description)
                 </ul>
                 <p>
                     <i class="fa fa-refresh" aria-hidden="true"></i>All @Model.Category.Name products are
