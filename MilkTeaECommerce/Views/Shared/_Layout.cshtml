@@ -41,59 +41,47 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     
     <!-- //top-header -->
     <!-- header-bot-->
-    <div class="header-bot">
+    <div class="header-bot shadow bg-gradient-success">
         <div class="header-bot_inner_wthreeinfo_header_mid">
             <!-- header-bot-->
             <!-- header-bot -->
-            <div class="col-lg-offset-3 header">
-                <!-- header lists -->
-                <ul>
+            <div class="header" style="display:grid;grid-template-columns:20% 80%;width:100%">
 
-                    <li>
-                        <a href="#" data-toggle="modal" data-target="#myModal1">
-                            <span class="fa fa-truck" aria-hidden="true"></span>Track Order
-                        </a>
-                    </li>
-                    <li>
-                        <span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678
-                    </li>
-                    <partial name="_LoginPartial" />
-                </ul>
-                <!-- //header lists -->
-
-
-            </div>
-            <!-- search -->
-            <div class="nav-item" style="display:grid;grid-template-columns:20% 70% 10%;width:100%">
                 <div style="grid-column:1">
                     <a href="/Home/Index">
                         <img src="~/images/Logo.png" style="width:10rem" />
                     </a>
                 </div>
-                <div class="agileits_search" style="grid-column:2;padding:2rem">
-
-                    <form action="#" method="post">
-                        <input name="Search" type="search" placeholder="How can we help you today?" required="">
-                        <button type="submit" class="btn btn-default" aria-label="Left Align">
-                            <span class="fa fa-search" aria-hidden="true"> </span>
-                        </button>
-                    </form>
+                <div style="grid-column:2;padding-top:2.5rem">
+                    <ul>
+                        <li class="active">
+                            <a class="nav-stylehead" href="/Home">
+                                Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="nav-stylehead" href="/Discounts">
+                                Discounts
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <partial name="_LoginPartial" />
+                        <li style="border-right-width:0px">
+                            <form action="#" method="post" class="last">
+                                <input type="hidden" name="cmd" value="_cart">
+                                <input type="hidden" name="display" value="1">
+                                <button class="w3view-cart" type="submit" name="submit" value="">
+                                    <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </div>
-                <!-- //search -->
-                <!-- cart details -->
-                <div class="top_nav_right" style="grid-column:3;padding:2rem">
-                    <div class="wthreecartaits wthreecartaits2 cart cart box_1">
-                        <form action="#" method="post" class="last">
-                            <input type="hidden" name="cmd" value="_cart">
-                            <input type="hidden" name="display" value="1">
-                            <button class="w3view-cart" type="submit" name="submit" value="">
-                                <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                <!-- //cart details -->
+               
             </div>
+            <!-- search -->
+            
             <div class="clearfix" >
                 
             </div>
@@ -156,7 +144,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="modal_body_left modal_body_left1">
                         <h3 class="agileinfo_sign">Sign In </h3>
                         <p>
-                            Sign In now, Let's start your Grocery Shopping. Don't have an account?
+                            Sign In now. Don't have an account?
                             <a href="#" data-toggle="modal" data-target="#SignUpModal">
                                 Sign Up Now
                             </a>
@@ -200,7 +188,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="modal_body_left modal_body_left1">
                         <h3 class="agileinfo_sign">Sign Up</h3>
                         <p>
-                            Come join the Grocery Shoppy! Let's set up your Account.
+                            Let's set up your Account.
                         </p>
                         <form onsubmit="return false" method="post">
                             <div hidden id="alert-message" class="alert alert-danger" role="alert">
@@ -239,65 +227,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- //Modal2 -->
     <!-- //signup Model -->
     <!-- //header-bot -->
-    <!-- navigation -->
-    <div class="ban-top">
-        <div class="container">
-            <div class="top_nav_left">
-                <nav class="navbar navbar-default">
-                    <div class="container" style="max-width:60rem">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                                    aria-expanded="false">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1" >
-                            <ul class="nav navbar-nav menu__list">
-                                <li class="active">
-                                    <a class="nav-stylehead" href="/Home">
-                                        Home
-                                        <span class="sr-only">(current)</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a class="nav-stylehead" href="/Discounts">
-                                        Discounts
-                                        <span class="sr-only">(current)</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a class="nav-stylehead" href="#aboutus">About Us</a>
-                                </li>
-
-                                <li class="dropdown">
-                                    <a class="nav-stylehead dropdown-toggle" href="#" data-toggle="dropdown">
-                                        Pages
-                                        <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu agile_short_dropdown">
-                                        <li>
-                                            <a href="icons.html">Web Icons</a>
-                                        </li>
-                                        <li>
-                                            <a href="typography.html">Typography</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="">
-                                    <a class="nav-stylehead" href="contact.html">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </div>
+    
     <!-- //navigation -->
     @RenderBody()
     <!-- newsletter -->
@@ -365,19 +295,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <h3>Categories</h3>
                         <ul id="ul-categories">
                             <li>
-                                <a href="product.html">Grocery</a>
+                                <a href="">Grocery</a>
                             </li>
                             <li>
-                                <a href="product.html">Fruits</a>
+                                <a >Fruits</a>
                             </li>
                             <li>
-                                <a href="product.html">Soft Drinks</a>
+                                <a >Soft Drinks</a>
                             </li>
                             <li>
-                                <a href="product2.html">Dishwashers</a>
+                                <a >Dishwashers</a>
                             </li>
                             <li>
-                                <a href="product.html">Biscuits & Cookies</a>
+                                <a >Biscuits & Cookies</a>
                             </li>
                             <li>
                                 <a href="product2.html">Baby Diapers</a>
@@ -387,22 +317,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="col-xs-6 footer-grids agile-secomk">
                         <ul>
                             <li>
-                                <a href="product.html">Snacks & Beverages</a>
+                                <a >Snacks & Beverages</a>
                             </li>
                             <li>
-                                <a href="product.html">Bread & Bakery</a>
+                                <a >Bread & Bakery</a>
                             </li>
                             <li>
-                                <a href="product.html">Sweets</a>
+                                <a >Sweets</a>
                             </li>
                             <li>
-                                <a href="product.html">Chocolates & Biscuits</a>
+                                <a >Chocolates & Biscuits</a>
                             </li>
                             <li>
-                                <a href="product2.html">Personal Care</a>
+                                <a >Personal Care</a>
                             </li>
                             <li>
-                                <a href="product.html">Dried Fruits & Nuts</a>
+                                <a >Dried Fruits & Nuts</a>
                             </li>
                         </ul>
                     </div>
@@ -418,19 +348,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <a href="#aboutus">About Us</a>
                             </li>
                             <li>
-                                <a href="contact.html">Contact Us</a>
+                                <a >Contact Us</a>
                             </li>
                             <li>
-                                <a href="help.html">Help</a>
+                                <a >Help</a>
                             </li>
                             <li>
-                                <a href="faqs.html">Faqs</a>
+                                <a >Faqs</a>
                             </li>
                             <li>
-                                <a href="terms.html">Terms of use</a>
+                                <a >Terms of use</a>
                             </li>
                             <li>
-                                <a href="privacy.html">Privacy Policy</a>
+                                <a >Privacy Policy</a>
                             </li>
                         </ul>
                     </div>
