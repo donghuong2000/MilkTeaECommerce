@@ -8,10 +8,8 @@ $('#submit_rating_modal').click(function () {
     var ratingUserId = $('#ratinguserid').val()
     var ratingContent = $('#ratingcontent').val()
     var ratingRate = 0
-    for (var i = 5; i >= 1; i--) 
-    {
-        if (document.getElementById("star" + i.toString()).checked == true)
-        {
+    for (var i = 5; i >= 1; i--) {
+        if (document.getElementById("star" + i.toString()).checked == true) {
             ratingRate = i;
             break;
         }
@@ -42,32 +40,27 @@ $('#RatingModal').on('show.bs.modal', function (event) {
     $.ajax({
         method: "GET",
         url: "/Rating/Get",
-        data: { orderdetailid: orderdetailId, productid: productId},
+        data: { orderdetailid: orderdetailId, productid: productId },
         success: function (data) {
             console.log(data)
             console.log(orderdetailId)
             modal.find('#orderdetailid').val(data.data.orderdetailid)
             modal.find('#ratingproductid').val(data.data.productid)
             modal.find('#ratinguserid').val(data.data.user)
-            modal.find('#ratingimage').attr('src',data.data.productimage)
+            modal.find('#ratingimage').attr('src', data.data.productimage)
             modal.find('#ratingname').html(data.data.productname)
             modal.find('#ratingcategory').html(data.data.productcategory)
             modal.find('#ratingcontent').html(data.data.content)
             var rate = "star" + Math.floor(data.data.rating).toString()
             console.log(rate)
-            if (rate == "star0")
-            {
-                document.getElementById('star1').checked = false;
-                document.getElementById('star2').checked = false;
-                document.getElementById('star3').checked = false;
-                document.getElementById('star4').checked = false; // neu get element by id khong get ra duoc thi nhung cau lenh phia sau se khong thuc hien duoc
+            if (rate == "star0") {
+                document.getElementById('star5').checked = false;
                 modal.find('#ratingrate').html(0);
             }
-            else
-            {
+            else {
                 document.getElementById(rate).checked = true;
             }
-            
+
 
         }
     })
@@ -97,16 +90,14 @@ $('#RatingModalReadOnly').on('show.bs.modal', function (event) {
             console.log(rate)
             if (rate == "star0") {
                 modal.find('#ratingratereadonly').html(0);
-                document.getElementById("star1readonly").checked = false;
-                document.getElementById("star2readonly").checked = false;
-                document.getElementById("star3readonly").checked = false;
-                document.getElementById("star4readonly").checked = false; // neu get element by id khong get ra duoc thi nhung cau lenh phia sau se khong thuc hien duoc
-                
+                document.getElementById("star5readonly").checked = false;
+                $(':radio:not(:checked)').attr('disabled', true);
             }
             else {
                 modal.find('#ratingratereadonly').html(Math.floor(data.data.rating));
-                document.getElementById(rate+"readonly").checked = true;
-               
+                document.getElementById(rate + "readonly").checked = true;
+                $(':radio:not(:checked)').attr('disabled', true);
+
             }
 
 
