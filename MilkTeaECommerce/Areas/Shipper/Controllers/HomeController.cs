@@ -47,7 +47,7 @@ namespace MilkTeaECommerce.Areas.Shipper.Controllers
         public IActionResult GetAllConfirmed()
         {
             var orderHeader = _context.OrderDetails.Include(x => x.OrderHeader).Include(x => x.Product)
-                .Where(x => x.Status == OrderDetailStatus.confirmed.ToString()).Select(x => new
+                .Where(x => x.Status == "confirmed").Select(x => new
                 {
                     id = x.Id,
                     image = x.Product.ImageUrl,
@@ -116,18 +116,17 @@ namespace MilkTeaECommerce.Areas.Shipper.Controllers
         {
             // add deliveryId cho DeliveryDetail
             var orderDetail = _context.OrderDetails.Where(x => x.Id == id).SingleOrDefault();
-            if (orderDetail.Status == OrderDetailStatus.confirmed.ToString())      //xác nhận (hiển thị cho shipper ở phần nhận đơn)
+            if (orderDetail.Status == "confirmed")      //xác nhận (hiển thị cho shipper ở phần nhận đơn)
             {
-                orderDetail.Status = OrderDetailStatus.received.ToString();   
+                orderDetail.Status = "received";   
             }
-            else if (orderDetail.Status == OrderDetailStatus.received.ToString())   // hiển thị cho shipper ở phần đã nhận đơn
+            else if (orderDetail.Status == "received")   // hiển thị cho shipper ở phần đã nhận đơn
             {
-                orderDetail.Status = OrderDetailStatus.delivery.ToString();
+                orderDetail.Status = "delivery";
             }
-            else if(orderDetail.Status== OrderDetailStatus.delivery.ToString()) // đang vận chuyển ( hiển thị cho shipper ở phần đã lấy hàng)
+            else if(orderDetail.Status=="delivery") // đang vận chuyển ( hiển thị cho shipper ở phần đã lấy hàng)
             {
-                orderDetail.Status = OrderDetailStatus.deliveried.ToString();
-                
+                orderDetail.Status = "deliveried";
             }
 
             // add shipper id    
@@ -137,13 +136,6 @@ namespace MilkTeaECommerce.Areas.Shipper.Controllers
 
             try
             {
-                if (orderDetail.Status == OrderDetailStatus.deliveried.ToString())
-                {
-                    var deliverydetail = _context.DeliveryDetails.Where(x => x.OrderDetailId == orderDetail.Id).SingleOrDefault();
-                    deliverydetail.DateEnd = DateTime.Now;
-
-                    _context.DeliveryDetails.Update(deliverydetail);
-                }
                 _context.OrderDetails.Update(orderDetail);
                 _context.SaveChanges();
             }
@@ -158,7 +150,7 @@ namespace MilkTeaECommerce.Areas.Shipper.Controllers
         {
             var orderDetail = _context.OrderDetails.Where(x => x.Id == id).SingleOrDefault();
 
-            orderDetail.Status = OrderDetailStatus.cancelled.ToString();
+            orderDetail.Status = "cancelled";
             _context.OrderDetails.Update(orderDetail);
 
             /// xử lí cập nhật lại số lượng sản phẩm của shop
@@ -179,7 +171,7 @@ namespace MilkTeaECommerce.Areas.Shipper.Controllers
 
             // các đơn hàng của shipper chưa hoàn thành
             var order = _context.OrderDetails.Include(x => x.OrderHeader)
-                .Where(x => x.ShipperId == claim.Value && x.Status != OrderDetailStatus.deliveried.ToString())
+                .Where(x => x.ShipperId == claim.Value && x.Status != "deliveried")
                 .Select(x => new
                 {
                     id = x.Id,
