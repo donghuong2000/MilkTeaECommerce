@@ -8,12 +8,12 @@
         success: function (data) {
             $.each(data, function (index, value) {
                 product = product +
-                    '<div class="col-md-5" style="cursor: pointer;margin: 1rem 2rem;border: 1px solid rgba(0, 0, 0, 0.16);padding: 1rem;border-radius: 6px;"' + 
+                    '<div class="col-md-5 container" style="cursor: pointer;margin: 0.5rem 2rem;border: 1px solid rgba(0, 0, 0, 0.16);padding: 1rem;border-radius: 6px;max-width:35rem"' + 
                     ' data-target="#discount-modal" data-toggle="modal" data-id="'+value.id+'">' +
                     '<div class="col-xs-4 img-deals" style=" margin-top: 1rem;">' +
                     value.code +
                     '</div>' +
-                    '<div class="col-xs-8 img-deal1">' +
+                    '<div class="col-xs-8 img-deal1" >' +
                     '<h3>' + value.name + '</h3>' +
                     '<a>' + value.dateStart + '</a>' +
                     '</div>' +
@@ -29,7 +29,7 @@
         success: function (data) {
             $.each(data, function (index, value) {
                 delivery = delivery +
-                    '<div class="col-md-5" style="cursor: pointer;margin: 1rem 2rem;border: 1px solid rgba(0, 0, 0, 0.16);padding: 1rem;border-radius: 6px;"' +
+                    '<div class="col-md-5 container" style="cursor: pointer;margin: 1rem 2rem;border: 1px solid rgba(0, 0, 0, 0.16);padding: 1rem;border-radius: 6px;max-width:35rem"' +
                     ' data-target="#discount-modal" data-toggle="modal" data-id="' + value.id + '">' +
                     '<div class="col-xs-4 img-deals" style=" margin-top: 1rem;">' +
                     value.code +
@@ -50,7 +50,7 @@
         success: function (data) {
             $.each(data, function (index, value) {
                 category = category +
-                    '<div class="col-md-5" style="cursor: pointer;margin: 1rem 2rem;border: 1px solid rgba(0, 0, 0, 0.16);padding: 1rem;border-radius: 6px;"' +
+                    '<div class="col-md-5 container" style="cursor: pointer;margin: 1rem 2rem;border: 1px solid rgba(0, 0, 0, 0.16);padding: 1rem;border-radius: 6px;max-width:35rem"' +
                     ' data-target="#discount-modal" data-toggle="modal" data-id="' + value.id + '">' +
                     '<div class="col-xs-4 img-deals" style=" margin-top: 1rem;">' +
                     value.code +

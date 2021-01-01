@@ -44,13 +44,13 @@ namespace MilkTeaECommerce.Data
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.CategoryDiscount)
                     .HasForeignKey(d => d.CategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_CategoryDiscount_Category");
 
                 entity.HasOne(d => d.Discount)
                     .WithMany(p => p.CategoryDiscount)
                     .HasForeignKey(d => d.DiscountId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_CategoryDiscount_Discount");
             });
 
@@ -73,13 +73,13 @@ namespace MilkTeaECommerce.Data
                 entity.HasOne(d => d.Delivery)
                     .WithMany(p => p.DeliveryDetails)
                     .HasForeignKey(d => d.DeliveryId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_DeliveryDetails_Deliveries");
 
                 entity.HasOne(d => d.OrderDetail)
                     .WithOne(p => p.DeliveryDetails)
                     .HasForeignKey<DeliveryDetail>(d => d.OrderDetailId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_DeliveryDetails_OrderHeaders");
             });
 
@@ -91,13 +91,13 @@ namespace MilkTeaECommerce.Data
                 entity.HasOne(d => d.Delivery)
                     .WithMany(p => p.DeliveryDiscount)
                     .HasForeignKey(d => d.DeliveryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_DeliveryDiscount_Deliveries");
 
                 entity.HasOne(d => d.Discount)
                     .WithMany(p => p.DeliveryDiscount)
                     .HasForeignKey(d => d.DiscountId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_DeliveryDiscount_Discount");
             });
 
@@ -125,13 +125,13 @@ namespace MilkTeaECommerce.Data
                 entity.HasOne(d => d.OrderHeader)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.OrderHeaderId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_OrderDetail_OrderHeader");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_OrderDetail_Product");
             });
 
@@ -142,7 +142,7 @@ namespace MilkTeaECommerce.Data
                 entity.HasOne(d => d.ApplicationUser)
                     .WithMany(p => p.OrderHeaders)
                     .HasForeignKey(d => d.ApplicationUserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_OrderHeader_ApplicationUser");
             });
 
@@ -154,13 +154,13 @@ namespace MilkTeaECommerce.Data
                 entity.HasOne(d => d.Discount)
                     .WithMany(p => p.ProductDiscount)
                     .HasForeignKey(d => d.DiscountId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_ProductDiscount_Discount");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductDiscount)
                     .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_ProductDiscount_Product");
             });
 
@@ -175,13 +175,13 @@ namespace MilkTeaECommerce.Data
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CategoryId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Products_Categories");
 
                 entity.HasOne(d => d.Shop)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.ShopId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Products_Shops");
             });
 
@@ -196,13 +196,13 @@ namespace MilkTeaECommerce.Data
                 entity.HasOne(d => d.ApplicationUser)
                     .WithMany(p => p.Ratings)
                     .HasForeignKey(d => d.ApplicationUserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Ratings_ApplicationUsers");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Ratings)
                     .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Ratings_Products");
             });
 
@@ -215,13 +215,13 @@ namespace MilkTeaECommerce.Data
                 entity.HasOne(d => d.ApplicationUser)
                     .WithMany(p => p.ShoppingCarts)
                     .HasForeignKey(d => d.ApplicationUserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_ShoppingCarts_ApplicationUsers");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ShoppingCarts)
                     .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_ShoppingCarts_Products");
             });
 
@@ -235,7 +235,7 @@ namespace MilkTeaECommerce.Data
                 entity.HasOne(d => d.ApplicationUser)
                     .WithOne(p => p.Shops)
                     .HasForeignKey<Shop>(d => d.ApplicationUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_SHOP_USER");
             });
             base.OnModelCreating(modelBuilder);

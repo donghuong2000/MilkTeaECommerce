@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using MilkTeaECommerce.Models;
 namespace MilkTeaECommerce.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class DeliveriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -61,6 +63,10 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         {
             try
             {
+                if (id == null || name == null )
+                    throw new Exception("Không được để trống");
+                if(_context.Deliveries.Any(x =>x.Name==name))
+                    throw new Exception("Trùng tên, vui lòng đổi tên khác");
                 Delivery delivery = new Delivery() { Id = id, Name = name};
                 _context.Deliveries.Add(delivery);
                 _context.SaveChanges();
@@ -90,7 +96,10 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             obj.Name = newname;
             try
             {
-
+                if (newid == null || newname == null)
+                    throw new Exception("Không được để trống");
+                if (_context.Deliveries.Any(x => x.Name.Contains(newname)))
+                    throw new Exception("Trùng tên, vui lòng đổi tên khác");
                 _context.Deliveries.Update(obj);
                 _context.SaveChanges();
                 return Json(new { success = true, message = "cập nhập mục thành công" });
