@@ -35,7 +35,7 @@ var myAreaChart = new Chart(ctx, {
     data: {
         labels: [],
         datasets: [{
-            label: "Earnings",
+            label: "Doanh thu",
             lineTension: 0.3,
             backgroundColor: "rgba(78, 115, 223, 0.05)",
             borderColor: "rgba(78, 115, 223, 1)",
@@ -79,7 +79,7 @@ var myAreaChart = new Chart(ctx, {
                     padding: 10,
                     // Include a dollar sign in the ticks
                     callback: function (value, index, values) {
-                        return '$' + number_format(value);
+                        return number_format(value) +' VND';
                     }
                 },
                 gridLines: {
@@ -111,7 +111,7 @@ var myAreaChart = new Chart(ctx, {
             callbacks: {
                 label: function (tooltipItem, chart) {
                     var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                    return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                    return datasetLabel + ': ' + number_format(tooltipItem.yLabel)+' VND';
                 }
             }
         }
@@ -119,49 +119,27 @@ var myAreaChart = new Chart(ctx, {
 });
 
 $(document).ready(function () {   // gọi function này ở đâu //lúc khởi chạy view á
-    var Id = $('#shopchoosen').val();   //dô đây trước nè // id shopchossen ở đâu
-  
-    console.log(Id);
-    ajax_chart('/Admin/Home/Getdata/' + Id, 0);//rồi dô đây
-
+   
+    ajax_Adminchart("/Admin/Home/Statistical_Revenue","")
 })
-function ChooseChanged(obj) {
-    console.log(obj.value);
-    statistic_number('/Admin/Home/Getdatanumber/' + obj.value, 0);
-    ajax_chart('/Admin/Home/Getdata/' + obj.value, 0);//rồi dô đây
-    //statistic_table('/Admin/Home/GetdatTable/' + obj.value);
-    return obj.value;
-}
-function statistic_number(url, data) {
-    console.log(url);//đây nè
-    $.getJSON(url, data).done(function (response) {
-        console.log(response);//rồi xuống đây
-        $('#earning').val(response.earning);
-        $('#sumproduct').val(response.sumproduct);
-        $('#sumcustomer').val(response.sumcustomer);
-    })
-}
-function ajax_chart(url, data) {
-    console.log(url);//đây nè
-    $.getJSON(url, data).done(function (response) {
-        console.log(response);//rồi xuống đây
 
+$('#thongke').on('change', '.input_thongke', function () {
+
+    data = 'id=' + $('#user_tk').val() + '&date=' + $('#date_tk').val()
+
+    ajax_Adminchart("/Admin/Home/Statistical_Revenue", data)
+})
+
+
+
+
+function ajax_Adminchart(url, data) {
+    $.getJSON(url, data).done(function (response) {
         myAreaChart.data.labels = response.labels;
         myAreaChart.data.datasets[0].data = response.values;
         myAreaChart.update();
     })
 }
 
-//function statistic_table(url) {
-//    $.ajax({
-//        method: "GET",
-//        url: url,
 
-//        columns: [
-//            { "data": "lstCustomerid" },
-//            { "data": "lstCustomerMoney" },
-//        ]
-//    })
-    
-    
-//}
+
