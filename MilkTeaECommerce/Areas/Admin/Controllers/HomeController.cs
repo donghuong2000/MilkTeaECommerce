@@ -51,11 +51,16 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             }).ToList();
             var parameter = new DynamicParameters();
             parameter.Add("@shopid",lsShop[0].Value.ToString());
+            parameter.Add("@year", Convert.ToInt32(DateTime.Now.Year));
             // lấy về dưới dạng json
             var obj = SP_Call.ExecuteJson("statistic_number", parameter);//ok
-            TempData["earning"] = obj.Select(x => x["earning"].ToString()).ToList()[0].ToString();
-            TempData["sumproduct"] = obj.Select(x => x["count_product"].ToString()).ToList()[0].ToString();
-            TempData["sumcustomer"] = obj.Select(x => x["count_cus"].ToString()).ToList()[0].ToString();
+            if(obj != null)
+            {
+                TempData["earning"] = obj.Select(x => x["earning"].ToString()).ToList()[0].ToString();
+                TempData["sumproduct"] = obj.Select(x => x["count_product"].ToString()).ToList()[0].ToString();
+                TempData["sumcustomer"] = obj.Select(x => x["count_cus"].ToString()).ToList()[0].ToString();
+
+            }
             return View(lsShop);
         }
         //public IActionResult GetDataTable(string Id)//xong qua đây  // id truyền vào null kìa// null nữa gòi
@@ -69,13 +74,14 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         //    return Json(new { data = list });
 
         //}
-        public IActionResult GetDatanumber(string Id)//xong qua đây  // id truyền vào null kìa// null nữa gòi
+        public IActionResult GetDatanumber(string Id,int year)//xong qua đây  // id truyền vào null kìa// null nữa gòi
         {
             string earning;
             string sumproduct;
             string sumcustomer;
             var parameter = new DynamicParameters();
             parameter.Add("@shopid", Id);
+            parameter.Add("@year", year);
             var obj1 = SP_Call.ExecuteJson("statistic_number", parameter);//ok
             if(obj1 == null)
             {
@@ -90,7 +96,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             return Json(new { earning,sumproduct,sumcustomer });
             
         }
-        public IActionResult GetData(string Id)//xong qua đây  // id truyền vào null kìa// null nữa gòi
+        public IActionResult GetData(string Id,int year)//xong qua đây  // id truyền vào null kìa// null nữa gòi
         {
             //var totalShop = _db.Shops.Include(x => x.Products).Where(x => x.ApplicationUserId == Id);
 
@@ -123,6 +129,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             values = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             var parameter = new DynamicParameters();
             parameter.Add("@shopid", Id);
+            parameter.Add("@year", year);
             // lấy về dưới dạng json
             var obj = SP_Call.ExecuteJson("USP_Statistic", parameter);//ok
             List<string> label = new List<string>();
@@ -135,6 +142,8 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             catch
             {
             }
+            //if()
+            //for(int i = 1; i<= ; )
             if(label != null)
             {
                 int i = 0;

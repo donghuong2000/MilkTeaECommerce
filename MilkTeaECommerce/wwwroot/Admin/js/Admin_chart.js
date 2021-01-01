@@ -125,13 +125,16 @@ $(document).ready(function () {   // gọi function này ở đâu //lúc khởi
     ajax_chart('/Admin/Home/Getdata/' + Id, 0);//rồi dô đây
 
 })
-function ChooseChanged(obj) {
-    console.log(obj.value);
-    statistic_number('/Admin/Home/Getdatanumber/' + obj.value, 0);
-    ajax_chart('/Admin/Home/Getdata/' + obj.value, 0);//rồi dô đây
+function ChooseChanged() {
+    var year = $('#yearchoosen').val();
+    var shop = $('#shopchoosen').val();
+    console.log(shop, year);
+    statistic_number('/Admin/Home/Getdatanumber/' + '?Id=' + shop + '&year=' + year, 0);
+    ajax_chart('/Admin/Home/Getdata/' + '?Id=' + shop + '&year=' + year, 0);//rồi dô đây
     //statistic_table('/Admin/Home/GetdatTable/' + obj.value);
-    return obj.value;
+    return (shop,year);
 }
+
 function statistic_number(url, data) {
     console.log(url);//đây nè
     $.getJSON(url, data).done(function (response) {
