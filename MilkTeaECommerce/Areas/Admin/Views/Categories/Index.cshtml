@@ -4,12 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 class="h3 mb-2 text-gray-800">Tables</h1>
+
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex align-items-center">
 
-        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-        <a href="#" data-toggle="modal" data-target="#CreateModalCategory" class="btn btn-primary ml-auto">Tạo sản phẩm</a>
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách danh mục</h6>
+        <a href="#" data-toggle="modal" data-target="#CreateModalCategory" class="btn btn-primary ml-auto">Tạo danh mục</a>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -22,7 +22,7 @@
                         <th>
                             Tên loại
                         </th>
-                        <th></th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -33,7 +33,7 @@
                         <th>
                             Tên loại
                         </th>
-                        <th></th>
+                        <th>Hành động</th>
                     </tr>
                 </tfoot>
             </table>
@@ -108,7 +108,7 @@
             </div>
             <div class="modal-body">
                 <form onsubmit="return false">
-                    
+
                     <div class="form-group">
                         <label>Mã loại</label>
                         <input class=" form-control " type="text" id="detail_categoryid" readonly />
@@ -143,6 +143,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <!--cái này của thông báo-->
     <link href="~/Admin/js/build/toastr.css" rel="stylesheet" />
+    <link href="~/Admin/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
 }
 
 
