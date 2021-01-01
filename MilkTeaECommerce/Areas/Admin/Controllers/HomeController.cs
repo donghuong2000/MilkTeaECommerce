@@ -37,6 +37,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         public IActionResult Index()
         {
 
+
             ViewBag.ListShop = new SelectList(_db.Shops.ToList(), "ApplicationUserId", "Name");
             return View();
         }
@@ -97,12 +98,14 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 values[i] = s == null ? 0 : s.sum.GetValueOrDefault();
                     
             }
+
             return Json(new { labels, values });
         }
 
         public IActionResult Statistical_Product(DateTime? date)
         {
             if(date == null)
+
             {
                 var obj = _db.OrderDetails.Include(x => x.Product)
                     .Where(x => x.Status == OrderDetailStatus.deliveried.ToString())
