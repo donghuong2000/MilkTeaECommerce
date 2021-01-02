@@ -71,7 +71,13 @@ namespace MilkTeaECommerce.Controllers
             ViewBag.Customer_Bought = list_customer_buy_product_of_shop.Count();
             // Phần trăm đơn hàng giao thành công
             var number_order_detail_of_shop = _db.OrderDetails.Include(x => x.Product).Where(x => x.Product.ShopId == product.Shop.ApplicationUserId).Count();
-            var result = (double)(list_customer_buy_product_of_shop.Count()) / (double)(number_order_detail_of_shop);
+            double result = 0;
+            if(list_customer_buy_product_of_shop.Count == 0 && number_order_detail_of_shop == 0)
+            {
+                result = 1;
+            }
+            else
+                result = (double)(list_customer_buy_product_of_shop.Count()) / (double)(number_order_detail_of_shop);
             ViewBag.Success_Percent = (result*100).ToString("0.00");
 
             // Số lượng đã bán của sản phẩm đang xem
