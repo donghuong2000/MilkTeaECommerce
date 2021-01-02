@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ using SQLitePCL;
 namespace MilkTeaECommerce.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class DiscountsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -37,14 +39,14 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 id = x.Id,
                 name = x.Name,
                 des = x.Description,
-                dateStart = x.DateStart.GetValueOrDefault().ToShortDateString(),
-                dateEnd = x.DateExpired.GetValueOrDefault().ToShortDateString(),
+                dateStart =x.DateStart == (DateTime?)null ?"" : x.DateStart.GetValueOrDefault().ToLocalTime().ToShortDateString(),
+                dateEnd = x.DateExpired == (DateTime?)null ? "" : x.DateExpired.GetValueOrDefault().ToLocalTime().ToShortDateString(),
                 timeuselimit = x.TimesUseLimit,
                 timeused =x.TimesUsed,
                 per = x.PercentDiscount,
-                max = x.MaxDiscount,
+                max = x.MaxDiscount.GetValueOrDefault().ToString("#,###"),
                 code = x.Code
-            });
+            }).ToList();
 
             return Json(new { data = obj });
         }
@@ -121,7 +123,11 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError("DateExpired", "Ngày không hợp lệ");
                 }
-
+                // check date end>= datetime.noew
+                if (discount.DateExpired != null && discount.DateExpired<DateTime.Now)
+                {
+                    ModelState.AddModelError("DateExpired", "Ngày không hợp lệ");
+                }
                 if (ModelState.ErrorCount > 0)
                 {
                     var category = _context.Categories.ToList();
@@ -242,13 +248,23 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             }
             var d = await _context.Discounts.Include(x => x.CategoryDiscount).Include(x => x.DeliveryDiscount)
                 .Include(x => x.ProductDiscount).FirstOrDefaultAsync(x => x.Id == id);
-
-            _context.CategoryDiscount.RemoveRange(d.CategoryDiscount);
-            _context.DeliveryDiscount.RemoveRange(d.DeliveryDiscount);
-            _context.ProductDiscount.RemoveRange(d.ProductDiscount);
-            _context.Discounts.Remove(d);
-            await _context.SaveChangesAsync();
-            return Json(new { success = true });
+            if (d.TimesUsed > 0)
+            {
+                return Json(new { success = false });
+            }
+            try
+            {
+                _context.CategoryDiscount.RemoveRange(d.CategoryDiscount);
+                _context.DeliveryDiscount.RemoveRange(d.DeliveryDiscount);
+                _context.ProductDiscount.RemoveRange(d.ProductDiscount);
+                _context.Discounts.Remove(d);
+                await _context.SaveChangesAsync();
+                return Json(new { success = true });
+            }
+            catch
+            {
+                return Json(new { success = false });
+            }
         }
         [HttpGet]
         public IActionResult Details(string id)
@@ -263,12 +279,12 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 id = dis.Id,
                 name = dis.Name.ToString(),
                 des = dis.Description,
-                dateStart = dis.DateStart.GetValueOrDefault().ToShortDateString(),
-                dateEnd = dis.DateExpired.GetValueOrDefault().ToShortDateString(),
+                dateStart = dis.DateStart== (DateTime?)null ?"": dis.DateStart.GetValueOrDefault().ToLocalTime().ToShortDateString(),
+                dateEnd = dis.DateExpired == (DateTime?)null ? "" : dis.DateExpired.GetValueOrDefault().ToLocalTime().ToShortDateString(),
                 timeUsed = dis.TimesUsed,
                 timeuselimit = dis.TimesUseLimit,
                 per = dis.PercentDiscount,
-                max = dis.MaxDiscount,
+                max = dis.MaxDiscount.GetValueOrDefault().ToString("#,###"),
                 code = dis.Code,
                 cate = dis.CategoryDiscount.Select(x => x.Category.Name).ToList(),
                 deli = dis.DeliveryDiscount.Select(x => x.Delivery.Name).ToList(),

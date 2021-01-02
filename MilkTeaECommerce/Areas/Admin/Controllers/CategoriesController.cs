@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using MilkTeaECommerce.Models;
 namespace MilkTeaECommerce.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -51,8 +53,13 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(string id, string name)
         {
+
             try
             {
+                if (name == null || id == null)
+                    throw new Exception("Không được để trống tên");
+                if(_context.Categories.Select(x=>x.Name).Contains(name))
+                    throw new Exception("Tên bị trùng bạn êy");
                 Category category = new Category() { Id = id, Name = name};
                 _context.Categories.Add(category);
                 _context.SaveChanges();
@@ -104,7 +111,10 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
            
             try
             {
-
+                if (name == null )
+                    throw new Exception("Không được để trống tên");
+                if (_context.Categories.Select(x => x.Name).Contains(name))
+                    throw new Exception("Tên bị trùng bạn êy");
                 _context.Categories.Update(obj);
                 _context.SaveChanges();
                 return Json(new { success = true, message = "cập nhập mục thành công" });
