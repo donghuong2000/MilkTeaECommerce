@@ -38,6 +38,9 @@ $(function ajax_chart() {
     $.ajax({
         type: 'GET',
         url: '/Seller/Home/ChartEarning',
+        data: {
+            year:$('#yearhidden').val()
+        },
         success: function (data) {
             myLineChart.data.datasets[0].data = data;
             myLineChart.update();

@@ -27,8 +27,14 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
             _db = db;
             _hostEnvironment = hostEnvironment;
         }
-        public IActionResult Index()
+        public IActionResult Index(string year = null)
         {
+            if (year == null)
+            {
+                year = DateTime.Now.Year.ToString();
+            }
+            ViewBag.Year = year;
+
             return View();
         }
         public IActionResult ShopDetail()
@@ -142,7 +148,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
 
             return Json(customers.Count);
         }
-        public IActionResult ChartEarning()
+        public IActionResult ChartEarning(string year)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -150,10 +156,10 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
 
             // lấy các sản orderdetail của shop có ngày giao rồi
 
-            var data=_db.DeliveryDetails.Include(x=>x.OrderDetail).ThenInclude(x=>x.Product).ThenInclude(x=>x.Shop)
-                .Where(x=>x.OrderDetail.Product.ShopId==sellerId &&
-                x.OrderDetail.Status== OrderDetailStatus.deliveried.ToString())
-                .OrderByDescending(x=>x.DateEnd)
+            var data = _db.DeliveryDetails.Include(x => x.OrderDetail).ThenInclude(x => x.Product).ThenInclude(x => x.Shop)
+                .Where(x => x.OrderDetail.Product.ShopId == sellerId &&
+                x.OrderDetail.Status == OrderDetailStatus.deliveried.ToString())
+                .OrderByDescending(x => x.DateEnd)
                 .Select(x => new
                 {
                     price = x.OrderDetail.Price,
@@ -163,10 +169,10 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
             var lst = new List<object>();
             foreach (var item in month)
             {
-                var x = data.Where(x => x.date.Month == item && x.date.Year==DateTime.Now.Year).Sum(x => x.price).Value;
+                var x = data.Where(x => x.date.Month == item && x.date.Year.ToString() == year).Sum(x => x.price).Value;
                 lst.Add(x);
             }
-            
+
 
             return Json(lst);
         }
