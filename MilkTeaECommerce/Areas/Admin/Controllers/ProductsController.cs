@@ -66,7 +66,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
 
         public IActionResult Get(string id)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+            var product = _context.Products.Include(x=>x.Category).Include(x=>x.Shop).FirstOrDefault(x => x.Id == id);
 
             var obj = new
             {
@@ -76,12 +76,13 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 imageurl = product.ImageUrl,
                 price = product.Price,
                 quantity = product.Quantity,
-                categoryId = product.CategoryId,
+                category = product.Category.Name,
                 shopId = product.ShopId,
-                
-
+                shopname = product.Shop.Name,
+                shopImg = product.Shop.ImgUrl,
+                status = product.IsConfirm
             };
-            return Json(new { data = obj });
+            return Json( obj );
         }
 
 

@@ -50,57 +50,16 @@
 
 
 <div class="modal fade" id="DetailModalProduct" tabindex="-1" aria-labelledby="DetailModalLabelProduct" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="DetailModalLabelProduct">Chỉnh Sửa sản phẩm</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
             <div class="modal-body">
-                <form onsubmit="return false">
-                    @*<div class="form-group">
-                            <input class=" form-control" type="text" id="update_productid_old" />
-                        </div>*@
-                    <div class="form-group">
-                        <label>Mã sản phẩm</label>
-                        <input class=" form-control " type="text" id="update_productid_old" readonly />
+                <div class="row">
+                    <h4 class="col-12 text-center">Chi tiết sản phẩm</h4>
+                    <img id="a" class="rounded col-4"  src="https://picsum.photos/200/300" alt="Alternate Text" height="300" width="200"/>
+                    <div class="col-8" id="detailinfo">
+                       
                     </div>
-                    <div class="form-group">
-                        <label>Tên sản phẩm</label>
-                        <input class=" form-control " type="text" id="update_productname" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label>Mô tả</label>
-                        <input class=" form-control " type="text" id="update_productdescription" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label>Hình ảnh</label>
-                        <input class=" form-control " type="text" id="update_productimage" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label>Giá</label>
-                        <input class=" form-control " type="text" id="update_productprice" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label>Trạng thái</label>
-                        <input class=" form-control " type="text" id="update_productstatus" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label>Số lượng</label>
-                        <input class=" form-control " type="text" id="update_productquantity" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label>Loại</label>
-                        <input class=" form-control " type="text" id="update_productcategory" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label>Cửa hàng</label>
-                        <input class=" form-control " type="text" id="update_productshopid" readonly />
-                    </div>
-                    <a href="/Admin/Products/Index" class="btn btn-dark">Quay lại</a>
-                </form>
+                </div>
             </div>
         </div>
     </div>

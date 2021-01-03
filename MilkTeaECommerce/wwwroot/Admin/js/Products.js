@@ -105,17 +105,45 @@ $('#DetailModalProduct').on('show.bs.modal', function (event) {
         url: '/Admin/Products/Get/' + ad,
         success: function (data) {
             console.log(data)
-            modal.find('#update_productid_old').val(data.data.id)
-            modal.find('#update_deliveriesid_new').val(data.data.id)
-            modal.find('#update_productname').val(data.data.name)
-            modal.find('#update_productdescription').val(data.data.description)
-            modal.find('#update_productimage').val(data.data.imageUrl)
-            modal.find('#update_productprice').val(data.data.price)
-            modal.find('#update_productstatus').val(data.data.status)
-            modal.find('#update_productquantity').val(data.data.quantity)
-            modal.find('#update_productcategory').val(data.data.category.name)
-            modal.find('#update_productshopid').val(data.data.shopId)
-            //modal.find().val(data.data[0].id)
+            var html = `
+                        <h5>
+                             <strong>Tên sản phẩm:</strong>  ${data.name}
+                        </h5>
+                        <h5>
+                             <strong>Loại sản phẩm:</strong>  ${data.category}
+                        </h5>
+                        <h5 >
+                             <strong>Số lượng:</strong>  ${data.quantity}
+                        </h5>
+                        <h5 >
+                             <strong>Giá tiền:</strong>  ${data.price}
+                        </h5>
+                        <h5 >
+                             <strong>Trạng thái:</strong>  ${data.status}
+                        </h5>
+                        <h5>
+                            <strong>Mô tả:</strong> 
+                        </h5>
+                        <p>
+                             ${data.description}
+                        </p>
+                        <hr />
+                        <h5>
+                            Shop sở hữu:
+                        </h5>
+                        <div class="d-flex align-items-center">
+                            <img  class="rounded-circle" src="${data.shopImg}" alt="Alternate Text" height="50" width="50" />
+                            <a href="/Shop/details/${data.shopId}">
+                                <strong>
+                                    ${data.shopname}
+                                </strong> 
+                            </a>
+
+                        </div>
+
+                    `
+           
+            modal.find('#detailinfo').html(html)
         }
     })
 
