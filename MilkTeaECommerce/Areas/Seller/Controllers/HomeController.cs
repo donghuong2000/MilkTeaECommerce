@@ -27,14 +27,8 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
             _db = db;
             _hostEnvironment = hostEnvironment;
         }
-        public IActionResult Index(string year=null)
+        public IActionResult Index()
         {
-            if (year == null)
-            {
-                year = DateTime.Now.Year.ToString();
-            }
-            ViewBag.Year = year;
-
             return View();
         }
         public IActionResult ShopDetail()
@@ -148,7 +142,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
 
             return Json(customers.Count);
         }
-        public IActionResult ChartEarning(string year)
+        public IActionResult ChartEarning()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -169,7 +163,7 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
             var lst = new List<object>();
             foreach (var item in month)
             {
-                var x = data.Where(x => x.date.Month == item && x.date.Year.ToString()==year).Sum(x => x.price).Value;
+                var x = data.Where(x => x.date.Month == item && x.date.Year==DateTime.Now.Year).Sum(x => x.price).Value;
                 lst.Add(x);
             }
             
