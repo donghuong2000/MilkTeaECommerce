@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MilkTeaECommerce.Data;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,21 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         {
             return View();
         }
+        public IActionResult Getall()
+        {
+            var obj = _db.OrderDetails.Include(x=>x.DeliveryDetails).ThenInclude(x=>x.Delivery)
+                .Include(x=>x.Product)
+                .Select(x=>new { 
+                    id = x.Id,
+                    quantity = x.Count,
+                    image = x.Product.ImageUrl,
+                    product = x.Product.Name,
+                    price = x.Price,
+                    status = x.Status,
+                    delivery = x.DeliveryDetails.Delivery.Name +" : "+ x.DeliveryDetails.Price
+                }).ToList();
+            return Json(new {data = obj });
+        }
+
     }
 }

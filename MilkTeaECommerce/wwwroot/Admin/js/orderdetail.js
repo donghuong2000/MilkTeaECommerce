@@ -4,30 +4,22 @@ $(document).ready(function () {
             "url": "/Admin/Order/GetAll"
         },
         "columns": [
-            { "data": "orderdetailid" },
-            { "data": "deliveryid" },
-            { "data": "address" },
-            { "data": "note" },
-            { "data": "price" },
-            { "data": "datestart" },
-            { "data": "dateend" },
+            { "data": "id" },
             {
-                "data": "orderdetailid",
+                "data": { image: "image", product: "product" },
                 "render": function (data) {
-                    return `
-                             <div class="text-center">
-                                <a href="#" data-toggle="modal" data-target="#EditModal" data-whatever="${data}" class="btn btn-success text-white" style="cursor:pointer">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a onClick=Delete("/Admin/DeliveryDetail/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
-                            </div>                           
-                            
-                           `;
+                    return `<img src=${data.image} class="rounded" height = 100 width=70 />
+                            <label>${data.product}</label>
+                            `
                 }
-            }
+            },
+            { "data": "quantity" },
+            { "data": "price" },
+            { "data": "status" },
+            { "data": "delivery" },
+           
         ]
 
-    });
-
+    })
+}
+)
