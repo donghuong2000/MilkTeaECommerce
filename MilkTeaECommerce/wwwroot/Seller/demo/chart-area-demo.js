@@ -32,16 +32,17 @@ var ctx = document.getElementById("myAreaChart");
 
 $(document).ready(function () {
     ajax_chart();
-    console.log("ready")
 })
 $(function ajax_chart() {
     $.ajax({
         type: 'GET',
         url: '/Seller/Home/ChartEarning',
+        data: {
+            year: $('#yearhidden').val()
+        },
         success: function (data) {
             myLineChart.data.datasets[0].data = data;
-            myLineChart.update();
-            console.log("done");
+            myLineChart.update()
         }
     });
 })
