@@ -1,4 +1,4 @@
-// Set new default font family and font color to mimic Bootstrap's default styling
+﻿// Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
@@ -26,19 +26,25 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   }
   return s.join(dec);
 }
-
+function ajax_AdminBarchart(url, data) {
+    $.getJSON(url, data).done(function (response) {
+        myBarChart.data.labels = response.labels;
+        myBarChart.data.datasets[0].data = response.values;
+        myBarChart.update();
+    })
+}
 // Bar Chart Example
 var ctx = document.getElementById("myBarChart");
 var myBarChart = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    labels: [],
     datasets: [{
-      label: "Revenue",
+      label: "Số lượng",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [4215, 5312, 6251, 7841, 9821, 14984],
+      data: [],
     }],
   },
   options: {
@@ -68,12 +74,11 @@ var myBarChart = new Chart(ctx, {
       yAxes: [{
         ticks: {
           min: 0,
-          max: 15000,
           maxTicksLimit: 5,
           padding: 10,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
-            return '$' + number_format(value);
+            return  number_format(value);
           }
         },
         gridLines: {
@@ -103,9 +108,20 @@ var myBarChart = new Chart(ctx, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+          return datasetLabel + ': ' + number_format(tooltipItem.yLabel);
         }
       }
     },
   }
 });
+
+
+$(document).ready(function () {   // gọi function này ở đâu //lúc khởi chạy view á
+
+    ajax_AdminBarchart("/Admin/Home/Statistical_Product", "")
+})
+
+$('#date_tkproduct').on('change', function () {
+    data = 'date=' + $('#date_tkproduct').val();
+    ajax_AdminBarchart("/Admin/Home/Statistical_Product",data)
+})

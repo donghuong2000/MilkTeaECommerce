@@ -2,8 +2,11 @@
 @{
     ViewData["Title"] = "Detail";
 }
-
+@section header{ 
+    <link href="~/Admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+}
 <div class="banner-bootom-w3-agileits">
+    
     <div class="container">
         <!-- tittle heading -->
         <h3 class="tittle-w3l">
@@ -42,28 +45,43 @@
         </div>
         <div class="col-md-7 single-right-left simpleCart_shelfItem">
             <!--thoong tin san pham-->
-            <h3>@Model.Name
-            
+            <h3>
+                @Model.Name.ToUpper()
+
             </h3>
-            
+            <span>Đã bán : @ViewBag.product_selled_count    </span>
+            <span>Lượt đánh giá : @ViewBag.product_rate_count</span> 
             <p>
                 <span class="item_price">@Model.Price VND</span>
                 <del>@(Model.Price*2) VND</del>
-          
+
             </p>
-           
+            <div class="rating1">
+                Điểm đánh giá :
+                <span class="starRating">
+                    <input id="rating5_product" type="radio" name="rating5_product" value="5">
+                    <label for="rating5_product">5</label>
+                    <input id="rating4_product" type="radio" name="rating4_product" value="4">
+                    <label for="rating4_product">4</label>
+                    <input id="rating3_product" type="radio" name="rating3_product" value="3">
+                    <label for="rating3_product">3</label>
+                    <input id="rating2_product" type="radio" name="rating2_product" value="2">
+                    <label for="rating2_product">2</label>
+                    <input id="rating1_product" type="radio" name="rating1_product" value="1">
+                    <label for="rating1_product">1</label>
+                </span>
+            </div>
+
             <div class="product-single-w3l">
                 <p>
-                    <i class="fa fa-hand-o-right" aria-hidden="true"></i>This is a
-                    <label>@Model.Category.Name</label> product.
+                    <i class="fa fa-hand-o-right" aria-hidden="true"></i>Danh mục sản phẩm:
+                    <label>@Model.Category.Name</label>
                 </p>
                 <ul>
+                    Mô tả:
                     @Html.Raw(@Model.Description)
                 </ul>
-                <p>
-                    <i class="fa fa-refresh" aria-hidden="true"></i>All @Model.Category.Name products are
-                    <label>non-returnable.</label>
-                </p>
+
             </div>
             <div class="occasion-cart">
                 <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
@@ -88,39 +106,69 @@
         </div>
         <div class="clearfix"> </div>
     </div>
-    <div class="container" style="margin-top:100px; border:solid">
-        <div class="row" style="margin-top:20px">
-            <div class="col-md-4">
-                <a href="#">
+</div>
+<div class="container" style="margin-top:100px; border:solid">
+    <div class="row" style="margin:20px">
+        <div class="col-md-4">
+            <a href="/Shop/Details/@Model.ShopId">
 
-                    <div style="display:flex;align-items:center">
-                        <img src="@(Model.Shop.ImgUrl==null?"":Model.Shop.ImgUrl)" style="border-radius:50%;margin-right:10px" height="50" width="50" />
-                        <h4>@Model.Shop.Name</h4>
-                        <lable style=" margin-left:20px" class="btn btn-primary btn-sm"> go to shop</lable>
+                <div style="display:flex;align-items:center">
+                    <img src="@(Model.Shop.ImgUrl==null?"":Model.Shop.ImgUrl)" style="border-radius:50%;margin-right:10px" height="50" width="50" />
+
+                    <div style="font-size:20px;margin-right:10px ">@Model.Shop.Name</div>
+
+                    <div class="rating1">
+                        <span class="starRating">
+                            <input id="rating5_shop" type="radio" name="rating5_shop" value="5">
+                            <label for="rating5_shop">5</label>
+                            <input id="rating4_shop" type="radio" name="rating4_shop" value="4">
+                            <label for="rating4_shop">4</label>
+                            <input id="rating3_shop" type="radio" name="rating3_shop" value="3">
+                            <label for="rating3_shop">3</label>
+                            <input id="rating2_shop" type="radio" name="rating2_shop" value="2">
+                            <label for="rating2_shop">2</label>
+                            <input id="rating1_shop" type="radio" name="rating1_shop" value="1">
+                            <label for="rating1_shop">1</label>
+                        </span>
                     </div>
 
-                </a>
-                <div class="rating1">
-                    <span class="starRating">
-                        <input id="rating5" type="radio" name="rating" value="5">
-                        <label for="rating5">5</label>
-                        <input id="rating4" type="radio" name="rating" value="4">
-                        <label for="rating4">4</label>
-                        <input id="rating3" type="radio" name="rating" value="3" checked="">
-                        <label for="rating3">3</label>
-                        <input id="rating2" type="radio" name="rating" value="2">
-                        <label for="rating2">2</label>
-                        <input id="rating1" type="radio" name="rating" value="1">
-                        <label for="rating1">1</label>
-                    </span>
+                    <label class="btn btn-primary btn-sm" for="shop_go"> Xem thông tin shop</label>
+
                 </div>
-            </div>
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-4">@Model.Shop.Description</div>
-                </div>
+
+            </a>
+
+
+
+        </div>
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-7">
+            <div class="row">
+                <div class="col-md-6">Số lượng sản phẩm : @ViewBag.Product_Count</div>
+                <div class="col-md-6">Số lượt đánh giá : @ViewBag.Rate_Count</div>
+                <div class="col-md-6">Số lượng người đã mua : @ViewBag.Customer_Bought</div>
+                <div class="col-md-6">Phần trăm đơn giao thành công : @ViewBag.Success_Percent %</div>
             </div>
         </div>
     </div>
+
 </div>
+<div class="container" style="margin-top:100px; border:solid">
+    <h3  style=" color :red  ">Đánh giá sản phẩm</h3>
+    <div style="border-bottom: solid"></div>
+    <br />
+    <div class="product-ratings-list">
+        @foreach (var item in Model.Ratings)
+        {
+            <partial name="_RatingPartial" model="item" />
+        }
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/js/product_detail.js"></script>
+}
 

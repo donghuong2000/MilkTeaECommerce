@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex align-items-center">
+
+            <h6 class="m-0 font-weight-bold text-primary"></h6>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Mã Đơn Hàng</th>
+                                <th>Sản phẩm </th>
+                                <th>Số lượng</th>
+                                <th>tiền</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Mã Đơn Hàng</th>
+                                <th>Sản phẩm </th>
+                                <th>Số lượng</th>
+                                <th>Tiền</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        @section Scripts{
+            <!-- Page level plugins -->
+            <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
+            <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+            <script src="~/Admin/js/build/toastr.min.js"></script>
+            <!--cái này của thông báo-->
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+            <!--cái này của selectlist search-->
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+            <!-- Page level custom scripts -->
+
+            <script src="~/Admin/js/orderdetail.js"></script>
+
+
+        }
+        @section Header{
+            <link href="~/Admin/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
+            <!--cái này của thông báo-->
+            <link href="~/Admin/js/build/toastr.css" rel="stylesheet" />
+            <!--cái này của selectlist search-->
+            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+        }
+
+
+    </div>
+</div>
+
