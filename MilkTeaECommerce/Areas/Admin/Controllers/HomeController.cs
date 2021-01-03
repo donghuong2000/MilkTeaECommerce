@@ -39,6 +39,12 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
 
 
             ViewBag.ListShop = new SelectList(_db.Shops.ToList(), "ApplicationUserId", "Name");
+
+
+
+            ViewBag.ProductCount = _db.Products.Count();
+            ViewBag.UserCount = _db.AspNetUsers.Count();
+            ViewBag.Allowen = _db.OrderDetails.Where(x => x.Status == OrderDetailStatus.deliveried.ToString()).Sum(x => x.Price).GetValueOrDefault().ToString("#,###")+ " VND";
             return View();
         }
         /// <summary>
