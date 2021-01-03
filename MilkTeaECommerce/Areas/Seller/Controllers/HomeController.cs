@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ using MilkTeaECommerce.Models.Models;
 namespace MilkTeaECommerce.Areas.Seller.Controllers
 {
     [Area("seller")]
+    [Authorize(Roles ="Manager")]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _db;

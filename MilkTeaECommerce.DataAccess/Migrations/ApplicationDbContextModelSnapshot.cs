@@ -635,12 +635,14 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .WithMany("CategoryDiscount")
                         .HasForeignKey("CategoryId")
                         .HasConstraintName("FK_CategoryDiscount_Category")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("MilkTeaECommerce.Models.Discount", "Discount")
                         .WithMany("CategoryDiscount")
                         .HasForeignKey("DiscountId")
                         .HasConstraintName("FK_CategoryDiscount_Discount")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -650,12 +652,13 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .WithMany("DeliveryDetails")
                         .HasForeignKey("DeliveryId")
                         .HasConstraintName("FK_DeliveryDetails_Deliveries")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MilkTeaECommerce.Models.OrderDetail", "OrderDetail")
                         .WithOne("DeliveryDetails")
                         .HasForeignKey("MilkTeaECommerce.Models.DeliveryDetail", "OrderDetailId")
                         .HasConstraintName("FK_DeliveryDetails_OrderHeaders")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -665,12 +668,14 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .WithMany("DeliveryDiscount")
                         .HasForeignKey("DeliveryId")
                         .HasConstraintName("FK_DeliveryDiscount_Deliveries")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("MilkTeaECommerce.Models.Discount", "Discount")
                         .WithMany("DeliveryDiscount")
                         .HasForeignKey("DiscountId")
                         .HasConstraintName("FK_DeliveryDiscount_Discount")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -680,13 +685,13 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderHeaderId")
                         .HasConstraintName("FK_OrderDetail_OrderHeader")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MilkTeaECommerce.Models.Product", "Product")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .HasConstraintName("FK_OrderDetail_Product")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MilkTeaECommerce.Models.ApplicationUser", "Shipper")
                         .WithMany()
@@ -699,7 +704,7 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .WithMany("OrderHeaders")
                         .HasForeignKey("ApplicationUserId")
                         .HasConstraintName("FK_OrderHeader_ApplicationUser")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("MilkTeaECommerce.Models.Product", b =>
@@ -708,13 +713,13 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .HasConstraintName("FK_Products_Categories")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MilkTeaECommerce.Models.Shop", "Shop")
                         .WithMany("Products")
                         .HasForeignKey("ShopId")
                         .HasConstraintName("FK_Products_Shops")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("MilkTeaECommerce.Models.ProductDiscount", b =>
@@ -723,12 +728,14 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .WithMany("ProductDiscount")
                         .HasForeignKey("DiscountId")
                         .HasConstraintName("FK_ProductDiscount_Discount")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("MilkTeaECommerce.Models.Product", "Product")
                         .WithMany("ProductDiscount")
                         .HasForeignKey("ProductId")
                         .HasConstraintName("FK_ProductDiscount_Product")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -738,13 +745,13 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .WithMany("Ratings")
                         .HasForeignKey("ApplicationUserId")
                         .HasConstraintName("FK_Ratings_ApplicationUsers")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MilkTeaECommerce.Models.Product", "Product")
                         .WithMany("Ratings")
                         .HasForeignKey("ProductId")
                         .HasConstraintName("FK_Ratings_Products")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("MilkTeaECommerce.Models.Shop", b =>
@@ -753,6 +760,7 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .WithOne("Shops")
                         .HasForeignKey("MilkTeaECommerce.Models.Shop", "ApplicationUserId")
                         .HasConstraintName("FK_SHOP_USER")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -762,13 +770,13 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         .WithMany("ShoppingCarts")
                         .HasForeignKey("ApplicationUserId")
                         .HasConstraintName("FK_ShoppingCarts_ApplicationUsers")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MilkTeaECommerce.Models.Product", "Product")
                         .WithMany("ShoppingCarts")
                         .HasForeignKey("ProductId")
                         .HasConstraintName("FK_ShoppingCarts_Products")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

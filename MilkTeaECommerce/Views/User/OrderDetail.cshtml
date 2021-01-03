@@ -8,13 +8,10 @@
 <div class="row">
     <div class="col-md-3 ">
         <div class="list-group">
-            <a asp-action="Index" asp-controller="User" class="list-group-item list-group-item-action ">
-                List Product
-            </a>
-            <a class="list-group-item list-group-item-action">Home</a>
-            <a asp-action="Profile" asp-controller="User" class="list-group-item list-group-item-action ">Info</a>
-            <a asp-action="OrderDetail" asp-controller="User" class="list-group-item list-group-item-action active">Bill Info</a>
-            <a href="#" class="list-group-item list-group-item-action">Some thing else</a>
+            <a asp-action="Profile" asp-controller="User" class="list-group-item list-group-item-action ">Thông tin cá nhân</a>
+            <a asp-action="OrderDetail" asp-controller="User" class="list-group-item list-group-item-action active">Tình trạng đơn hàng</a>
+            <a onclick=ShopChannel() id="shop-channel_btn" class="list-group-item list-group-item-action">Kênh bán hàng</a>
+            <a onclick=ShipChannel() id="ship-channel_btn" class="list-group-item list-group-item-action">Kênh shipper</a>
         </div>
     </div>
     <div class="col-md-9">

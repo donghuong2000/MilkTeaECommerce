@@ -22,10 +22,11 @@ namespace MilkTeaECommerce.Controllers
             _db = db;
         }
 
-        public IActionResult Index(int? page)
+        public IActionResult Index(int? page,string search,string amount,string[] category)
         {
             
             int num = 9;
+            
             var listProduct = _db.Products
                 .Where(x=>x.IsConfirm == true)
                 // không chuyển đổi ở bước này vì nó sẽ tốn nất nhiều tài nghuyên để chuyển đổi 1 số lượng lớn object
@@ -38,6 +39,25 @@ namespace MilkTeaECommerce.Controllers
                 //    OldPrice = x.Price.GetValueOrDefault()*2
                 //})
                 ;
+            if(search!=null)
+            {
+                //filter serch
+                listProduct = listProduct.Where(x => x.Name.Contains(search));
+            }    
+            if(amount !=null)
+            {
+                // filter giá tiền
+                var range = amount.Split('-');
+                listProduct = listProduct.Where(
+                    x => x.Price > float.Parse(range[0].Trim().Replace("VND", "")) &&
+                    x.Price < float.Parse(range[1].Trim().Replace("VND", ""))
+                    );
+
+            }    
+            if(category.Length>0)
+            {
+                listProduct = listProduct.Where(x => category.Contains(x.CategoryId));
+            }    
             int ProductCount = listProduct.Count();
             // điều kiện để phân trang
             if (page!=null && page >0)
@@ -87,6 +107,9 @@ namespace MilkTeaECommerce.Controllers
             return View(obj);
             
         }
+
+
+
         public IActionResult Privacy()
         {
             return View();

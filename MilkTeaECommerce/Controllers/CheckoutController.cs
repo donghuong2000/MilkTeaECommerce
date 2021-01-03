@@ -11,9 +11,11 @@ using MilkTeaECommerce.Models;
 using MilkTeaECommerce.Models.Models;
 using Newtonsoft.Json.Linq;
 using MilkTeaECommerce.Utility;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MilkTeaECommerce.Controllers
 {
+    [Authorize]
     public class CheckoutController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -124,14 +126,12 @@ namespace MilkTeaECommerce.Controllers
                 var dis = _db.Discounts.Include(x=>x.ProductDiscount)
                     .Include(x=>x.CategoryDiscount)
                     .Include(x=>x.DeliveryDiscount)
+                    .Where(x=>(x.TimesUseLimit-x.TimesUsed) >0 && x.DateExpired > DateTime.Now && x.DateStart< DateTime.Now )
                     .FirstOrDefault(x => x.Code == discountCode);
-                if (dis != null)
+                if (dis != null )
                 {
                     // check là giảm giá gì
-                    //var isDeliveryDiscount = _db.DeliveryDiscount.Any(x => x.DeliveryId == delivery && x.DiscountId ==dis.Id);
-                    //var isCategoryDiscount = _db.CategoryDiscount.Any(x => listCategory.Contains(x.CategoryId) && x.DiscountId == dis.Id);
-                    //var isProductDiscount = _db.ProductDiscount.Any(x => listProduct.Contains(x.ProductId) && x.DiscountId == dis.Id);
-
+                    
                     var isDeliveryDiscount = dis.DeliveryDiscount.Any(x => x.DeliveryId == delivery);
                     var isCategoryDiscount = dis.CategoryDiscount.Any(x => listCategory.Contains(x.CategoryId));
                     var isProductDiscount = dis.ProductDiscount.Any(x => listProduct.Contains(x.ProductId));
@@ -193,10 +193,17 @@ namespace MilkTeaECommerce.Controllers
 
             }) ;
             header.OrderDetails = ShoppingItem.ToList();
-
+            HttpContext.Session.Set("discount", discountCode);
             HttpContext.Session.Set("cart", header);
 
-            return Json(new { url = "/Checkout/summary" });
+            if(payment == "paypal")
+            {
+                return Json(new { url = "/Paypal/PaypalCheckout" });
+            }    
+            else
+            {
+                return Json(new { url = "/Checkout/summary" });
+            }     
         }
          
         public IActionResult CancelBill()
@@ -211,6 +218,13 @@ namespace MilkTeaECommerce.Controllers
             await using var transaction = await _db.Database.BeginTransactionAsync();
             try
             {
+                var code = HttpContext.Session.Get<string>("discount");
+                var discount = _db.Discounts.Where(x => (x.TimesUseLimit - x.TimesUsed) > 0 && x.DateExpired > DateTime.Now).FirstOrDefault(x => x.Code == code );
+                if(discount!=null)
+                {
+                    discount.TimesUsed++;
+                    _db.SaveChanges();
+                }    
                 var a = HttpContext.Session.Get<OrderHeader>("cart");
                 
                 a.ApplicationUser = null;
@@ -263,5 +277,8 @@ namespace MilkTeaECommerce.Controllers
 
             
         }
+
+
+
     }
 }

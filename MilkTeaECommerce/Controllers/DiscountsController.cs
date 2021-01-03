@@ -166,7 +166,7 @@ namespace MilkTeaECommerce.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Code=x.Code,
-                    DateStart=x.DateStart.GetValueOrDefault().ToString("dd-MM-yyyy")
+                    DateStart=x.DateStart.GetValueOrDefault().ToLocalTime().ToShortDateString()
                 }).ToList();
             return Json(obj);
         }
@@ -185,7 +185,7 @@ namespace MilkTeaECommerce.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Code = x.Code,
-                    DateStart = x.DateStart.GetValueOrDefault().ToString("dd-MM-yyyy")
+                    DateStart = x.DateStart.GetValueOrDefault().ToLocalTime().ToShortDateString()
                 }).ToList();
             return Json(obj);
         }
@@ -202,7 +202,7 @@ namespace MilkTeaECommerce.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Code = x.Code,
-                    DateStart = x.DateStart.GetValueOrDefault().ToString("dd-MM-yyyy")
+                    DateStart = x.DateStart.GetValueOrDefault().ToLocalTime().ToShortDateString()
                 }).ToList();
             return Json( obj );
         }
@@ -213,9 +213,9 @@ namespace MilkTeaECommerce.Controllers
             {
                 Id=x.Id,
                 Name=x.Name,
-                DateStart=x.DateStart.GetValueOrDefault().ToString("dd-MM-yyyy"),
-                DateExpired=x.DateExpired.GetValueOrDefault().ToString("dd-MM-yyyy"),
-                Desc=x.Description,
+                DateStart=x.DateStart== (DateTime?)null ?"": x.DateStart.GetValueOrDefault().ToLocalTime().ToShortDateString(),
+                DateExpired = x.DateExpired == (DateTime?)null ? "" : x.DateExpired.GetValueOrDefault().ToLocalTime().ToShortDateString(),
+                Desc =x.Description,
                 Code=x.Code
             }).SingleOrDefault();
             return Json(obj);

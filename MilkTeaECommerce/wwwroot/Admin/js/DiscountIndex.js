@@ -25,7 +25,7 @@
                                     <i class="fas fa-trash-alt"></i>
 
                                 <a href="#" data-target="#Detail" data-toggle="modal" data-id="${data}" 
-                                class="btn btn-success" style="font-size:small">Details</a>
+                                class="btn btn-success" ><i class="fas fa-info"></i></a>
 
                                 </a>
                             </div>  
@@ -76,12 +76,11 @@ const swalWithBootstrapButtons = Swal.mixin({
 function Delete(url) {
 
     swalWithBootstrapButtons.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Xác nhận xóa thông tin?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy',
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
@@ -92,16 +91,16 @@ function Delete(url) {
                     console.log(data);
                     if (data.success) {
                         swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
+                            'Đã xóa!',
+                            'Xóa dữ liệu thành công',
                             'success'
                         );
                         $('#dataTable').DataTable().ajax.reload();
                     }
                     else {
                         swalWithBootstrapButtons.fire(
-                            'Error',
-                            'Can not delete this, maybe it not exit or error from sever',
+                            'Lỗi',
+                            'Đã có lỗi xảy ra, dữ liệu không thể xóa',
                             'error'
                         )
                     }

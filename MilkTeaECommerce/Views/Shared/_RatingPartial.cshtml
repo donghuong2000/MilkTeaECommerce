@@ -1,0 +1,41 @@
+﻿@model MilkTeaECommerce.Models.Rating ;
+
+@section header{
+    <link href="~/Admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+}
+@{int i = 0;}
+
+<div style="border-bottom: 1px solid; margin-bottom:50px" >
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <img  src="@(Model.ApplicationUser.ImageUrl==null?"":Model.ApplicationUser.ImageUrl)" style="border-radius:50%;margin-right:10px" height="50" width="50" />
+                    <span style="font-size:20px">@Model.ApplicationUser.Name</span>
+                </div>
+                
+                <div class="col-md-12">
+                    @{
+                        if (Model.Rate != null)
+                            i = (int)(Model.Rate.GetValueOrDefault());
+                    }
+                    @for (int j = 1; j <= i; j++)
+                    {
+                        <span> <i class="fas fa-star"></i></span>
+                    }
+                    @for (int j = 1; j <=5-i; j++)
+                    {
+                        <span> <i class="far fa-star"></i></span>
+                    }
+                </div>
+                
+                
+
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <p>@Model.Content</p>
+        </div>
+    </div>
+    </div>

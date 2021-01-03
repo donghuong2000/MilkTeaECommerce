@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using MilkTeaECommerce.Models;
 namespace MilkTeaECommerce.Areas.Seller.Controllers
 {
     [Area("seller")]
+    [Authorize(Roles = "Manager")]
     public class OrderManagerController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

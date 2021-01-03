@@ -110,7 +110,7 @@
                                 <a onClick=GetOrder("/Shipper/home/Get/${data}","#dataTableGet") class="btn btn-danger text-white" 
                                  style="cursor:pointer">Hoàn thành</a>
                                 <a onClick=Cancel("/Shipper/home/Cancel/${data}","#dataTableGet") class="btn btn-danger text-white" 
-                                 style="cursor:pointer">Đã hủy</a>
+                                 style="cursor:pointer">Hủy đơn</a>
                             </div>  
 
                            `
