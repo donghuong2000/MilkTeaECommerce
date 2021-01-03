@@ -9,17 +9,12 @@ using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using Microsoft.Extensions.Hosting;
-
 using MilkTeaECommerce.Models;
-
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MilkTeaECommerce.Data;
-
 using MilkTeaECommerce.Utility;
-
 namespace MilkTeaECommerce.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -49,7 +44,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         }
         /// <summary>
         /// thống kê doanh thu tất cả hoặc 1 cá nhân theo năm nào đó
-        /// ddaayi vào là id của user và năm cần thống kê
+        /// đầu vào là id của user và năm cần thống kê
         /// </summary>
         /// <param name="id"></param>
         /// <param name="date"></param>

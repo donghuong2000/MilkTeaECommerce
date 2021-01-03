@@ -34,8 +34,9 @@ namespace MilkTeaECommerce.Models.Models
         [DataType(DataType.Password)]
         public string ComfirmPassword { get; set; }
         [Display(Name = "Quyền")]
-        public string Role { get; set; }
+       
+        public string[] Role { get; set; }
 
-        public IEnumerable<SelectListItem> ListRole { get; set; }
+       
     }
 }

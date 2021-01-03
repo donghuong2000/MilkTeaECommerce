@@ -31,7 +31,47 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             return View();
         }
 
-
+        public IActionResult Update(string id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var u = _userManager.Users.FirstOrDefault(x => x.Id == id);
+            if(u== null)
+            {
+                return NotFound();
+            }
+            var vm = new RegisterViewModel() { Username = u.UserName, Mail = u.Email, Name = u.Name, Sdt = u.PhoneNumber };
+            vm.Role = _userManager.GetRolesAsync(u).Result.ToArray();
+            var list = _roleManager.Roles.Select(x => new SelectListItem() { Text = x.Name, Value = x.Name }).ToList();
+            ViewBag.listRole = list;
+            return View(vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(RegisterViewModel vm)
+        {
+            
+            var u = _userManager.Users.FirstOrDefault(x=>x.UserName == vm.Username);
+            if(u == null)
+            {
+                ModelState.AddModelError("","Lỗi");
+                return View(vm);
+            }
+            try
+            {
+                var rolelist = await _userManager.GetRolesAsync(u);
+                await _userManager.RemoveFromRolesAsync(u, rolelist);
+                await _userManager.AddToRolesAsync(u, vm.Role);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+                return View(vm);
+            }
+            return RedirectToAction("index");
+           
+        }
 
 
 
@@ -74,7 +114,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 var result = await _userManager.CreateAsync(user, vm.Password);
                 if(result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, vm.Role);
+                    await _userManager.AddToRolesAsync(user, vm.Role);
                     return RedirectToAction("index","home",new {area ="admin" });
                 }   
                 else
