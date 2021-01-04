@@ -171,32 +171,31 @@ namespace MilkTeaECommerce.Controllers
         public async Task<IActionResult> ShipChannel()
         {
             var curuser = await _userManager.GetUserAsync(User);
-            ////check shop exits
-            //var shop = _db.Shops.FirstOrDefault(x => x.ApplicationUserId == curuser.Id);
-            ////shop chưa tạo
+           
+            
+            if (curuser.ShipperRequest == ShipperRequest.Block)
+            {
+                return Json(new { status = false, message = "Bạn đã bị block" });
+            }
+            if (curuser.ShipperRequest == ShipperRequest.Pending)
+            {
+                return Json(new { status = true, message = "Đợi admin duyệt" });
+            }
+            if (curuser.ShipperRequest == ShipperRequest.Approved)
+            {
+                return Json(new { status = true, message = "Bạn đã là shipper" });
+            }
+            var CanCreateShop = await _userManager.IsEmailConfirmedAsync(curuser);
+            if (CanCreateShop)
+            {
+                curuser.ShipperRequest = ShipperRequest.Pending;
+                await _userManager.UpdateAsync(curuser);
+                return Json(new { status = true, message = "Đợi admin xác nhận" });
+            }
+            else
+                return Json(new { status = false, message = "Xác nhận mail để làm shipper" });
 
-            //if (shop == null)
-            //{
-            //    var CanCreateShop = await _userManager.IsEmailConfirmedAsync(curuser);
-            //    if (CanCreateShop)
-            //    {
-            //        var newshop = new Shop() { ApplicationUserId = curuser.Id, Name = curuser.Name, ImgUrl = "https://picsum.photos/200/300", Description = "", IsConfirm = false };
-            //        _db.Shops.Add(newshop);
-            //        _db.SaveChanges();
-            //        return Json(new { status = true, message = "Đợi admin xác nhận" });
-            //    }
-            //    else
-            //        return Json(new { status = false, message = "Xác nhận mail để làm shipper" });
-            //}
-            //else
-            //{
-            //    if (shop.IsConfirm)
-            //    {
-            //        return Json(new { status = true, message = "OK", url = "/Seller" });
-            //    }
-            //    return Json(new { status = false, message = "Your Shop is pending or has been lock" });
-            //}
-            return Json(new { status = true, message = "Đợi admin xác nhận" });
+            
         }
     }
 }

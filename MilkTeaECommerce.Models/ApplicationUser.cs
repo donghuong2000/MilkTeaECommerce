@@ -12,12 +12,15 @@ namespace MilkTeaECommerce.Models
             OrderHeaders = new HashSet<OrderHeader>();
             Ratings = new HashSet<Rating>();
             ShoppingCarts = new HashSet<ShoppingCart>();
+            ShipperRequest = 0;
         }
 
         public string  Name { get; set; }
 
         public string ImageUrl { get; set; }
         public string Address { get; set; }
+        public ShipperRequest ShipperRequest { get; set; }
+
         [NotMapped]
         public string Role { get; set; }
 
