@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MilkTeaECommerce.Data;
@@ -18,11 +19,13 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
     public class ShopController : Controller
     {
         private readonly ApplicationDbContext _db;
-        
-        public ShopController(ApplicationDbContext db)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public ShopController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             
             _db = db;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -42,12 +45,20 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             return Json(new { data = obj });
         }
 
-        public IActionResult LockUnLock(string id)
+        public async Task<IActionResult> LockUnLock(string id)
         {
             try
             {
                 var obj = _db.Shops.Find(id);
                 obj.IsConfirm = !obj.IsConfirm;
+                if(obj.IsConfirm)
+                {
+                   await _userManager.AddToRoleAsync(_db.AspNetUsers.Find(id), "Manager");
+                }   
+                else
+                {
+                   await  _userManager.RemoveFromRoleAsync(_db.AspNetUsers.Find(id), "Manager");
+                }    
                 _db.SaveChanges();
                 return Json(new { success = true, message = "Shop has been Ban/UnBan" });
 

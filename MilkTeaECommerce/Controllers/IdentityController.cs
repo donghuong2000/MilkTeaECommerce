@@ -58,6 +58,7 @@ namespace MilkTeaECommerce.Controllers
 
             if(result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, "Customer");
                 // xác nhận mail 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -69,7 +70,6 @@ namespace MilkTeaECommerce.Controllers
                     host: Request.Host.Value);
                 await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                await _userManager.AddToRoleAsync(user, "Customer");
                 if (_userManager.Options.SignIn.RequireConfirmedAccount)
                 {
                     return Json(new { success = false, message = "comfirm email " });

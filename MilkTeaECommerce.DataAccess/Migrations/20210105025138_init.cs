@@ -41,7 +41,10 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    ShipperRequest = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -138,8 +141,8 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -183,8 +186,8 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -217,7 +220,7 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,7 +231,7 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                     Name = table.Column<string>(maxLength: 200, nullable: true),
                     Description = table.Column<string>(nullable: true),
                     ImgUrl = table.Column<string>(nullable: true),
-                    Rate = table.Column<float>(nullable: true)
+                    IsConfirm = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -298,7 +301,7 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                     Description = table.Column<string>(nullable: true),
                     ImageUrl = table.Column<string>(nullable: true),
                     Price = table.Column<float>(nullable: true),
-                    Status = table.Column<string>(maxLength: 100, nullable: true),
+                    IsConfirm = table.Column<bool>(nullable: false),
                     Quantity = table.Column<int>(nullable: true),
                     CategoryId = table.Column<string>(maxLength: 450, nullable: true),
                     ShopId = table.Column<string>(maxLength: 450, nullable: true)
@@ -311,13 +314,13 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_Shops",
                         column: x => x.ShopId,
                         principalTable: "Shops",
                         principalColumn: "ApplicationUserId",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -329,7 +332,8 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                     ProductId = table.Column<string>(maxLength: 450, nullable: true),
                     Count = table.Column<int>(nullable: true),
                     Price = table.Column<float>(nullable: true),
-                    Status = table.Column<string>(nullable: true)
+                    Status = table.Column<string>(nullable: true),
+                    ShipperId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -339,13 +343,19 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         column: x => x.OrderHeaderId,
                         principalTable: "OrderHeaders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OrderDetail_Product",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_AspNetUsers_ShipperId",
+                        column: x => x.ShipperId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -390,13 +400,13 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Ratings_Products",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -417,13 +427,13 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ShoppingCarts_Products",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -446,7 +456,7 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                         column: x => x.DeliveryId,
                         principalTable: "Deliveries",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DeliveryDetails_OrderHeaders",
                         column: x => x.OrderDetailId,
@@ -524,6 +534,11 @@ namespace MilkTeaECommerce.DataAccess.Migrations
                 name: "IX_OrderDetails_ProductId",
                 table: "OrderDetails",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_ShipperId",
+                table: "OrderDetails",
+                column: "ShipperId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderHeaders_ApplicationUserId",
