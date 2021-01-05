@@ -12,7 +12,7 @@ namespace MilkTeaECommerce.Models
             OrderHeaders = new HashSet<OrderHeader>();
             Ratings = new HashSet<Rating>();
             ShoppingCarts = new HashSet<ShoppingCart>();
-            ShipperRequest = 0;
+            ShipperRequest = ShipperRequest.None;
         }
 
         public string  Name { get; set; }

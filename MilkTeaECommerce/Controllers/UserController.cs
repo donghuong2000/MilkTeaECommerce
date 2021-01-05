@@ -132,12 +132,28 @@ namespace MilkTeaECommerce.Controllers
             
             return View(obj);
         }
-        
+
         //public async IActionResult Rate(string productid, string Content , float? Rate)
         //{
         //    var user = await _userManager.GetUserAsync(User);
 
         //}
+        public IActionResult CancelOrder(string id)
+        {
+            try
+            {
+                var o = _db.OrderDetails.Find(id);
+                o.Status = OrderDetailStatus.cancelled.ToString();
+                _db.Update(o);
+                _db.SaveChanges();
+                return Json(new { success = true, message = "đã hủy đơn hàng thành công" });
+            }
+            catch (Exception e)
+            {
+
+                return Json(new { success = true, message = e.Message });
+            }
+        }
         
         public async Task<IActionResult> ShopChannel()
         {
