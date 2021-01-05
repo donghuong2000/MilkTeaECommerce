@@ -45,7 +45,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             return Json(new { data = obj });
         }
 
-        public IActionResult LockUnLock(string id)
+        public async Task<IActionResult> LockUnLock(string id)
         {
             try
             {
@@ -53,11 +53,11 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
                 obj.IsConfirm = !obj.IsConfirm;
                 if(obj.IsConfirm)
                 {
-                    _userManager.AddToRoleAsync(_db.AspNetUsers.Find(id), "Manager");
+                   await _userManager.AddToRoleAsync(_db.AspNetUsers.Find(id), "Manager");
                 }   
                 else
                 {
-                    _userManager.RemoveFromRoleAsync(_db.AspNetUsers.Find(id), "Manager");
+                   await  _userManager.RemoveFromRoleAsync(_db.AspNetUsers.Find(id), "Manager");
                 }    
                 _db.SaveChanges();
                 return Json(new { success = true, message = "Shop has been Ban/UnBan" });
