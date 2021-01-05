@@ -12,7 +12,7 @@ using MilkTeaECommerce.Models.Models;
 namespace MilkTeaECommerce.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -24,10 +24,18 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
             _roleManager = roleManager;
             
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            
-            
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            if (!await _roleManager.RoleExistsAsync("Manager"))
+                await _roleManager.CreateAsync(new IdentityRole("Manager"));
+            if (!await _roleManager.RoleExistsAsync("Customer"))
+                await _roleManager.CreateAsync(new IdentityRole("Customer"));
+            if (!await _roleManager.RoleExistsAsync("Shipper"))
+                await _roleManager.CreateAsync(new IdentityRole("Shipper"));
+
+
             return View();
         }
 
@@ -101,6 +109,7 @@ namespace MilkTeaECommerce.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(RegisterViewModel vm)
         {
+            
             if(ModelState.IsValid)
             {
                 var user = new ApplicationUser()
