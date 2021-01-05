@@ -10,7 +10,7 @@
                 "data": "image",
                 "render": function (data) {
                     return `
-                            <img src="${data} />
+                            <img src="${data}" style="width:5rem" />
                             `
                 }
             },
@@ -50,7 +50,7 @@
                 "data": "image",
                 "render": function (data) {
                     return `
-                            <img src="${data} />
+                            <img src="${data}" style="width:5rem"/>
                             `
                 }
             },
@@ -90,7 +90,7 @@
                 "data": "image",
                 "render": function (data) {
                     return `
-                            <img src="${data} />
+                            <img src="${data}" style="width:5rem" />
                             `
                 }
             },
@@ -132,7 +132,7 @@
                 "data": "image",
                 "render": function (data) {
                     return `
-                            <img src="${data} />
+                            <img src="${data}" style="width:5rem"/>
                             `
                 }
             },
@@ -169,7 +169,7 @@
                 "data": "image",
                 "render": function (data) {
                     return `
-                            <img src="${data} />
+                            <img src="${data}" style="width:5rem"/>
                             `
                 }
             },
@@ -183,7 +183,7 @@
                 "render": function (data) {
                     return `
                              <div class="text-center" >
-                                <a id="a-detail" data-toggle="modal" data-target="#Detail" data-id="${data}" data-value="#dataTableDone"
+                                <a id="a-detail" data-toggle="modasl" data-target="#Detail" data-id="${data}" data-value="#dataTableDone"
                                 class="btn btn-success" style="font-size:small">Chi tiết</a>
                             </div>  
 
