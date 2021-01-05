@@ -105,7 +105,9 @@ $('#DetailModalProduct').on('show.bs.modal', function (event) {
         url: '/Admin/Products/Get/' + ad,
         success: function (data) {
             console.log(data)
-            var html = `
+            var html = `<h4 class="col-12 text-center">Chi tiết sản phẩm</h4>
+                    <img id="a" class="rounded col-4"  src="${data.imageurl}" alt="Alternate Text" height="300" width="200"/>
+                    <div class="col-8" >
                         <h5>
                              <strong>Tên sản phẩm:</strong>  ${data.name}
                         </h5>
@@ -140,7 +142,7 @@ $('#DetailModalProduct').on('show.bs.modal', function (event) {
                             </a>
 
                         </div>
-
+                </div>
                     `
            
             modal.find('#detailinfo').html(html)
