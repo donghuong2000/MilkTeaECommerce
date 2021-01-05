@@ -1,4 +1,6 @@
-﻿
+﻿$(document).ready(function () {
+    $('#pills-wait-tab').trigger('click');
+});
 
 
 
