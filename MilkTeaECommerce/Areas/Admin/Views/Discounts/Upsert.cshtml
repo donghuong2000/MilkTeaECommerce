@@ -1,0 +1,135 @@
+﻿@model MilkTeaECommerce.Models.Models.DiscountViewModel
+@{
+    ViewData["Title"] = "Upsert";
+}
+
+@section Header{
+    <link href="~/Admin/css/styles.css" rel="stylesheet" />
+}
+
+@if (ViewBag.Id != "")
+{
+    // Chỉnh sửa
+    <h1 class="row justify-content-center">Chỉnh sửa khuyến mãi</h1>
+}
+else
+{
+    <h1 class="row justify-content-center">Thêm khuyến mãi</h1>
+}
+
+<hr />
+<div class="row justify-content-center">
+
+    <div class="col-lg-6">
+        <form asp-action="Upsert" method="post">
+            <input asp-for="Id" hidden/>
+            <div id="check-categorydiv">
+                    @if (ViewBag.Id!="" && Model.CategoryDiscounts.Count>0)
+                    {
+                        <input id="check-category" type="checkbox" checked />
+                        <label> Danh mục sản phẩm</label>
+                        <select id="select-category" style="width:100%" class="js-example-basic-multiple"
+                                asp-for="CategoryDiscounts" asp-items="ViewBag.Categories" multiple></select>
+                    }
+                    else
+                    {
+                        <input id="check-category" type="checkbox" />
+                        <label> Danh mục sản phẩm</label>
+                        <select id="select-category" disabled style="width:100%" class="js-example-basic-multiple"
+                                asp-for="CategoryDiscounts" asp-items="ViewBag.Categories" multiple></select>
+
+                    }
+            </div>
+
+            <div class="delivery-discount">
+                @if (ViewBag.Id != "" && Model.DeliveryDiscounts.Count > 0)
+                {
+                    <input id="check-delivery" type="checkbox" value=""  checked/>
+                }
+                else
+                {
+                    <input id="check-delivery" type="checkbox" value="" />
+                }
+                
+                <label> Vận chuyển</label>
+                <select id="select-delivery" disabled style="width:100%" class="js-example-basic-multiple"
+                        asp-for="DeliveryDiscounts" asp-items="ViewBag.Deliveries" multiple></select>
+            </div>
+            <div class="product-discount">
+                @if (ViewBag.Id != "" && Model.ProductDiscounts.Count > 0)
+                {
+                    <input id="check-product" type="checkbox" value="" checked />
+                }
+                else
+                {
+                    <input id="check-product" type="checkbox" value="" />
+                }
+
+                <label> Sản phẩm</label>
+                <select id="select-product" disabled style="width:100%" class="js-example-basic-multiple"
+                        asp-for="ProductDiscounts" asp-items="ViewBag.Products" multiple></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateStart" class="control-label"></label>
+                <input type="date" asp-for="DateStart" class="form-control" />
+                <span asp-validation-for="DateStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateExpired" class="control-label"></label>
+                <input type="date" asp-for="DateExpired" class="form-control" />
+                <span asp-validation-for="DateExpired" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimesUseLimit" class="control-label"></label>
+                <input asp-for="TimesUseLimit" class="form-control" />
+                <span asp-validation-for="TimesUseLimit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PercentDiscount" class="control-label"></label>
+                <input asp-for="PercentDiscount" class="form-control" />
+                <span asp-validation-for="PercentDiscount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxDiscount" class="control-label"></label>
+                <input asp-for="MaxDiscount" class="form-control" />
+                <span asp-validation-for="MaxDiscount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @if (ViewBag.Id != "")
+                {
+                    <input type="submit" value="Cập nhật" class="btn btn-primary" />
+                }
+                else
+                {
+                    <input type="submit" value="Thêm" class="btn btn-primary" onclick="Test()" />
+                }
+            </div>
+        </form>
+        <div>
+            <a asp-action="Index">Trở lại</a>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <!-- Select 2-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="~/Admin/js/CreateDiscount.js"></script>
+}

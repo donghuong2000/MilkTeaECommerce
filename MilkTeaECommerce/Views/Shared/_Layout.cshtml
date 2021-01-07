@@ -1,49 +1,416 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="zxx">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MilkTeaECommerce</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <title>Grocery Shoppy an Ecommerce Category Bootstrap Responsive Web Template | Home :: w3layouts</title>
+    <!--/tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Grocery Shoppy Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!--//tags -->
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/font-awesome.css" rel="stylesheet">
+    <!--pop-up-box-->
+    <link href="~/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+    <!--//pop-up-box-->
+    <!-- price range -->
+    <link rel="stylesheet" type="text/css" href="~/css/jquery-ui1.css">
+    <!-- fonts -->
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800" rel="stylesheet">
+    @RenderSection("Header", false)
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MilkTeaECommerce</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    
+    <!-- //top-header -->
+    <!-- header-bot-->
+    <div class="header-bot shadow bg-gradient-success">
+        <div class="header-bot_inner_wthreeinfo_header_mid">
+            <!-- header-bot-->
+            <!-- header-bot -->
+            <div class="header" style="display:grid;grid-template-columns:20% 80%;width:100%">
+
+                <div style="grid-column:1">
+                    <a href="/Home/Index">
+                        <img src="~/images/Logo.png" style="width:10rem" />
+                    </a>
+                </div>
+                <div style="grid-column:2;padding-top:2.5rem">
+                    <ul>
+                        <li class="active">
+                            <a class="nav-stylehead" href="/Home">
+                                Trang chủ
+                                <span class="sr-only">(current)</span>
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="">
+                            <a class="nav-stylehead" href="/Discounts">
+                                Mã giảm giá
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <partial name="_LoginPartial" />
+                        <li style="border-right-width:0px">
+                            <form action="#" method="post" class="last">
+                                <input type="hidden" name="cmd" value="_cart">
+                                <input type="hidden" name="display" value="1">
+                                <button class="w3view-cart" type="submit" name="submit" value="">
+                                    <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                                </button>
+                            </form>
                         </li>
                     </ul>
                 </div>
+               
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - MilkTeaECommerce - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <!-- search -->
+            
+            <div class="clearfix" >
+                
+            </div>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+    </div>
+    <!-- shop locator (popup) -->
+   
+    <!-- forget Model -->
+    <div class="modal fade myModal" id="ForgotModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body modal-body-sub_agile">
+                <div class="main-mailposi">
+                    <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                </div>
+                <div class="modal_body_left modal_body_left1">
+                    <h3 class="agileinfo_sign">Quên mật khẩu </h3>
+                    <form onsubmit="return false">
+                        <div class="styled-input agile-styled-input-top">
+                            <input type="email" placeholder="email" id="emailforget" required="">
+                        </div>
+                        <div hidden id="pre-confirm">
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="password" placeholder="newPassword" id="np" required="">
+                            </div>
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="password" placeholder="comfirm new Password" id="cnp" required="">
+                            </div>
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="text" placeholder="code" id="code" required="">
+                            </div>
+                        </div>
+                        <input id="Forgotbtn" type="submit" value="Forgot Password">
+                        <input hidden id="resetbtn" type="submit" value="Reset Password">
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- //Modal content-->
+    </div>
+</div>
+    <!-- Modal1 -->
+    <div class="modal fade myModal" id="SignInModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body modal-body-sub_agile">
+                    <div class="main-mailposi">
+                        <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                    </div>
+                    <div class="modal_body_left modal_body_left1">
+                        <h3 class="agileinfo_sign">Đăng nhập </h3>
+                        <p>
+                            Đăng nhập ngay. Chưa có tài khoản?
+                            <a href="#" data-toggle="modal" data-target="#SignUpModal">
+                               Đăng ký ngay!
+                            </a>
+                        </p>
+                        <form method="post" onsubmit="return false">
+                            <div hidden id="alert-message" class="alert alert-danger" role="alert">
+
+                            </div>
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="text" placeholder="Tên tài khoản" id="usn" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="password" placeholder="Mật khẩu" id="pwd" required="">
+                            </div>
+                            <input id="SignInbtn" type="submit" value="Đăng nhập">
+                            <a class="close" data-dismiss="modal" href="#" data-toggle="modal" data-target="#ForgotModal">Quên mật khẩu</a>
+                        </form>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!-- //Modal content-->
+        </div>
+    </div>
+    <!-- //Modal1 -->
+    <!-- //signin Model -->
+    <!-- signup Model -->
+    <!-- Modal2 -->
+    <div class="modal fade myModal" id="SignUpModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body modal-body-sub_agile">
+                    <div class="main-mailposi">
+                        <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                    </div>
+                    <div class="modal_body_left modal_body_left1">
+                        <h3 class="agileinfo_sign">Đăng ký</h3>
+                        <p>
+                            Hãy bắt đầu tạo tài khoản mới
+                        </p>
+                        <form onsubmit="return false" method="post">
+                            <div hidden id="alert-message" class="alert alert-danger" role="alert">
+
+                            </div>
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="text" placeholder="Họ và tên" id="name" required="">
+                            </div>
+
+                            <div class="styled-input">
+                                <input type="email" placeholder="E-mail" id="email" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="text" placeholder="Số điện thoại" id="sdt" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="text" placeholder="Tên tài khoản" id="username" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="password" placeholder="Mật khẩu" id="password1" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="password" placeholder="Xác nhận mật khẩu" id="password2" required="">
+                            </div>
+                            <input id="SignUpbtn" type="submit" value="Đăng ký">
+                        </form>
+                        <p>
+                            <a href="#">Bằng việc đăng ký, TÔI đã đồng ý với các điều khoản của trang web</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- //Modal content-->
+        </div>
+    </div>
+    <!-- //Modal2 -->
+    <!-- //signup Model -->
+    <!-- //header-bot -->
+    
+    <!-- //navigation -->
+    @RenderBody()
+    <!-- newsletter -->
+  
+    <!-- //newsletter -->
+    <!-- footer -->
+    
+    <!-- //footer -->
+    <!-- copyright -->
+    <div class="copy-right">
+        <div class="container">
+            <p>
+                © 2020 HTHY MilkTea. All rights reserved | Design by
+                <a href="http://w3layouts.com"> W3layouts.</a>
+            </p>
+        </div>
+    </div>
+    <!-- //copyright -->
+    <!-- js-files -->
+    <!-- jquery -->
+    <script src="~/js/jquery-2.1.4.min.js"></script>
+    <!-- //jquery -->
+    <!-- popup modal (for signin & signup)-->
+    <script src="~/js/jquery.magnific-popup.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.popup-with-zoom-anim').magnificPopup({
+                type: 'inline',
+                fixedContentPos: false,
+                fixedBgPos: true,
+                overflowY: 'auto',
+                closeBtnInside: true,
+                preloader: false,
+                midClick: true,
+                removalDelay: 300,
+                mainClass: 'my-mfp-zoom-in'
+            });
+
+        });
+    </script>
+    <!-- Large modal -->
+    <!-- <script>
+        $('#').modal('show');
+    </script> -->
+    <!-- //popup modal (for signin & signup)-->
+    <!-- cart-js -->
+    <script src="~/js/minicart.js"></script>
+    <script>
+        paypalm.minicartk.render(); //use only unique class names other than paypalm.minicartk.Also Replace same class name in css and minicart.min.js
+
+        paypalm.minicartk.cart.on('checkout', function (evt) {
+            var items = this.items(),
+                len = items.length,
+                total = 0,
+                i;
+
+            // Count the number of each item in the cart
+            for (i = 0; i < len; i++) {
+                total += items[i].get('quantity');
+            }
+
+            if (total < 3) {
+                alert('The minimum order quantity is 3. Please add more to your shopping cart before checking out');
+                console.log(items)
+                evt.preventDefault();
+            }
+        });
+    </script>
+    <!-- //cart-js -->
+    <!-- price range (top products) -->
+    <script src="~/js/jquery-ui.js"></script>
+    <script>
+        //<![CDATA[
+        $(window).load(function () {
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 500000,
+                values: [0, 500000],
+                slide: function (event, ui) {
+                    $("#amount").val(ui.values[0] + "VND - " + ui.values[1]+"VND");
+                }
+            });
+            $("#amount").val(+ $("#slider-range").slider("values", 0) + "VND - " + $("#slider-range").slider("values", 1)+"VND");
+
+        }); //]]>
+    </script>
+    <!-- //price range (top products) -->
+    <!-- flexisel (for special offers) -->
+    <script src="~/js/jquery.flexisel.js"></script>
+    <script>
+        $(window).load(function () {
+            $("#flexiselDemo1").flexisel({
+                visibleItems: 3,
+                animationSpeed: 1000,
+                autoPlay: true,
+                autoPlaySpeed: 3000,
+                pauseOnHover: true,
+                enableResponsiveBreakpoints: true,
+                responsiveBreakpoints: {
+                    portrait: {
+                        changePoint: 480,
+                        visibleItems: 1
+                    },
+                    landscape: {
+                        changePoint: 640,
+                        visibleItems: 2
+                    },
+                    tablet: {
+                        changePoint: 768,
+                        visibleItems: 2
+                    }
+                }
+            });
+
+        });
+    </script>
+    <!-- //flexisel (for special offers) -->
+    <!-- password-script -->
+    <script>
+        window.onload = function () {
+            document.getElementById("password1").onchange = validatePassword;
+            document.getElementById("password2").onchange = validatePassword;
+        }
+
+        function validatePassword() {
+            var pass2 = document.getElementById("password2").value;
+            var pass1 = document.getElementById("password1").value;
+            if (pass1 != pass2)
+                document.getElementById("password2").setCustomValidity("Passwords Don't Match");
+            else
+                document.getElementById("password2").setCustomValidity('');
+            //empty string means no validation error
+        }
+    </script>
+    <!-- //password-script -->
+    <!-- smoothscroll -->
+    <!-- //smoothscroll -->
+    <!-- start-smooth-scrolling -->
+    <script src="~/js/move-top.js"></script>
+    <script src="~/js/easing.js"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 1000);
+            });
+        });
+    </script>
+    <!-- //end-smooth-scrolling -->
+    <!-- smooth-scrolling-of-move-up -->
+    <script>
+        $(document).ready(function () {
+            /*
+            var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+            */
+            $().UItoTop({
+                easingType: 'easeOutQuart'
+            });
+
+        });
+    </script>
+
+    <!-- //smooth-scrolling-of-move-up -->
+    <!-- for bootstrap working -->
+    <script src="~/js/bootstrap.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- //for bootstrap working -->
+    <!-- //js-files -->
+    <script src="~/js/site.js"></script>
+    <!-- script load categories in navbar-->
+    <script src="~/js/selectcategory.js"></script>
+    @RenderSection("Scripts", false)
+
+
 </body>
+
 </html>

@@ -1,0 +1,134 @@
+﻿@model IEnumerable<MilkTeaECommerce.Models.Models.DeliveryDetailViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container">
+    <ul class="nav nav-pills mb-3 row " id="pills-tab" role="tablist">
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link active" id="order-null-tab" data-toggle="pill" href="#order-null" role="tab" aria-controls="order-null" aria-selected="true">Nhận đơn</a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="order-confirm-tab" data-toggle="pill" href="#order-confirm" role="tab" aria-controls="order-confirm" aria-selected="false">Đã nhận đơn</a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="order-get-tab" data-toggle="pill" href="#order-get" role="tab" aria-controls="order-get" aria-selected="false">Đã lấy hàng</a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="order-done-tab" data-toggle="pill" href="#order-done" role="tab" aria-controls="order-done" aria-selected="false">Hoàn thành</a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="order-cancelled-tab" data-toggle="pill" href="#order-cancelled" role="tab" aria-controls="order-cancelled" aria-selected="false">Đã hủy</a>
+        </li>
+    </ul>
+</div>
+
+<div>
+    <partial name="_Detail" model="new OrderDetail()" />
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        Đơn hàng
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="order-null" role="tabpanel" aria-labelledby="order-null-tab">
+                    <table class="table table-bordered" id="dataTableNull" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Tên khách hàng</th>
+                                <th>Địa chỉ giao</th>
+                                <th>Tên shop</th>
+                                <th>Địa chỉ shop</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane fade" id="order-confirm" role="tabpanel" aria-labelledby="order-confirm-tab">
+
+                    <table class="table table-bordered" id="dataTableConfirm" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Tên khách hàng</th>
+                                <th>Địa chỉ giao</th>
+                                <th>Tên shop</th>
+                                <th>Địa chỉ shop</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="order-get" role="tabpanel" aria-labelledby="order-get-tab">
+
+                    <table class="table table-bordered" id="dataTableGet" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Tên khách hàng</th>
+                                <th>Địa chỉ giao</th>
+                                <th>Tên shop</th>
+                                <th>Địa chỉ shop</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="order-done" role="tabpanel" aria-labelledby="order-get-tab">
+
+                    <table class="table table-bordered" id="dataTableDone" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Tên khách hàng</th>
+                                <th>Địa chỉ giao</th>
+                                <th>Tên shop</th>
+                                <th>Địa chỉ shop</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="order-cancelled" role="tabpanel" aria-labelledby="order-get-tab">
+
+                    <table class="table table-bordered" id="dataTableCancelled" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Tên khách hàng</th>
+                                <th>Địa chỉ giao</th>
+                                <th>Tên shop</th>
+                                <th>Địa chỉ shop</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Header{
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+}
+
+@section Scripts {
+    <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Select 2-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="/Shipper/js/ShipperIndex.js"></script>
+}

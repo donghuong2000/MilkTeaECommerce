@@ -1,0 +1,229 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container">
+    <ul class="nav nav-pills mb-3 row " id="pills-tab" role="tablist">
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link active" id="pills-comfirm-tab" data-toggle="pill" href="#pills-comfirm" role="tab" aria-controls="pills-comfirm" aria-selected="true">Chờ Xác nhận</a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="pills-wait-tab" data-toggle="pill" href="#pills-wait" role="tab" aria-controls="pills-wait" aria-selected="false">Chờ giao</a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="pills-delivery-tab" data-toggle="pill" href="#pills-delivery" role="tab" aria-controls="pills-delivery" aria-selected="false">Đang giao</a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="pills-deliveried-tab" data-toggle="pill" href="#pills-deliveried" role="tab" aria-controls="pills-deliveried" aria-selected="false">Đã giao</a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="pills-evaluate-tab" data-toggle="pill" href="#pills-evaluate" role="tab" aria-controls="pills-evaluate" aria-selected="false">Đánh giá </a>
+        </li>
+        <li class="nav-item col-2 text-center" role="presentation">
+            <a class="nav-link" id="pills-cancel-tab" data-toggle="pill" href="#pills-cancel" role="tab" aria-controls="pills-cancel" aria-selected="false">Đã hủy </a>
+        </li>
+    </ul>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Trạng thái đơn hàng</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-comfirm" role="tabpanel" aria-labelledby="pills-comfirm-tab">
+                        <table class="table table-bordered" id="dataTableWait" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                    <div class="tab-pane fade" id="pills-wait" role="tabpanel" aria-labelledby="pills-wait-tab">
+
+                        <table class="table table-bordered" id="dataTableConfirm" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th>Trạng Thái</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="pills-delivery" role="tabpanel" aria-labelledby="pills-delivery-tab">
+
+                        <table class="table table-bordered" id="dataTableDelivery" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="pills-deliveried" role="tabpanel" aria-labelledby="pills-deliveried-tab">
+                        <table class="table table-bordered" id="dataTableDelivered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="pills-evaluate" role="tabpanel" aria-labelledby="pills-evaluate-tab">
+                        <table class="table table-bordered" id="dataTableEvaluate" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="pills-cancel" role="tabpanel" aria-labelledby="pills-cancel-tab">
+                        <table class="table table-bordered" id="dataTableCancel" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Số lượng</th>
+                                    <th>Khách hàng</th>
+                                    <th>Giá</th>
+                                    <th>Thông tin vận chuyển</th>
+                                    <th>Tổng</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    <script src="~/Admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Admin/js/build/toastr.min.js"></script>
+    <!--cái này của thông báo-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!--cái này của selectlist search-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <!-- Page level custom scripts -->
+
+    <script src="~/js/Seller/orderdetail.js"></script>
+}
+@section Header{
+    <link href="~/Admin/js/build/toastr.css" rel="stylesheet" />
+    <!--cái này của selectlist search-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+}

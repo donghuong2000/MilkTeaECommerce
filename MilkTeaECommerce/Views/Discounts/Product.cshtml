@@ -1,0 +1,108 @@
+﻿@model List<MilkTeaECommerce.Models.Models.DiscountViewModel>
+@{
+    ViewData["Title"] = "Product";
+}
+
+
+<div class="ads-grid">
+    <div class="container">
+        <h3 class="tittle-w3l">
+            Our Top Discounts
+            <span class="heading-style">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </h3>
+        <div class="side-bar col-md-3">
+            <div class="search-hotel">
+                <h3 class="agileits-sear-head">Search Here..</h3>
+                <form action="#" method="post">
+                    <input type="search" placeholder="Product name..." name="search" required="">
+                    <input type="submit" value="">
+                </form>
+            </div>
+            <!-- price range -->
+            <div class="special-sec1">
+                <div class="clearfix">
+                    <ul class="dropdown-menu6">
+                        <li style="cursor:pointer;padding:0.5rem"><a href="/Discounts/Product">Product Discounts</a></li>
+                        <li style="cursor:pointer;padding:0.5rem"><a href="/Discounts/Delivery">Delivery Discounts</a></li>
+                        <li style="cursor:pointer;padding:0.5rem"><a href="/Discounts/Category">Category Discounts</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- //price range -->
+
+        </div>
+        <div class="agileinfo-ads-display col-md-9">
+            <!-- product-->
+            <div class="wrapper">
+                <div class="product-sec1" style="height: 500px;" id="product">
+                    <div>
+                        <h3 class="heading-tittle">@ViewBag.Name</h3>
+                    </div>
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-5" style="cursor: pointer;margin: 1rem 2rem;border: 1px solid rgba(0, 0, 0, 0.16);padding: 1rem;border-radius: 6px;"
+                             data-target="#discount-modal" data-toggle="modal" data-id="@item.Id">
+                            <div class="col-xs-4 img-deals" style=" margin-top: 1rem;">
+                                @item.Code
+                            </div>
+                            <div class="col-xs-8 img-deal1">
+                                <h3>@item.Name </h3>
+                                <a> @item.DateStart.GetValueOrDefault().ToString("dd-MM-yyyy") </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+            <div class="product-sec1" style="place-content: center; display: flex;">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="/Discounts/@ViewBag.Name?page=@(ViewBag.page - 1)" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">@ViewBag.page</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="/Discounts/@ViewBag.Name?page=@(ViewBag.page + 1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="modal" id="discount-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="discount-name">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="side-bar" style=" display: grid;place-items: center;">
+                        <p style="color:black"> Nhập mã sau để sử dụng khuyến mãi</p>
+                        <div style="background: white;padding: 0.5rem 1rem;width: fit-content;border: 1px solid #e5e5e5;">
+                            <p id="discount-code" style="color: #FF5722;"></p>
+                        </div>
+                    </div>
+                    <p id="discount-desc">Mô tả</p>
+                    <p id="discount-start"></p>
+                    <p id="discount-exp"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

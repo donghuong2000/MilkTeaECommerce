@@ -1,0 +1,100 @@
+﻿@model MilkTeaECommerce.Models.Discount
+
+
+<div class="modal fade" id="Detail">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h4>Thông tin khuyến mãi</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <dl class="row">
+                        <dt class="col-sm-3">
+                            Tên khuyến mãi
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input asp-for="Name" id="Name" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Mô tả
+                        </dt>
+                        <dd class="col-sm-9">
+                            <textarea asp-for="Description" id="Description" class="form-control" disabled></textarea>
+                        </dd>
+                        <dt class="col-sm-3">
+                            Ngày bắt đầu
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input id="DateStart" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Ngày kết thúc
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input id="DateExpired" class="form-control" disabled />
+                        </dd>
+
+                        <dt class="col-sm-3">
+                            Số lượng khuyến mãi
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input asp-for="TimesUseLimit" id="TimesUseLimit" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Số lượng đã sử dụng
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input id="TimesUsed" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Phần trăm
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input asp-for="PercentDiscount" id="PercentDiscount" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Mức giảm tối đa
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input asp-for="MaxDiscount" id="MaxDiscount" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Mã Code
+                        </dt>
+                        <dd class="col-sm-9">
+                            <input asp-for="Code" id="Code" class="form-control" disabled />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Áp dụng
+                        </dt>
+                        <dd class="col-sm-9">
+                            <br />
+                        </dd>
+                        <dt class="col-sm-3">
+                            Loại sản phẩm
+                        </dt>
+                        <dd class="col-sm-9">
+                            <textarea asp-for="CategoryDiscount" id="CategoryDiscount" disabled class="form-control"></textarea>
+                        </dd>
+                        <dt class="col-sm-3">
+                            Vận chuyển
+                        </dt>
+                        <dd class="col-sm-9">
+                            <textarea asp-for="DeliveryDiscount" id="DeliveryDiscount" disabled class="form-control"></textarea>
+                        </dd>
+                        <dt class="col-sm-3">
+                            Sản phẩm
+                        </dt>
+                        <dd class="col-sm-9">
+                            <textarea asp-for="ProductDiscount" id="ProductDiscount" disabled class="form-control"></textarea>
+                        </dd>
+                    </dl>
+                </form>
+                <div>
+                    <a asp-action="Index">Trở lại</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

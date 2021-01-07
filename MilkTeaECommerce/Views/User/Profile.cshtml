@@ -1,0 +1,103 @@
+﻿@model MilkTeaECommerce.Models.Models.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1 class="text-center">Chỉnh sửa thông tin cá nhân</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-3 ">
+        <div class="list-group">
+            <a asp-action="Profile" asp-controller="User" class="list-group-item list-group-item-action active">Thông tin cá nhân</a>
+            <a asp-action="OrderDetail" asp-controller="User" class="list-group-item list-group-item-action ">Tình trạng đơn hàng</a>
+            <a onclick=ShopChannel() id="shop-channel_btn" class="list-group-item list-group-item-action">Kênh bán hàng</a>
+            <a onclick=ShipChannel() id="ship-channel_btn" class="list-group-item list-group-item-action">Kênh shipper</a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <form asp-action="Profile" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <input readonly asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <label asp-for="Email" class="control-label"></label>
+            <div class="row">
+
+                <div class="form-group col-md-11">
+                    <input asp-for="Email" type="email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-1">
+                    @if (Model.IsMailComfirm)
+                    {
+                        <a class="btn btn-success "><i class="glyphicon glyphicon-ok"></i></a>
+                    }
+                    else
+                    {
+                        <a onclick=Confirm("@Model.Email") class="btn btn-danger "><i class="glyphicon glyphicon-remove"></i></a>
+                    }
+
+                </div>
+            </div>
+            <label asp-for="Phonenumber" class="control-label"></label>
+            <div class="row">
+                <div class="form-group col-md-11">
+                    <input asp-for="Phonenumber" class="form-control" />
+                    <span asp-validation-for="Phonenumber" class="text-danger"></span>
+                </div>
+                <div class="col-md-1">
+                    @if (Model.IsPhoneComfirm)
+                    {
+                        <a href="#" class="btn btn-success "><i class="glyphicon glyphicon-ok"></i></a>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-danger "><i class="glyphicon glyphicon-remove"></i></a>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="file" class="control-label"></label>
+                <input asp-for="file" class="form-control" />
+                <span asp-validation-for="file" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3">
+        @if (Model.ImageUrl != null)
+        {
+            <img class="img-circle" style="margin-bottom:20px;margin-left:70px" src="@Model.ImageUrl" height="90" width="90" alt="">
+        }
+        else
+        {
+            <img class="img-circle" style="margin-bottom:20px;margin-left:70px" src="https://via.placeholder.com/90" alt="">
+
+        }
+        <h4 style="margin-bottom:20px;margin-left:70px">@Model.Username</h4>
+
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/user.js"></script>
+
+ }

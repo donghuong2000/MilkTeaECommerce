@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="privacy">
+    <div class="container">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l">
+            Giỏ Hàng
+            <span class="heading-style">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </h3>
+        <!-- //tittle heading -->
+        <div class="checkout-right">
+            <div class="table-responsive">
+                <table id="checkoutdetail" class="timetable_sub">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Tên Sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodytable">
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="row" style="margin-top:100px">
+            <form class="col-md-6" action="#" onsubmit="return false">
+                <input class="form-control form-control-lg" type="text" placeholder="Coppo" id="discoint" required="">
+                <input id="btn-discount" class="btn btn-primary" type="submit" value="Discount">
+
+
+                <div  class="alert-info">
+                    <div id="info-discount" style="margin:20px 20px 20px 20px">
+                        
+                    </div>
+                </div>
+            </form>
+            
+            <div class="col-md-6">
+                <form onsubmit="return false">
+                    <div class="form-group">
+                        <label> Đơn vị vận chuyển </label>
+                        <select id="delivery-method" class="form-control" asp-items="ViewBag.Deliverymethod">
+                            
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label> Phương thức thanh toán </label>
+                        <select id="payment-method" class="form-control">
+                            <option value="tm">Tiền mặt</option>
+                            <option value="paypal">Paypal</option>
+                        </select>
+                    </div>
+                    <div class="text-right">
+                        <h2 id="tolal-bill">Tổng tiền: 15000 VND </h2>
+                    </div>
+                    <br />
+                    <div class="form-group">
+
+                        <input id="submit-bill" class="btn btn-primary form-control" type="submit" value="Đặt hàng">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts{
+   
+    <!--quantity-->
+    <script src="~/js/cartdetal.js"></script>
+    <!--quantity-->
+
+
+
+
+
+}
+
+

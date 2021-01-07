@@ -1,0 +1,98 @@
+﻿.wait-confirm-list{
+
+}
+.wait-confirm-items{
+    background-color:rgb(235, 235, 235);
+    margin-right:50px;
+    border-radius:7px;
+    margin-bottom:20px;
+}
+.item-inner{
+    padding:10px;
+    
+}
+.avatar-shop {
+    height:40px;
+    width:40px;
+    border-radius:50%;
+}
+.item-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between ;
+    align-items:center;
+}
+.breck-line {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 1px;
+    background-color: rgb(128, 128, 128);
+}
+.item-img {
+    height: 70px;
+    width: 70px;
+}
+.item-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.info{
+    margin-left:5px;
+}
+.item-fooder{
+    margin-top:30px;
+}
+.mt{
+    margin-top:20px;
+}
+
+
+
+.txt-center {
+    text-align: center;
+}
+
+.hide {
+    display: none;
+}
+
+.clear {
+    float: none;
+    clear: both;
+}
+
+.rating {
+    width: 90px;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+    position: relative;
+}
+
+    .rating > label {
+        float: right;
+        display: inline;
+        padding: 0;
+        margin: 0;
+        position: relative;
+        width: 1.1em;
+        cursor: pointer;
+        color: #000;
+    }
+
+        .rating > label:hover,
+        .rating > label:hover ~ label,
+        .rating > input.radio-btn:checked ~ label {
+            color: transparent;
+        }
+
+            .rating > label:hover:before,
+            .rating > label:hover ~ label:before,
+            .rating > input.radio-btn:checked ~ label:before,
+            .rating > input.radio-btn:checked ~ label:before {
+                content: "\2605";
+                position: absolute;
+                left: 0;
+                color: #FFD700;
+            }
