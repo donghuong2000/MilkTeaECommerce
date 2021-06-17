@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MilkTeaECommerce.Data;
@@ -21,10 +22,12 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ApplicationDbContext db, IWebHostEnvironment hostEnvironment)
+        public HomeController(ApplicationDbContext db, IWebHostEnvironment hostEnvironment, UserManager<ApplicationUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
             _hostEnvironment = hostEnvironment;
         }
         public IActionResult Index(string year = null)
@@ -57,13 +60,13 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
             return NotFound();
             
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult ShopDetail(ShopProfileViewModel vm)
         {
             if (ModelState.IsValid)
             {
-
                 string fileName = "";
                 string folderName = "wwwroot\\Media\\";
                 string webRootPath = _hostEnvironment.ContentRootPath;
@@ -83,7 +86,10 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
                     }
                 }
 
-                var shop = _db.Shops.Find(vm.ApplicationUserId);
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var shop = _db.Shops.Find(claim.Value);
+
                 shop.Name = vm.Name;
                 shop.Description = vm.Description;
                 if(fileName!="")
@@ -106,12 +112,8 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
                 }
             }
             return View(vm);
-
-
-
         }
 
-        // tổng số
         [HttpGet]
         public IActionResult TotalProducts()
         {
@@ -122,7 +124,6 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
             var total = _db.Products.Where(x => x.ShopId == sellerId).ToList().Count;
 
             return Json(total);
-
         }
         public IActionResult Earnings()
         {
@@ -172,8 +173,6 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
                 var x = data.Where(x => x.date.Month == item && x.date.Year.ToString() == year).Sum(x => x.price).Value;
                 lst.Add(x);
             }
-
-
             return Json(lst);
         }
     }
