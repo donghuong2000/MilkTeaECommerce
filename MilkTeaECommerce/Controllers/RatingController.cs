@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using MilkTeaECommerce.Models;
 
 namespace MilkTeaECommerce.Controllers
 {
+    [Authorize]
     public class RatingController : Controller
     {
         public readonly ApplicationDbContext _db;
@@ -23,12 +25,13 @@ namespace MilkTeaECommerce.Controllers
         {
             return View();
         }
+
+        [AutoValidateAntiforgeryToken]
         [HttpPost]
         public IActionResult Create(string orderdetailid,string productid, string userid, string content, float? rate)
         {
             try
             {
-
                 Rating rating = new Rating() { Id = orderdetailid, ProductId = productid, ApplicationUserId = userid, Content = content, Rate = rate };
                 _db.Ratings.Add(rating);
                 _db.SaveChanges();
