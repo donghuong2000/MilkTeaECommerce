@@ -38,6 +38,10 @@ namespace MilkTeaECommerce
             services.AddDefaultIdentity<ApplicationUser>(options => {
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireLowercase = false;
+
             })
             .AddUserManager<UserManager<ApplicationUser>>()
             .AddSignInManager<SignInManager<ApplicationUser>>()
