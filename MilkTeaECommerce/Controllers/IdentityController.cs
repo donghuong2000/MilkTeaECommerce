@@ -30,7 +30,7 @@ namespace MilkTeaECommerce.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(string username,string password)
         {
-            var obj = await _signInManager.PasswordSignInAsync(username, password,false, lockoutOnFailure: false);
+            var obj = await _signInManager.PasswordSignInAsync(username, password,false, lockoutOnFailure: true);
             if(obj.Succeeded)
             {
                 var user = await _userManager.FindByNameAsync(userName: username);
