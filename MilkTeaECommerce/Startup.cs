@@ -50,7 +50,7 @@ namespace MilkTeaECommerce
             .AddEntityFrameworkStores<ApplicationDbContext>();
             services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
             services.AddSingleton<IEmailSender, EmailSender>();
-            
+
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.ConfigureApplicationCookie(options =>
@@ -58,9 +58,7 @@ namespace MilkTeaECommerce
                 options.LoginPath = $"/Identity/Login";
                 options.LogoutPath = $"/Identity/Logout";
                 options.AccessDeniedPath = $"/Identity/AccessDenied";
-                options.Cookie.SameSite = SameSiteMode.Strict;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.Lax;
             });
             services.AddDistributedMemoryCache();
 
@@ -68,8 +66,7 @@ namespace MilkTeaECommerce
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(1000);
                 options.Cookie.HttpOnly = true;
-                options.Cookie.SameSite = SameSiteMode.Strict;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                //options.Cookie.SameSite = SameSiteMode.Strict;
                 options.Cookie.IsEssential = true;
             });
             services.AddRazorPages().AddRazorRuntimeCompilation();
