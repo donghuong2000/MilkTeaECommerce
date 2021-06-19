@@ -143,10 +143,16 @@ namespace MilkTeaECommerce.Controllers
             try
             {
                 var o = _db.OrderDetails.Find(id);
-                o.Status = OrderDetailStatus.cancelled.ToString();
-                _db.Update(o);
-                _db.SaveChanges();
-                return Json(new { success = true, message = "đã hủy đơn hàng thành công" });
+                if(o.Status==OrderDetailStatus.unconfirm.ToString())
+                {
+                    o.Status = OrderDetailStatus.cancelled.ToString();
+                    _db.Update(o);
+                    _db.SaveChanges();
+                    return Json(new { success = true, message = "đã hủy đơn hàng thành công" });
+                }
+                else
+                    return Json(new { success = false, message = "không thể hủy được đơn hàng nữa,vì đơn hàng vừa được xác nhận bởi người bán" });
+
             }
             catch (Exception e)
             {
