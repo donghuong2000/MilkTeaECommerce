@@ -58,7 +58,7 @@ namespace MilkTeaECommerce
                 options.LoginPath = $"/Identity/Login";
                 options.LogoutPath = $"/Identity/Logout";
                 options.AccessDeniedPath = $"/Identity/AccessDenied";
-                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SameSite = SameSiteMode.Strict;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.Cookie.IsEssential = true;
             });
@@ -68,7 +68,7 @@ namespace MilkTeaECommerce
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(1000);
                 options.Cookie.HttpOnly = true;
-                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SameSite = SameSiteMode.Strict;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.Cookie.IsEssential = true;
             });
