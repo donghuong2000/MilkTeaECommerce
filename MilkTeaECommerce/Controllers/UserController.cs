@@ -36,6 +36,8 @@ namespace MilkTeaECommerce.Controllers
         {
             return RedirectToAction("Profile");
         }
+
+        [HttpGet]
         public async Task<IActionResult>Profile()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -50,6 +52,7 @@ namespace MilkTeaECommerce.Controllers
             profile.IsPhoneComfirm = user.PhoneNumberConfirmed;
             return View(profile);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Profile(ProfileViewModel vm)
@@ -74,7 +77,7 @@ namespace MilkTeaECommerce.Controllers
 
                     }
                 }
-                var user = await _userManager.FindByNameAsync(vm.Username);
+                var user = await _userManager.GetUserAsync(User);
                 user.Name = vm.Name;
                 user.Address = vm.Address;
                 if(vm.Email.ToLower() != user.Email.ToLower())
