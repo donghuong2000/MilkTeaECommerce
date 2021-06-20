@@ -17,6 +17,7 @@ namespace MilkTeaECommerce.Models.Models
         public string Description { get; set; }
         [Required(ErrorMessage = "Dữ liệu không hợp lệ")]
         [Range(4, 1000000, ErrorMessage = "Dữ liệu không hợp lệ")]
+
         public float? Price { get; set; }
         [Required(ErrorMessage = "Dữ liệu không hợp lệ")]
         public bool IsConfirm { get; set; }
