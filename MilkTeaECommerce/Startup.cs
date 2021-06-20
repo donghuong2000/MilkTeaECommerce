@@ -78,11 +78,17 @@ namespace MilkTeaECommerce
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //fix error X-Frame-Options Header Not Set
+            // X-frame-options header set same origin 
+            //(X-FRAME-OPTIONS : SAMEORIGIN) it mean:  The page can be framed as long as the domain framing it is the same. This is good if you are using frames yourself.
+
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
                 await next();
             });
+
 
             app.Use(async (context, next) =>
             {
