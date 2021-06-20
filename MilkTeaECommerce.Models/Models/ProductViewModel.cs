@@ -13,9 +13,11 @@ namespace MilkTeaECommerce.Models.Models
         [Required(ErrorMessage = "Dữ liệu không hợp lệ")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Dữ liệu không hợp lệ")]
+        [StringLength(maximumLength:1000,ErrorMessage ="Nội dung miêu tả tối đa 1000 kí tự")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Dữ liệu không hợp lệ")]
-        [Range(4,1000000,ErrorMessage = "Dữ liệu không hợp lệ")]
+        [Range(4, 1000000, ErrorMessage = "Dữ liệu không hợp lệ")]
+
         public float? Price { get; set; }
         [Required(ErrorMessage = "Dữ liệu không hợp lệ")]
         public bool IsConfirm { get; set; }
