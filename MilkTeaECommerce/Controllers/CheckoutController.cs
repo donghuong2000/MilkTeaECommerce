@@ -119,7 +119,8 @@ namespace MilkTeaECommerce.Controllers
             }
             var listProduct = cartItems.Select(x => x.add).ToList();
             var listCategory = cartItems.Select(x => _db.Products.Find(x.add).CategoryId).ToList();
-            float total = cartItems.Select(x => (x.amount/2)*x.quantity).Sum();
+            //float total = cartItems.Select(x => (x.amount/2)*x.quantity).Sum();
+            float? total = cartItems.Select(x => (_db.Products.Find(x.add).Price) * x.quantity).Sum();
             if (discountCode!=null)
             {
                 // tính tiền giảm giá
@@ -185,12 +186,11 @@ namespace MilkTeaECommerce.Controllers
                 OrderHeaderId = headerId,
                 ProductId = x.add,
                 Product = _db.Products.AsNoTracking().FirstOrDefault(a => a.Id == x.add),
-                Price = x.amount / 2 * x.quantity,
+                //Price = x.amount / 2 * x.quantity,
+                Price = _db.Products.Find(x.add).Price * x.quantity,
                 Id = Guid.NewGuid().ToString(),
                 DeliveryDetails = deliverydetail,
                 Status = OrderDetailStatus.unconfirm.ToString()
-
-
             }) ;
             header.OrderDetails = ShoppingItem.ToList();
             HttpContext.Session.Set("discount", discountCode);
