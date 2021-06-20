@@ -68,6 +68,9 @@ namespace MilkTeaECommerce.Areas.Seller.Controllers
         public IActionResult ChangeStatus(string id, string status)
         {
             var od = _db.OrderDetails.Find(id);
+            if (od.Status == OrderDetailStatus.cancelled.ToString())
+                return Json(new { success = false , message = "không thể đổi trạng thái vì đơn hàng đã bị hủy"});
+            else
             od.Status = status;
             try
             {
