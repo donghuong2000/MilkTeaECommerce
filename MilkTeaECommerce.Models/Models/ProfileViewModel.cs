@@ -9,12 +9,15 @@ namespace MilkTeaECommerce.Models.Models
     public class ProfileViewModel
     {
         [Display(Name = "Tên tài khoản")]
+
         public string Username { get; set; }
         [Display(Name = "Tên người dùng")]
+        [RegularExpression(@"^[\w\-. ]+$", ErrorMessage = "Special Characters are not allowed.")]
         public string Name { get; set; }
         
         public string Email { get; set; }
         [Display(Name = "Địa chỉ")]
+        [RegularExpression(@"^[\w\-. ]+$", ErrorMessage = "Special Characters are not allowed.")]
         public string Address { get; set; }
         public bool IsMailComfirm { get; set; }
         [Display(Name = "Số điện thoại")]
