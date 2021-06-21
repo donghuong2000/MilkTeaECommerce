@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using MilkTeaECommerce.Models;
 using MilkTeaECommerce.Models.Models;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace MilkTeaECommerce.Controllers
 {
+
     [IgnoreAntiforgeryToken]
     public class IdentityController : Controller
     {
@@ -29,35 +34,40 @@ namespace MilkTeaECommerce.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignIn(string username,string password)
+        public async Task<IActionResult> SignIn(string username, string password)
         {
-            var obj = await _signInManager.PasswordSignInAsync(username, password,false, lockoutOnFailure: false);
+            var obj = await _signInManager.PasswordSignInAsync(username, password,false, lockoutOnFailure: true);
             if(obj.Succeeded)
+
             {
                 var user = await _userManager.FindByNameAsync(userName: username);
                 var role = await _userManager.GetRolesAsync(user);
-                if (role.Contains("Admin")) 
+                if (role.Contains("Admin"))
                 {
-                    return Json(new { success = true, message = "Admin", url ="/Admin/Home" });
-                }    
+                    return Json(new { success = true, message = "Admin", url = "/Admin/Home" });
+                }
                 return Json(new { success = true, message = "Đăng nhập thành công" });
-            } 
-            if(obj.IsLockedOut)
+            }
+            if (obj.IsLockedOut)
             {
                 return Json(new { success = false, message = "Account was Lockout" });
             }
             return Json(new { success = false, message = "Account ko hợp lệ" });
 
         }
-        
+
         [HttpPost]
-        public async Task<IActionResult> SignUp(string name,string email,string sdt,string username,string password)
+        public async Task<IActionResult> SignUp(string name, string email, string sdt, string username, string password, string comfirmPassword)
         {
+            if (!password.Equals(comfirmPassword))
+            {
+                return Json(new { success = false, message = "mật khẩu không khớp" });
+            }
 
             var user = new ApplicationUser() { Name = name, Email = email, PhoneNumber = sdt, UserName = username };
-            var result = await _userManager.CreateAsync(user,password);
+            var result = await _userManager.CreateAsync(user, password);
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "Customer");
                 // xác nhận mail 
@@ -66,11 +76,11 @@ namespace MilkTeaECommerce.Controllers
                 var callbackUrl = Url.Action(
                     "ConfirmEmail",
                     "Identity",
-                    values: new { userId = user.Id, code = code},
+                    values: new { userId = user.Id, code = code },
                     protocol: Request.Scheme,
                     host: Request.Host.Value);
-                await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                // await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
+                //               $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
                 if (_userManager.Options.SignIn.RequireConfirmedAccount)
                 {
                     return Json(new { success = false, message = "comfirm email " });
@@ -94,7 +104,7 @@ namespace MilkTeaECommerce.Controllers
         public async Task<IActionResult> MailConfirm(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            if(user != null)
+            if (user != null)
             {
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -110,11 +120,11 @@ namespace MilkTeaECommerce.Controllers
             }
             return Json(new { message = "Please check your mail to confirm!" });
         }
-        public async Task<IActionResult> ConFirmEmail(string userId,string code)
+        public async Task<IActionResult> ConFirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
             {
-                return RedirectToAction("Index","home");
+                return RedirectToAction("Index", "home");
             }
 
             var user = await _userManager.FindByIdAsync(userId);
@@ -125,15 +135,15 @@ namespace MilkTeaECommerce.Controllers
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 return Content("đã xác nhận email thành công");
-            }    
+            }
             else
             {
                 return Content("đã xác nhận email không thành công");
-            }    
-            
+            }
+
         }
 
 
@@ -167,7 +177,7 @@ namespace MilkTeaECommerce.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    
+
                     return LocalRedirect(_returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -176,7 +186,7 @@ namespace MilkTeaECommerce.Controllers
                 }
                 if (result.IsLockedOut)
                 {
-                   
+
                     return RedirectToPage("./Lockout");
                 }
                 else
@@ -192,7 +202,7 @@ namespace MilkTeaECommerce.Controllers
 
         public IActionResult AccessDenied()
         {
-            
+
             return View();
         }
         [HttpGet]
@@ -206,16 +216,16 @@ namespace MilkTeaECommerce.Controllers
             }
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            
+
             await _emailSender.SendEmailAsync(
                     email,
                     "Reset Password",
-                    $"Please reset your password by use this token: "+code);
+                    $"Please reset your password by use this token: " + code);
             return Json(new { message = "Please check your email to reset your password." });
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword(string email,string password,string code )
+        public async Task<IActionResult> ResetPassword(string email, string password, string code)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)

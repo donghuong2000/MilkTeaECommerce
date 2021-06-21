@@ -1,24 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using MilkTeaECommerce.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MilkTeaECommerce.Models;
-using MilkTeaECommerce.DataAccess.Repository.IRepository;
+using MilkTeaECommerce.Data;
 using MilkTeaECommerce.DataAccess.Repository;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using MilkTeaECommerce.DataAccess.Repository.IRepository;
+using MilkTeaECommerce.Models;
 using MilkTeaECommerce.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+
 
 namespace MilkTeaECommerce
 {
@@ -34,12 +30,20 @@ namespace MilkTeaECommerce
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyPlolicy",
+                    builder => builder.WithOrigins("http://localhost:51151"));
+            });
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<ApplicationUser>(options => {
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
                 options.User.RequireUniqueEmail = true;
-                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireNonAlphanumeric = true;
             })
             .AddUserManager<UserManager<ApplicationUser>>()
             .AddSignInManager<SignInManager<ApplicationUser>>()
@@ -55,6 +59,7 @@ namespace MilkTeaECommerce
                 options.LoginPath = $"/Identity/Login";
                 options.LogoutPath = $"/Identity/Logout";
                 options.AccessDeniedPath = $"/Identity/AccessDenied";
+                options.Cookie.SameSite = SameSiteMode.Strict;
             });
             services.AddDistributedMemoryCache();
 
@@ -62,6 +67,7 @@ namespace MilkTeaECommerce
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(1000);
                 options.Cookie.HttpOnly = true;
+                options.Cookie.SameSite = SameSiteMode.Strict;
                 options.Cookie.IsEssential = true;
             });
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -86,6 +92,24 @@ namespace MilkTeaECommerce
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //fix error X-Frame-Options Header Not Set
+            // X-frame-options header set same origin 
+            //(X-FRAME-OPTIONS : SAMEORIGIN) it mean:  The page can be framed as long as the domain framing it is the same. This is good if you are using frames yourself.
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+                await next();
+            });
+
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                await next();
+            });
+            app.UseCors("MyPlolicy");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
@@ -110,6 +134,7 @@ namespace MilkTeaECommerce
                   areaName: "Shipper",
                   pattern: "Shipper/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapDefaultControllerRoute();
+
             });
 
             app.Use(async (context, next) =>
