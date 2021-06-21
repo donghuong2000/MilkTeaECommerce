@@ -28,6 +28,13 @@ namespace MilkTeaECommerce
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyPlolicy",
+                    builder => builder.WithOrigins("http://localhost:51151"));
+            });
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -95,6 +102,7 @@ namespace MilkTeaECommerce
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                 await next();
             });
+            app.UseCors("MyPlolicy");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
