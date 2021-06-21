@@ -17,6 +17,8 @@ using MilkTeaECommerce.DataAccess.Repository.IRepository;
 using MilkTeaECommerce.DataAccess.Repository;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using MilkTeaECommerce.Utility;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MilkTeaECommerce
 {
@@ -45,7 +47,7 @@ namespace MilkTeaECommerce
             .AddEntityFrameworkStores<ApplicationDbContext>();
             services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
             services.AddSingleton<IEmailSender, EmailSender>();
-            
+
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.ConfigureApplicationCookie(options =>
@@ -63,6 +65,11 @@ namespace MilkTeaECommerce
                 options.Cookie.IsEssential = true;
             });
             services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,10 +110,20 @@ namespace MilkTeaECommerce
                   areaName: "Shipper",
                   pattern: "Shipper/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapDefaultControllerRoute();
-                
-                
-
             });
-        }
-    }
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.GetTypedHeaders().CacheControl =
+                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                    {
+                        MustRevalidate = true,
+                        NoCache = true,
+                        NoStore = true,
+                    };
+                await next();
+            });
+
+
+    }   }
 }
