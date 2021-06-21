@@ -72,6 +72,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <partial name="_LoginPartial" />
                         <li style="border-right-width:0px">
                             <form action="#" method="post" class="last">
+                                @Html.AntiForgeryToken()
                                 <input type="hidden" name="cmd" value="_cart">
                                 <input type="hidden" name="display" value="1">
                                 <button class="w3view-cart" type="submit" name="submit" value="">
@@ -107,6 +108,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="modal_body_left modal_body_left1">
                     <h3 class="agileinfo_sign">Quên mật khẩu </h3>
                     <form onsubmit="return false">
+                        @Html.AntiForgeryToken()
                         <div class="styled-input agile-styled-input-top">
                             <input type="email" placeholder="email" id="emailforget" required="">
                         </div>

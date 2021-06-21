@@ -1,4 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -11,6 +19,7 @@ using System.Threading.Tasks;
 namespace MilkTeaECommerce.Controllers
 {
 
+    [IgnoreAntiforgeryToken]
     public class IdentityController : Controller
     {
         private static string _returnUrl;
@@ -90,10 +99,7 @@ namespace MilkTeaECommerce.Controllers
                 er += item.Description + "\n";
             }
             return Json(new { success = false, message = er });
-
-
         }
-
 
         public async Task<IActionResult> MailConfirm(string email)
         {
