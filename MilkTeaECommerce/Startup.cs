@@ -12,7 +12,9 @@ using MilkTeaECommerce.DataAccess.Repository.IRepository;
 using MilkTeaECommerce.Models;
 using MilkTeaECommerce.Utility;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
+
 
 namespace MilkTeaECommerce
 {
@@ -69,6 +71,11 @@ namespace MilkTeaECommerce
                 options.Cookie.IsEssential = true;
             });
             services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -128,9 +135,20 @@ namespace MilkTeaECommerce
                   pattern: "Shipper/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapDefaultControllerRoute();
 
-
-
             });
-        }
-    }
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.GetTypedHeaders().CacheControl =
+                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                    {
+                        MustRevalidate = true,
+                        NoCache = true,
+                        NoStore = true,
+                    };
+                await next();
+            });
+
+
+    }   }
 }
